@@ -43,7 +43,7 @@ else{
         <header>
             <h1><a href="/">PCWAKER</a></h1>
         </header>
-        <form action==="" method==="POST">
+        <form action="" method="POST">
             <h2 id="loginLabel">ログイン</h2>
             <p>
                 <?php
