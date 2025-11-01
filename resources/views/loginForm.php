@@ -32,33 +32,18 @@ else{
 }
 ?>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>PCWAKER</title>
-    </head>
-    <body>
-        <header>
-            <h1><a href="/">PCWAKER</a></h1>
-        </header>
-        <form action="" method="POST">
-            <h2 id="loginLabel">ログイン</h2>
-            <p>
-                <?php
-                    if($loginFailMsg != ''){
-                        echo $loginFailMsg;
-                    }
-                ?>
-            </p>
-            <input type="text" name="userId" id="logininputbox" placeholder="ユーザーID"><br>
-            <input type="password" name="userPw" id="logininputbox" placeholder="パスワード"><br>
-            <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
-            <button type="submit" name="loginBtn" id="loginBtn">ログイン</button><br>
-            <a href="/regist">ユーザー登録はこちら</a>
-        </form>
-        <footer>
-        </footer>
-    </body>
-</html>
+<form action="" method="POST">
+    <h2 id="loginLabel">ログイン</h2>
+    <p>
+        <?php
+            if($loginFailMsg != ''){
+                echo $loginFailMsg;
+            }
+        ?>
+    </p>
+    <input type="text" name="userId" id="logininputbox" placeholder="ユーザーID"><br>
+    <input type="password" name="userPw" id="logininputbox" placeholder="パスワード"><br>
+    <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
+    <button type="submit" name="loginBtn" id="loginBtn">ログイン</button><br>
+    <a href="/regist">ユーザー登録はこちら</a>
+</form>

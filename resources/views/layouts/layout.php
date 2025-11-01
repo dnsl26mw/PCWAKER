@@ -15,7 +15,11 @@
         <header>
             <h1><a href="/">PCWAKER</a></h1>
         </header>
-        <main></main>
+        <main>
+            <body>
+                <?php include $contentView; ?>
+            </body>
+        </main>
         <footer>
             Copyright©
         </footer>

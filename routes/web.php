@@ -33,7 +33,6 @@ function router($url){
     ];
 
     // 定義済みURLの場合
-    //if(array_key_exists($url, $routes)){
     if(array_key_exists($url, $routes)){
 
         // ログイン済み
