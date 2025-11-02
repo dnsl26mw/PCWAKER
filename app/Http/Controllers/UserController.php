@@ -30,7 +30,7 @@ Class UserController{
                 $authModel->setSession($data['userID'], $data['userName']);
             
                 // ユーザ登録成功画面へ遷移
-                header("Location: /registed");
+                header("Location: /registeduser");
                 exit;
             }
             else{

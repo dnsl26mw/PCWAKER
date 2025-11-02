@@ -9,6 +9,6 @@ require_once __DIR__ . '/../../app/Service/util.php';
 <form action="" method="POST">
     <ul>
         <li><a href="/userinfo">ユーザー情報の確認・更新</a></li>
-        <li><a href="/deleteConfirm">ユーザー情報削除</a></li>
+        <li><a href="/deleteuser">ユーザー情報削除</a></li>
         </ul>
 </form>

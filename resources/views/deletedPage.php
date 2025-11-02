@@ -12,24 +12,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 }
 ?>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>PCWAKER</title>
-    </head>
-    <body>
-        <header>
-            <h1><a href="/">PCWAKER</a></h1>
-        </header>
-        <h2>
-            ユーザー情報削除が完了しました。
-        </h2>
-        <form action="" method="POST">
-            <button type="submit" name="logoutBtn" id="logoutBtn">ログイン画面へ戻る</button>
-        </form>
-        <footer>
-        </footer>
-    </body>
-</html>
+<p>
+    ユーザー情報削除が完了しました。
+</p>
+<form action="" method="POST">
+    <button type="submit" name="logoutBtn" id="logoutBtn">ログイン画面へ戻る</button>
+</form>

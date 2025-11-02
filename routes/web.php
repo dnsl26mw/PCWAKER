@@ -13,25 +13,25 @@ function router($url){
         '/' => 'routesTop',
 
         // メニューページ
-        '/menu' => '/../resources/views/menuPage.php',
+        '/menu' => 'routesMenu',
 
         // ユーザ登録画面
-        '/regist' => '/../resources/views/registForm.php',
+        '/regist' => 'routesRegistUser',
 
         // ユーザ登録後画面
-        '/registed' => '/../resources/views/registedPage.php',
+        '/registeduser' => 'routesRegistedUser',
 
         // ユーザ情報確認・更新画面
-        '/userinfo' => '/../resources/views/userinfoForm.php',
+        '/userinfo' => 'routesUserInfo',
 
         // パスワード更新画面
-        '/updatepassword' => '/../resources/views/updatePasswordForm.php',
+        '/updatepassword' => 'routesUpdatePassword',
 
         // ユーザ情報削除画面
-        '/deleteConfirm' => '/../resources/views/deleteForm.php',
+        '/deleteuser' => 'routesDeleteUser',
 
         // ユーザ情報削除後画面
-        '/deleted' => '/../resources/views/deletedPage.php'
+        '/deleted' => 'routesDeletedUser'
     ];
 
     // 定義済みURLの場合

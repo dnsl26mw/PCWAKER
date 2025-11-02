@@ -26,9 +26,9 @@ else{
 }
 ?>
 
-<h2>
+<p>
     <?php echo Util::escape($_SESSION['user_name']) ?>さん、ユーザー情報を削除します。よろしいですか？
-</h2>
+</p>
 <form action="" method="POST">
 <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
 <button type="submit" name="deleteBtn" id="deleteBtn">削除</button>

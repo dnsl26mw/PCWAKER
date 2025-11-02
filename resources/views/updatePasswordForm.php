@@ -42,33 +42,17 @@ else{
 }
 ?>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>PCWAKER</title>
-    </head>
-    <body>
-        <header>
-            <h1><a href="/">PCWAKER</a></h1>
-        </header>
-        <p>ようこそ、<?php echo Util::escape($_SESSION['user_name']) ?>さん</p>
-        <form action="" method="POST">
-            <p>
-                <?php
-                    if($updatePasswordMsg != ''){
-                        echo $updatePasswordMsg;
-                    }
-                ?>
-            </p>
-            <input type="password" name="oldPassword" id="logininputbox" placeholder="現在のパスワード"><br>
-            <input type="password" name="newPassword" id="logininputbox" placeholder="新しいパスワード"><br>
-            <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
-            <button type="submit" name="updateBtn" id="updateBtn">更新</button>
-        </form>
-        <a href="/menu">メニュー画面へ戻る</a>
-        <footer>
-        </footer>
-    </body>
-</html>
+<form action="" method="POST">
+<p>
+    <?php
+        if($updatePasswordMsg != ''){
+            echo $updatePasswordMsg;
+        }
+    ?>
+</p>
+    <input type="password" name="oldPassword" id="logininputbox" placeholder="現在のパスワード"><br>
+    <input type="password" name="newPassword" id="logininputbox" placeholder="新しいパスワード"><br>
+    <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
+    <button type="submit" name="updateBtn" id="updateBtn">更新</button>
+</form>
+<a href="/menu">メニュー画面へ戻る</a>
