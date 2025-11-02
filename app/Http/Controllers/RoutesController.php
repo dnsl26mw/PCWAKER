@@ -37,10 +37,16 @@ Class RoutesController{
         $this->render('メニュー', 'menuPage.php');
     }
 
-    // ユーザ情報確認・更新
+    // ユーザ情報確認
     public function routesUserInfo(){
         $this->forLoginForm();
-        $this->render('ユーザー情報', 'userInfoForm.php');
+        $this->render('ユーザー情報', 'userInfoPage.php');
+    }
+
+    // ユーザ情報更新
+    public function routesUpdateUserInfo(){
+        $this->forLoginForm();
+        $this->render('ユーザー情報更新', 'UpdateUserInfoForm.php');
     }
 
     // パスワード更新

@@ -12,7 +12,7 @@ $updateMsg = '';
 $token = '';
 
 // POST送信された場合
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     // ユーザ情報更新処理の呼び出し
     $userController = new UserController();

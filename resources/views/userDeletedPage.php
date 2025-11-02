@@ -16,13 +16,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 <p>
     ユーザー削除が完了しました。3秒後にログイン画面にリダイレクトします。
 </p>
-<form action="" method="POST" id="logoutform">
+<form action="" method="POST" id="autoLogoutform">
     <button type="submit" name="logoutBtn" id="logoutBtn">画面が切り替わらない場合はこちら</button>
 </form>
 
 <script>
     // 3秒後にログイン画面にリダイレクト
     setTimeout(function() {
-        document.getElementById('logoutform').submit();
+        document.getElementById('autoLogoutform').submit();
     }, 3000);
 </script>

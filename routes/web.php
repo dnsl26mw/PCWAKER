@@ -9,28 +9,31 @@ function router($url){
     $routesController = new RoutesController;
 
     $routes = [
-        // トップページ
+        // トップ
         '/' => 'routesTop',
 
-        // メニューページ
+        // メニュー
         '/menu' => 'routesMenu',
 
-        // ユーザ登録画面
+        // ユーザ登録
         '/regist' => 'routesRegistUser',
 
-        // ユーザ登録後画面
+        // ユーザ登録完了
         '/registeduser' => 'routesRegistedUser',
 
-        // ユーザ情報確認・更新画面
+        // ユーザ情報確認
         '/userinfo' => 'routesUserInfo',
 
-        // パスワード更新画面
+        // ユーザ情報確認
+        '/updateuserinfo' => 'routesUpdateUserInfo',
+
+        // パスワード更新
         '/updatepassword' => 'routesUpdatePassword',
 
-        // ユーザ情報削除画面
+        // ユーザ情報削除
         '/deleteuser' => 'routesDeleteUser',
 
-        // ユーザ情報削除後画面
+        // ユーザ情報削除完了
         '/deleted' => 'routesDeletedUser'
     ];
 
