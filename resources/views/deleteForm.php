@@ -26,26 +26,11 @@ else{
 }
 ?>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>PCWAKER</title>
-    </head>
-    <body>
-        <header>
-            <h1><a href="/">PCWAKER</a></h1>
-        </header>
-        <h2>
-            <?php echo Util::escape($_SESSION['user_name']) ?>さん、ユーザー情報を削除します。よろしいですか？
-        </h2>
-        <form action="" method="POST">
-            <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
-            <button type="submit" name="deleteBtn" id="deleteBtn">削除</button>
-        </form>
-        <a href="/menu">メニュー画面へ戻る</a>
-        <footer>
-        </footer>
-    </body>
-</html>
+<h2>
+    <?php echo Util::escape($_SESSION['user_name']) ?>さん、ユーザー情報を削除します。よろしいですか？
+</h2>
+<form action="" method="POST">
+<input type="hidden" name="token" value = "<?php echo $token; ?>"/>
+<button type="submit" name="deleteBtn" id="deleteBtn">削除</button>
+</form>
+<a href="/menu">メニュー画面へ戻る</a>

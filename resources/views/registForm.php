@@ -33,34 +33,19 @@ else{
 }
 ?>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>PCWAKER</title>
-    </head>
-    <body class="antialiased">
-        <header>
-            <h1><a href="/">PCWAKER</a></h1>
-        </header>
-        <form action="" method="POST">
-            <h2 id="loginLabel">ユーザー登録</h2>
-            <p>
-                <?php 
-                    if($registFailMsg != ''){
-                        echo $registFailMsg;
-                    }
-                ?>
-            </p>
-            <input type="text" name="userId" id="logininputbox" placeholder="ユーザーID"><br>
-            <input type="password" name="userPw" id="logininputbox" placeholder="パスワード"><br>
-            <input type="text" name="userName" id="logininputbox" placeholder="ユーザー名"><br>
-            <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
-            <button type="submit" name="loginBtn" id="loginBtn">登録</button><br>
-            <a href="/">ログイン画面に戻る</a>
-        </form>
-        <footer>
-        </footer>
-    </body>
-</html>
+<form action="" method="POST">
+    <h2 id="loginLabel">ユーザー登録</h2>
+    <p>
+        <?php 
+            if($registFailMsg != ''){
+                echo $registFailMsg;
+            }
+        ?>
+    </p>
+    <input type="text" name="userId" id="logininputbox" placeholder="ユーザーID"><br>
+    <input type="password" name="userPw" id="logininputbox" placeholder="パスワード"><br>
+    <input type="text" name="userName" id="logininputbox" placeholder="ユーザー名"><br>
+    <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
+    <button type="submit" name="loginBtn" id="loginBtn">登録</button><br>
+    <a href="/">ログイン画面に戻る</a>
+</form>
