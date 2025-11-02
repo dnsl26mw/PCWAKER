@@ -9,12 +9,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     // ログアウト処理の呼び出し
     $autController = new AuthController();
     $loginFailMsg = $autController->logoutController();
+    exit;
 }
 ?>
 
 <p>
-    ユーザー情報削除が完了しました。
+    ユーザー削除が完了しました。3秒後にログイン画面にリダイレクトします。
 </p>
-<form action="" method="POST">
-    <button type="submit" name="logoutBtn" id="logoutBtn">ログイン画面へ戻る</button>
+<form action="" method="POST" id="logoutform">
+    <button type="submit" name="logoutBtn" id="logoutBtn">画面が切り替わらない場合はこちら</button>
 </form>
+
+<script>
+    // 3秒後にログイン画面にリダイレクト
+    setTimeout(function() {
+        document.getElementById('logoutform').submit();
+    }, 3000);
+</script>
