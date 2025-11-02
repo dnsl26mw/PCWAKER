@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../app/Service/Util.php';
 $updateMsg = '';
 
 // トークン
-$token = '';
+$token = Util::createToken();
 
 // POST送信された場合
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -27,7 +27,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         $token = Util::createToken();
     }
 
-    $token = Util::createToken();
+    
 }
 // POST送信以外
 else{
@@ -71,8 +71,8 @@ $user_name = $dbRow['user_name'];
         <tr>
             <th></th>
             <td>
-                <input type="password" name="oldPassword" id="logininputbox" placeholder="現在のパスワード"><br>
-                <input type="password" name="newPassword" id="logininputbox" placeholder="新しいパスワード"><br>
+                <input type="password" name="oldPassword" placeholder="現在のパスワード"><br>
+                <input type="password" name="newPassword" placeholder="新しいパスワード"><br>
             </td>
         <tr>
     </table>
