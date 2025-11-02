@@ -21,14 +21,14 @@ Class RoutesController{
     // ユーザ登録
     public function routesRegistUser(){
         if(!Util::isLogin()){
-            $this->render('ユーザー登録', 'registForm.php');
+            $this->render('ユーザー登録', 'userRegistForm.php');
         }
     }
 
-    // ユーザ登録後
+    // ユーザ登録完了
     public function routesRegistedUser(){
         $this->forLoginForm();
-        $this->render('ユーザ登録完了', 'registedPage.php');
+        $this->render('ユーザ登録完了', 'userRegistedPage.php');
     }
 
     // メニュー
