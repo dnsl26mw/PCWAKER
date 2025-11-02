@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../app/Service/Util.php';
 $updateMsg = '';
 
 // トークン
-$token = Util::createToken();
+$token =  "";
 
 // POST送信された場合
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -76,5 +76,6 @@ $user_name = $dbRow['user_name'];
             </td>
         <tr>
     </table>
+    <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
     <button type="submit" name="updateBtn" id="updateBtn">更新</button>
 </form>
