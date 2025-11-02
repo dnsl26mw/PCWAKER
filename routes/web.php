@@ -41,43 +41,11 @@ function router($url){
         if(method_exists($routesController, $method)){
             $routesController->$method();
         }
-
-        // ログイン済み
-        /*if(Util::isLogin()){
-
-            // ユーザ登録画面へのリクエストの場合
-            if($url === '/regist'){
-                header("Location: /");
-            }
-
-            // リクエストURLに応じたルーティング
-            include __DIR__ . $routes[$url];
-            exit;
-        }
-        // 未ログイン
-        else{
-
-            // ユーザ登録画面へのリクエストの場合
-            if($url === '/regist'){
-                include __DIR__.'/../resources/views/registForm.php';
-                exit;
-            }
-            // それ以外
-            else{
-                $method = $routes[$url];
-                if(method_exists($routesController, $method)){
-                    $routesController->$method();
-                    return;
-                }
-            }
-
-        }*/
     }
     // 未定義URLの場合
     else{
         http_response_code(404);
-        include __DIR__ . '/../resources/views/errors/404Page.php';
-        exit;
+        $routesController->notFoundPage();
     }
 }
 

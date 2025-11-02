@@ -9,6 +9,7 @@ Class RoutesController{
         $title = htmlspecialchars($title);
         $contentView = __DIR__ . '/../../../resources/views/'.$viewName;
         include __DIR__ . '/../../../resources/views/layouts/layout.php';
+        exit;
     }
 
     // トップページ
@@ -21,6 +22,12 @@ Class RoutesController{
     public function routesMenu(){
         $this->forLoginForm();
         $this->render('メニュー', 'menuPage.php');
+    }
+
+    // 404画面
+    public function notFoundPage(){
+        $this->render('ページが見つかりません', 'errors/404Page.php');
+        exit;
     }
 
     // ログイン画面
