@@ -6,9 +6,11 @@ require_once __DIR__ . '/../app/Http/Controllers/RoutesController.php';
 // ルータ
 function router($url){
 
+    $routesController = new RoutesController;
+
     $routes = [
         // トップページ
-        '/' => '/../resources/views/topPage.php',
+        '/' => 'routesTop',
 
         // メニューページ
         '/menu' => '/../resources/views/menuPage.php',
@@ -35,8 +37,13 @@ function router($url){
     // 定義済みURLの場合
     if(array_key_exists($url, $routes)){
 
+        $method = $routes[$url];
+        if(method_exists($routesController, $method)){
+            $routesController->$method();
+        }
+
         // ログイン済み
-        if(Util::isLogin()){
+        /*if(Util::isLogin()){
 
             // ユーザ登録画面へのリクエストの場合
             if($url === '/regist'){
@@ -57,11 +64,14 @@ function router($url){
             }
             // それ以外
             else{
-                include __DIR__.'/../resources/views/loginForm.php';
-                exit;
+                $method = $routes[$url];
+                if(method_exists($routesController, $method)){
+                    $routesController->$method();
+                    return;
+                }
             }
 
-        }
+        }*/
     }
     // 未定義URLの場合
     else{

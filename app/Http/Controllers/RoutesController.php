@@ -7,35 +7,28 @@ Class RoutesController{
     // 共通
     private function render($title, $viewName){
         $title = htmlspecialchars($title);
-        $contentView = '/../../resource/views/'.$viewName;
-        include __DIR__ . '/../../resource/views/layouts/layout.php';
+        $contentView = __DIR__ . '/../../../resources/views/'.$viewName;
+        include __DIR__ . '/../../../resources/views/layouts/layout.php';
     }
 
     // トップページ
-    public function routesTop(){
-        
-        if(Util::isLogin()){
-            $this->rendar('トップ', 'topPage.php');
-        }
-        else{
-            $this->forLoginForm();
-        }
+    public function routesTop(){   
+        $this->forLoginForm();
+        $this->render('トップ', 'topPage.php');
     }
 
-    // トップページ
+    // メニュー画面
     public function routesMenu(){
-        
-        if(Util::isLogin()){
-            $this->rendar('トップ', 'topPage.php');
-        }
-        else{
-            $this->rendar('ログイン', 'loginForm.php');
-        }
+        $this->forLoginForm();
+        $this->render('メニュー', 'menuPage.php');
     }
 
     // ログイン画面
     private function forLoginForm(){
-        $this->rendar('ログイン', 'loginForm.php');
+        if(!Util::isLogin()){
+            $this->render('ログイン', 'loginForm.php');
+            exit;
+        }
     }
 
 }

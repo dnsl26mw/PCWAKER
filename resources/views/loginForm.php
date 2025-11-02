@@ -11,7 +11,7 @@ $loginFailMsg = '';
 $token = '';
 
 // POST送信された場合
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     // ログイン処理の呼び出し
     $authController = new AuthController();

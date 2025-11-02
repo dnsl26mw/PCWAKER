@@ -9,17 +9,13 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>PCWAKER</title>
+        <title>PCWAKER - <?php echo htmlspecialchars($title); ?></title>
     </head>
     <body>
         <header>
             <h1><a href="/">PCWAKER</a></h1>
         </header>
-        <main>
-            <body>
-                <?php include $contentView; ?>
-            </body>
-        </main>
+            <?php include $contentView; ?>
         <footer>
             Copyright©
         </footer>
