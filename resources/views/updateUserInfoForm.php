@@ -50,10 +50,31 @@ $user_name = $dbRow['user_name'];
     ?>
 </p>
 <form action="" method="POST">
-    <input type="text" value = "<?php echo $userID ?>" name="userId" id="logininputbox" placeholder="ユーザーID" readonly disabled><br>
-    <input type="text" value = "<?php echo $user_name ?>" name="userName" id="logininputbox" placeholder="ユーザー名"><br>
-    <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
+    <table>
+        <tr>
+            <th>ユーザーID</th>
+            <td><?php echo Util::escape($userID) ?></td>
+        </tr>
+        <tr>
+            <th>ユーザー名</th>
+            <td><input type="text" value = "<?php echo $user_name ?>" name="userName" id="logininputbox" placeholder="ユーザー名"><br></td>
+        </tr>
+        <tr>
+            <th>
+                パスワード
+            </th>
+            <td>
+                <input type="radio" name="notupdatepasswordradio" checked>更新しない</input>
+                <input type="radio" name="updatepasswordradio">更新する</input>
+            </td>
+        </tr>
+        <tr>
+            <th></th>
+            <td>
+                <input type="password" name="oldPassword" id="logininputbox" placeholder="現在のパスワード"><br>
+                <input type="password" name="newPassword" id="logininputbox" placeholder="新しいパスワード"><br>
+            </td>
+        <tr>
+    </table>
     <button type="submit" name="updateBtn" id="updateBtn">更新</button>
 </form>
-<a href="/updatepassword">パスワードの更新はこちら</a><br>
-<a href="/menu">メニュー画面へ戻る</a>

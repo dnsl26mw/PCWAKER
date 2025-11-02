@@ -11,9 +11,6 @@ $dbRow = $userController->getUserInfoController(['userID' => $_SESSION['user_id'
 $userID = $dbRow['user_id'];
 $user_name = $dbRow['user_name'];
 
-// トークン
-$token = Util::createToken();
-
 ?>
 
 <p>ようこそ、<?php echo Util::escape($_SESSION['user_name']) ?>さん</p>
@@ -27,7 +24,4 @@ $token = Util::createToken();
         <td><?php echo Util::escape($user_name) ?></td>
     </tr>
 </table>
-<form action="/updateuserinfo" method="POST">
-    <input type="hidden" name="token" values = "<?php echo $token; ?>"/>
-    <button type="submit" name="updateButton">ユーザー情報更新はこちら</button>
-</form>
+<a href="/updateuserinfo">ユーザー情報の更新はこちら</a>
