@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../../database/dbConnect.php';
-require_once __DIR__ . '/../../database/dbUtil.php';
+require_once __DIR__ . '/../../database/userTable.php';
 require_once __DIR__ . '/../Service/util.php';
 
 Class UserModel{
@@ -13,7 +13,7 @@ Class UserModel{
         $db = DBConnect::getDBConnect();
         
         // ユーザID重複の有無を返す
-        return !$dbRow = DBUtil::searchUserInfo([
+        return !$dbRow = UserTable::searchUserInfo([
             'userID' => $data['userID']],
         $db);
     }
@@ -35,7 +35,7 @@ Class UserModel{
             $password = Util::getHashPassword($salt, $data['password']);
 
             // 登録処理を呼び出す
-            $retFlg = DBUtil::registUserInfo([
+            $retFlg = UserTable::registUserInfo([
                 'userID' => $data['userID'],
                 'password' => $password,
                 'salt' => $salt,
@@ -53,7 +53,7 @@ Class UserModel{
         $db = DBConnect::getDBConnect();
 
         // 指定されたユーザのレコードを返す
-        $retRow = DBUtil::searchUserInfo([
+        $retRow = UserTable::searchUserInfo([
             'userID' => $data['userID']
         ], $db);
         return $retRow;
@@ -70,7 +70,7 @@ Class UserModel{
             $db = DBConnect::getDBConnect();
 
             // 更新処理を呼び出す
-            $retFlg = DBUtil::updateUserInfo($data, $db);
+            $retFlg = UserTable::updateUserInfo($data, $db);
         }
         
         return $retFlg;
@@ -93,7 +93,7 @@ Class UserModel{
             $password = Util::getHashPassword($salt, $data['newPassword']);
 
             // 更新処理を呼び出す
-            $retFlg = DBUtil::updateUserInfoPassword([
+            $retFlg = UserTable::updateUserInfoPassword([
                 'password' => $password,
                 'salt' => $salt,
                 'userID' => $data['userID']
@@ -114,7 +114,7 @@ Class UserModel{
             $db = DBConnect::getDBConnect();
 
             // 削除処理を呼び出す
-            $retFlg = DBUtil::deleteUserInfo($data, $db);
+            $retFlg = UserTable::deleteUserInfo($data, $db);
         }
         else{
             $retFlg = false;

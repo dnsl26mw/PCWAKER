@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../../database/dbConnect.php';
-require_once __DIR__ . '/../../database/dbUtil.php';
+require_once __DIR__ . '/../../database/userTable.php';
 require_once __DIR__ . '/../Service/util.php';
 require_once __DIR__ . '/../Service/commonMessage.php';
 
@@ -20,7 +20,7 @@ class AuthModel{
             $db = DBConnect::getDBConnect();
 
             // 入力されたユーザIDを検索
-            $dbRow = DBUtil::searchUserInfo(['userID' => $data['userID']], $db);
+            $dbRow = UserTable::searchUserInfo(['userID' => $data['userID']], $db);
                 
             // ユーザIDが存在した場合
             if($dbRow){
@@ -60,7 +60,7 @@ class AuthModel{
         $db = DBConnect::getDBConnect();
 
         // 現在のユーザ情報を取得
-        $dbRow = DBUtil::searchUserInfo($data, $db);
+        $dbRow = UserTable::searchUserInfo($data, $db);
 
         // 入力されたパスワードをハッシュ化
         $password = Util::getHashPassword($dbRow['salt'], $data['oldPassword']);
