@@ -67,8 +67,14 @@ Class RoutesController{
         $this->render('ユーザー削除完了', 'deletedPage.php');
     }
 
+    // DB接続エラー
+    public function routesDisConnect(){
+        $this->render('接続失敗', 'errors/dbConnectErrorPage.php');
+        exit;
+    }
+
     // 404
-    public function notFoundPage(){
+    public function routesNotFoundPage(){
         $this->render('ページが見つかりません', 'errors/404Page.php');
         exit;
     }

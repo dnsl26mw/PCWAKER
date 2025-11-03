@@ -34,7 +34,10 @@ function router($url){
         '/deleteuser' => 'routesDeleteUser',
 
         // ユーザ情報削除完了
-        '/deleted' => 'routesDeletedUser'
+        '/deleted' => 'routesDeletedUser',
+
+        // DB接続失敗
+        '/disconnect' => 'routesDisConnect'
     ];
 
     // 定義済みURLの場合
@@ -48,7 +51,7 @@ function router($url){
     // 未定義URLの場合
     else{
         http_response_code(404);
-        $routesController->notFoundPage();
+        $routesController->routesNotFoundPage();
     }
 }
 
