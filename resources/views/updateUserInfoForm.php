@@ -77,8 +77,9 @@ $user_name = $dbRow['user_name'];
         <tr>
     </table>
     <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
-    <button type="submit" name="updateBtn" id="updateBtn">更新</button>
+    <button type="submit" name="updateBtn" id="updateBtn">ユーザー情報更新</button>
 </form>
+<a href="/deleteuser"><button>ユーザー情報削除</button></a>
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){

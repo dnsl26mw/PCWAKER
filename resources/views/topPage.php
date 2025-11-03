@@ -18,7 +18,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <li><a><button>PC一覧</button></a></li>
     <li><a href="/userinfo"><button>ユーザー情報</button></a></li>
 </ul>
-<a href="/menu">メニュー画面はこちら</a><br>
 <form action="" method="POST">
 <button type="submit" name="logoutBtn" id="logoutBtn">ログアウト</button>
 </form>

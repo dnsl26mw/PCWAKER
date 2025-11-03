@@ -33,4 +33,3 @@ else{
 <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
 <button type="submit" name="deleteBtn" id="deleteBtn">削除</button>
 </form>
-<a href="/menu">メニュー画面へ戻る</a>

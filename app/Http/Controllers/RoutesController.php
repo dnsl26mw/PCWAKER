@@ -18,17 +18,17 @@ Class RoutesController{
         $this->render('トップ', 'topPage.php');
     }
 
-    // ユーザ登録
+    // ユーザ情報登録
     public function routesRegistUser(){
         if(!Util::isLogin()){
-            $this->render('ユーザー登録', 'userRegistForm.php');
+            $this->render('ユーザー情報登録', 'userRegistForm.php');
         }
     }
 
-    // ユーザ登録完了
+    // ユーザ情報登録完了
     public function routesRegistedUser(){
         $this->forLoginForm();
-        $this->render('ユーザ登録完了', 'userRegistedPage.php');
+        $this->render('ユーザー情報登録完了', 'userRegistedPage.php');
     }
 
     // メニュー
@@ -58,13 +58,13 @@ Class RoutesController{
     // ユーザ削除
     public function routesDeleteUser(){
         $this->forLoginForm();
-        $this->render('ユーザー削除', 'deleteForm.php');
+        $this->render('ユーザー情報削除', 'userDeleteForm.php');
     }
 
     // ユーザ削除完了
     public function routesDeletedUser(){
         $this->forLoginForm();
-        $this->render('ユーザー削除完了', 'deletedPage.php');
+        $this->render('ユーザー情報削除完了', 'deletedPage.php');
     }
 
     // DB接続エラー

@@ -1,5 +1,5 @@
 <?php
-// ユーザ情報更新画面
+// ユーザ情報確認画面
 
 require_once __DIR__ . '/../../app/Http/Controllers/UserController.php';
 require_once __DIR__ . '/../../database/dbConnect.php';
@@ -24,4 +24,4 @@ $user_name = $dbRow['user_name'];
         <td><?php echo Util::escape($user_name) ?></td>
     </tr>
 </table>
-<a href="/updateuserinfo">ユーザー情報の更新はこちら</a>
+<a href="/updateuserinfo">ユーザー情報の更新および削除はこちら</a>
