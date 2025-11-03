@@ -27,7 +27,7 @@ class DBUtil {
     public static function updateUserInfo(array $data, $db){
         try{
             $registStmt = $db->prepare('UPDATE usertable SET user_name = ? WHERE user_id = ?');
-            $registStmt->execute(array($data['userID'], $data['userID']));
+            $registStmt->execute(array($data['userName'], $data['userID']));
             return true;
         }
         catch(Exception $e){

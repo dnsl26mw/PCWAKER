@@ -64,18 +64,59 @@ $user_name = $dbRow['user_name'];
                 パスワード
             </th>
             <td>
-                <input type="radio" name="notupdatepasswordradio" checked>更新しない</input>
-                <input type="radio" name="updatepasswordradio">更新する</input>
+                <input type="radio" name="updatepasswordradio" value="notupdatepassword" id="notupdatepasswordradio" checked>更新しない</input>
+                <input type="radio" name="updatepasswordradio" value="updatepassword" id="updatepasswordradio">更新する</input>
             </td>
         </tr>
         <tr>
             <th></th>
             <td>
-                <input type="password" name="oldPassword" placeholder="現在のパスワード"><br>
-                <input type="password" name="newPassword" placeholder="新しいパスワード"><br>
+                <input type="password" name="passwords" id="oldpasstextbox" placeholder="現在のパスワード"><br>
+                <input type="password" name="passwords" id="newpasstextbox" placeholder="新しいパスワード"><br>
             </td>
         <tr>
     </table>
     <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
     <button type="submit" name="updateBtn" id="updateBtn">更新</button>
 </form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+
+    // 更新しないラジオボタン
+    const notUpdatePassRadio = document.getElementById('notupdatepasswordradio');
+
+    // 更新するラジオボタン
+    const updatePassRadio = document.getElementById('updatepasswordradio');
+
+    // 現在のパスワード入力ボックス
+    const oldPassText = document.getElementById('oldpasstextbox');
+
+    // 新しいパスワード入力ボックス
+    const newPassText = document.getElementById('newpasstextbox');
+
+    // パスワード入力ボックスの有効化制御
+    function switchingEnablePasswordFields(){
+        const disable = notUpdatePassRadio.checked;
+        if(disable){
+            oldPassText.disabled = true;
+            newPassText.disabled = true;
+            oldPassText.value = '';
+            newPassText.value = '';
+        }
+        else{
+            oldPassText.disabled = false;
+            newPassText.disabled = false;
+        }
+    }
+
+    // 読み込み時にパスワード入力ボックスの有効化制御を呼び出す
+    switchingEnablePasswordFields();
+
+    // 更新しないラジオボタン選択イベント
+    notUpdatePassRadio.addEventListener('change', switchingEnablePasswordFields);
+
+    // 更新するラジオボタン選択イベント
+    updatePassRadio.addEventListener('change', switchingEnablePasswordFields);
+});
+</script>
