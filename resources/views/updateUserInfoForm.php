@@ -5,37 +5,30 @@ require_once __DIR__ . '/../../app/Http/Controllers/UserController.php';
 require_once __DIR__ . '/../../database/dbConnect.php';
 require_once __DIR__ . '/../../app/Service/Util.php';
 
+$userController = new UserController();
+
 // 更新時メッセージ
 $updateMsg = '';
 
 // トークン
-$token =  "";
+$token = '';
 
 // POST送信された場合
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     // ユーザ情報更新処理の呼び出し
-    $userController = new UserController();
     $updateMsg = $userController->updateController([
         'userName' => $_POST['userName'],
         'userID' => $_SESSION['user_id'],
         'token' => $_POST['token']
     ]);
-
-    // 更新失敗時
-    if(!empty($registFailMsg)){
-        $token = Util::createToken();
-    }
-
-    
+    $token = Util::createToken();
 }
-// POST送信以外
 else{
     $token = Util::createToken();
 }
 
 // ユーザ情報確認用
-$userController = new UserController();
 $dbRow = $userController->getUserInfoController(['userID' => $_SESSION['user_id']]);
 $userID = $dbRow['user_id'];
 $user_name = $dbRow['user_name'];

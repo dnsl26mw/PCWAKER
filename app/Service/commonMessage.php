@@ -15,7 +15,7 @@ Class CommonMessage{
 
     const UPDATESUCSESS = '更新が成功しました。';
 
-    const UPDATEFAILUR = '更新が失敗しました。';
+    const UPDATEFAILURE = '更新が失敗しました。';
 
     const USERIDUSED = 'このユーザーIDは既に使われています。';
 }
