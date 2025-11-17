@@ -20,6 +20,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $updateMsg = $userController->updateController([
         'userName' => $_POST['userName'],
         'userID' => $_SESSION['user_id'],
+        'isUpdatePassword' => $_POST['updatepass'] ?? 'notupdatepassword',
+        'oldPassword' => 'oldpass',
+        'newPassword' => 'newpass',
         'token' => $_POST['token']
     ]);
     $token = Util::createToken();
@@ -27,6 +30,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 else{
     $token = Util::createToken();
 }
+
+// パスワード更新ラジオボタンの選択を保持
+$isUpdatePassword = $_POST['updatepass'] ?? 'notupdatepassword';
 
 // ユーザ情報確認用
 $dbRow = $userController->getUserInfoController(['userID' => $_SESSION['user_id']]);
@@ -57,15 +63,15 @@ $user_name = $dbRow['user_name'];
                 パスワード
             </th>
             <td>
-                <input type="radio" name="updatepasswordradio" value="notupdatepassword" id="notupdatepasswordradio" checked>更新しない</input>
-                <input type="radio" name="updatepasswordradio" value="updatepassword" id="updatepasswordradio">更新する</input>
+                <input type="radio" name="updatepass" value="notupdatepassword" id="notupdatepasswordradio" <?php echo ($isUpdatePassword === 'notupdatepassword') ? 'checked' : ''; ?>>更新しない</input>
+                <input type="radio" name="updatepass" value="updatepassword" id="updatepasswordradio" <?php echo ($isUpdatePassword === 'updatepassword') ? 'checked' : ''; ?>>更新する</input>
             </td>
         </tr>
         <tr>
             <th></th>
             <td>
-                <input type="password" name="passwords" id="oldpasstextbox" placeholder="現在のパスワード"><br>
-                <input type="password" name="passwords" id="newpasstextbox" placeholder="新しいパスワード"><br>
+                <input type="password" name="oldpass" id="oldpasstextbox" placeholder="現在のパスワード"><br>
+                <input type="password" name="newpass" id="newpasstextbox" placeholder="新しいパスワード"><br>
             </td>
         <tr>
     </table>
