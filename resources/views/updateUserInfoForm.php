@@ -13,6 +13,14 @@ $updateMsg = '';
 // トークン
 $token = '';
 
+// ユーザ情報
+$dbRow = $userController->getUserInfoController(['userID' => $_SESSION['user_id']]);
+$userID = $dbRow['user_id'];
+$user_name = "";
+
+// パスワード更新ラジオボタンの選択
+$isUpdatePassword = $_POST['updatepass'] ?? 'notupdatepassword';
+
 // POST送信された場合
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
@@ -26,18 +34,22 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         'token' => $_POST['token']
     ]);
     $token = Util::createToken();
+
+    // ユーザ情報更新失敗
+    if($updateMsg !== CommonMessage::UPDATESUCSESS){
+        $user_name = $_POST['userName'];
+    }
+    // ユーザ情報更新成功
+    else{
+        $user_name = $dbRow['user_name'];
+        $isUpdatePassword = 'notupdatepassword';
+    }
 }
 else{
     $token = Util::createToken();
+    $user_name = $dbRow['user_name'];
 }
 
-// パスワード更新ラジオボタンの選択を保持
-$isUpdatePassword = $_POST['updatepass'] ?? 'notupdatepassword';
-
-// ユーザ情報確認用
-$dbRow = $userController->getUserInfoController(['userID' => $_SESSION['user_id']]);
-$userID = $dbRow['user_id'];
-$user_name = $dbRow['user_name'];
 ?>
 
 <p>ようこそ、<?php echo Util::escape($_SESSION['user_name']) ?>さん</p>

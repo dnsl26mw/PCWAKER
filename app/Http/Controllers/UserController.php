@@ -54,14 +54,18 @@ Class UserController{
         return $retRow;
     }
 
-    // パスワード以外のユーザ情報更新
+    // ユーザ情報更新
     public function updateController(array $data){
 
         $userModel = new UserModel();
 
         $retStr = '';
 
-        if(!empty($data['userName']) && !empty($data['userID']) && !empty($data['token'])){
+        if(!empty($data['userName']) && !empty($data['userID']) &&!empty($data['isUpdatePassword']) && !empty($data['token'])){
+
+            if($data['isUpdatePassword'] === 'updatepassword'){
+                return;
+            }
 
             // ユーザ情報更新処理を呼び出す
             if($userModel->updateModel($data)){
