@@ -25,7 +25,7 @@ $isUpdatePassword = $_POST['updatepass'] ?? 'notupdatepassword';
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     // ユーザ情報更新処理の呼び出し
-    $updateMsg = $userController->updateController([
+    $updateMsg = $userController->updateUserInfoController([
         'userName' => $_POST['userName'],
         'userID' => $_SESSION['user_id'],
         'isUpdatePassword' => $_POST['updatepass'] ?? 'notupdatepassword',

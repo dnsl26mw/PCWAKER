@@ -55,7 +55,7 @@ Class UserController{
     }
 
     // ユーザ情報更新
-    public function updateController(array $data){
+    public function updateUserInfoController(array $data){
 
         $userModel = new UserModel();
 
@@ -68,7 +68,7 @@ Class UserController{
             }
 
             // ユーザ情報更新処理を呼び出す
-            if($userModel->updateModel($data)){
+            if($userModel->updateUserInfoModel($data)){
 
                 // セッションにユーザ名をセット
                 $_SESSION['user_name'] = $data['userName'];

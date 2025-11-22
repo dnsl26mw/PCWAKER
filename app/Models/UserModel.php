@@ -60,7 +60,7 @@ Class UserModel{
     }
 
     // パスワード以外のユーザ情報更新
-    public function updateModel(array $data){
+    public function updateUserInfoModel(array $data){
 
         $retFlg = false;
 
