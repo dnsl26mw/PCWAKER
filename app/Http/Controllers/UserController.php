@@ -98,8 +98,9 @@ Class UserController{
                 // セッションにユーザ名をセット
                 $_SESSION['user_name'] = $data['userName'];
                     
-                // 更新成功メッセージを返す
-                return CommonMessage::UPDATESUCSESS;
+                // ユーザ情報確認ページへ戻る
+                header("Location: /userinfo");
+                exit;
             }
             else{
                 // 更新失敗メッセージを返す
