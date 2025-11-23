@@ -46,7 +46,7 @@ Class UserController{
         return $retStr;
     }
 
-    // ユーザ情報の取得
+    // ユーザ情報取得
     public function getUserInfoController(array $data){
 
         $userModel = new UserModel();
