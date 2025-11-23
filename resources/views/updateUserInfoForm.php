@@ -34,13 +34,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     ]);
     $token = Util::createToken();
 
-    // ユーザ情報更新成功
-    if($updateMsg === CommonMessage::UPDATESUCSESS){
-        $user_name = $_SESSION['user_name'];
-        $isUpdatePassword = 'notupdatepassword';
-    }
     // ユーザ情報更新失敗
-    else{
+    if($updateMsg === CommonMessage::UPDATEFAILURE){
         $user_name = $_POST['userName'];
     }
 }

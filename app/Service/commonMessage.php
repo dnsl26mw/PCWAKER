@@ -13,8 +13,6 @@ Class CommonMessage{
 
     const USERNAMENOTENTERD = 'ユーザー名を入力してください。';
 
-    const UPDATESUCSESS = '更新に成功しました。';
-
     const UPDATEFAILURE = '更新に失敗しました。';
 
     const USERIDUSED = 'このユーザーIDは既に使われています。';
