@@ -14,9 +14,8 @@ $updateMsg = '';
 $token = '';
 
 // ユーザ情報
-$dbRow = $userController->getUserInfoController(['userID' => $_SESSION['user_id']]);
-$userID = $dbRow['user_id'];
-$user_name = "";
+$userID = $_SESSION['user_id'];
+$user_name = '';
 
 // パスワード更新ラジオボタンの選択
 $isUpdatePassword = $_POST['updatepass'] ?? 'notupdatepassword';

@@ -6,10 +6,8 @@ require_once __DIR__ . '/../../database/dbConnect.php';
 require_once __DIR__ . '/../../app/Service/Util.php';
 
 // ユーザ取得
-$userController = new UserController();
-$dbRow = $userController->getUserInfoController(['userID' => $_SESSION['user_id']]);
-$userID = $dbRow['user_id'];
-$user_name = $dbRow['user_name'];
+$userID = $_SESSION['user_id'];
+$user_name = $_SESSION['user_name'];
 
 ?>
 
