@@ -67,6 +67,12 @@ Class RoutesController{
         $this->render('ユーザー情報削除完了', 'deletedPage.php');
     }
 
+    // デバイス一覧
+    public function routesDeviceList(){
+        $this->forLoginForm();
+        $this->render('デバイス一覧', 'deviceListPage.php');
+    }
+
     // DB接続エラー
     public function routesDisConnect(){
         $this->render('接続失敗', 'errors/dbConnectErrorPage.php');

@@ -33,6 +33,9 @@ function router($url){
         // ユーザ情報削除完了
         '/deleted' => 'routesDeletedUser',
 
+        // デバイス一覧
+        '/devicelist' => 'routesDeviceList',
+
         // DB接続失敗
         '/disconnect' => 'routesDisConnect'
     ];
