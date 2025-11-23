@@ -32,26 +32,6 @@ class AuthController{
         header("Location: $url");
     }
 
-    public function onlyPasswordCheckController(array $data){
-
-        $authModel = new AuthModel();
-
-        // 未入力および現在のパスワード不一致メッセージ
-        $retStr = '';
-
-        if(!empty($data['userID']) && !empty($data['oldPassword']) && !empty($data['newPassword']) && !empty($data['token'])){
-            // 現在のパスワードのみ照合する処理の呼び出し
-            if(!$authModel->onlyPasswordCheckModel($data)){
-                $retStr = CommonMessage::OLDPASSWORDNOTMATCHED;
-            }
-        }
-        else{
-            $retStr = CommonMessage::OLDPASSWORDANDNEWPASSWORDNOTENTERD;
-        }
-
-        return $retStr;
-    }
-
     // ログアウト
     public function logoutController(){
 
