@@ -46,7 +46,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 }
 else{
     $token = Util::createToken();
-    $user_name = $dbRow['user_name'];
+    $user_name = $_SESSION['user_name'];
 }
 
 ?>
