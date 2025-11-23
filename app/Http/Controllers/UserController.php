@@ -22,7 +22,7 @@ Class UserController{
                 $retStr = CommonMessage::USERIDUSED;
             }
 
-            // 登録成功
+            // ユーザ登録処理を呼び出す
             if(empty($retStr) && $userModel->registModel($data)){
 
                 // セッションにユーザIDおよびユーザ名をセット
@@ -34,10 +34,12 @@ Class UserController{
                 exit;
             }
             else{
+                // ユーザIDおよびパスワード未入力メッセージを返す
                 $retStr = CommonMessage::USERIDANDPASSWORDANDUSERNAMENOTENTERD;
             }
         }
         else{
+            // ユーザIDおよびパスワード未入力メッセージを返す
             $retStr = CommonMessage::USERIDANDPASSWORDANDUSERNAMENOTENTERD;
         }
 
@@ -59,74 +61,55 @@ Class UserController{
 
         $userModel = new UserModel();
 
+        // ユーザ情報未入力判定
         if(!empty($data['userName']) && !empty($data['userID']) &&!empty($data['isUpdatePassword']) && !empty($data['token'])){
 
             // パスワード更新を行う場合
-            if($data['isUpdatePassword'] === 'updatepassword' && !empty($data['oldPassword']) && !empty($data['newPassword'])){
+            if($data['isUpdatePassword'] === 'updatepassword'){
 
-                $authModel = new AuthModel();
+                if(!empty($data['oldPassword']) && !empty($data['newPassword'])){
 
-                // 現在のパスワードを照合
-                if($authModel->onlyPasswordCheckModel($data)){
+                    $authModel = new AuthModel();
+
+                    // 現在のパスワードを照合
+                    if($authModel->onlyPasswordCheckModel($data)){
                     
-                    // パスワード更新処理を呼び出す
-                    if(!$userModel->updatePasswordModel($data)){
+                        // パスワード更新処理を呼び出す
+                        if(!$userModel->updatePasswordModel($data)){
 
-                        // パスワード更新失敗
-                        return CommonMessage::UPDATEFAILURE;
+                            // 更新失敗メッセージを返す
+                            return CommonMessage::UPDATEFAILURE;
+                        }
+                    }
+                    else{
+                        // 現在のパスワードが違うメッセージを返す
+                        return CommonMessage::OLDPASSWORDNOTMATCHED;
                     }
                 }
                 else{
-
-                    // 現在のパスワードが違うメッセージを返す
-                    return CommonMessage::OLDPASSWORDNOTMATCHED;
-                }
+                    // 現在のパスワードおよび新しいパスワードが未入力メッセージを返す
+                    return CommonMessage::OLDPASSWORDANDNEWPASSWORDNOTENTERD;
+                }                
             }
-            else{
 
-                // 現在のパスワードおよび新しいパスワード未入力メッセージを返す
-                return CommonMessage::OLDPASSWORDANDNEWPASSWORDNOTENTERD;
-            }
-            
             // パスワード以外のユーザ情報更新処理を呼び出す
             if($userModel->updateUserInfoModel($data)){
 
                 // セッションにユーザ名をセット
                 $_SESSION['user_name'] = $data['userName'];
                     
-                // ユーザ情報更新成功メッセージを返す
+                // 更新成功メッセージを返す
                 return CommonMessage::UPDATESUCSESS;
             }
             else{
-                // ユーザ情報更新失敗メッセージを返す
+                // 更新失敗メッセージを返す
                 return CommonMessage::UPDATEFAILURE;
             }
         }
-        else{
+        else{            
             // ユーザ名未入力メッセージを返す
             return CommonMessage::USERNAMENOTENTERD;
         }
-    }
-
-    // パスワードの更新
-    public function updatePasswordController(array $data){
-
-        $userModel = new UserModel();
-
-        $retStr = '';
-
-        if(!empty($data['userID']) && !empty($data['newPassword']) && !empty($data['token'])){
-
-            // パスワード更新処理を呼び出す
-            if($userModel->updatePasswordModel($data)){
-                $retStr = CommonMessage::UPDATESUCSESS;
-            }
-        }
-        else{
-            $retStr = CommonMessage::UPDATEFAILURE;
-        }
-
-        return $retStr;
     }
 
     // ユーザ情報削除
