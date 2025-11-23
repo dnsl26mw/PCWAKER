@@ -29,20 +29,20 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         'userName' => $_POST['userName'],
         'userID' => $_SESSION['user_id'],
         'isUpdatePassword' => $_POST['updatepass'] ?? 'notupdatepassword',
-        'oldPassword' => 'oldpass',
-        'newPassword' => 'newpass',
+        'oldPassword' => $_POST['oldpass'] ?? '',
+        'newPassword' => $_POST['newpass'] ?? '',
         'token' => $_POST['token']
     ]);
     $token = Util::createToken();
 
-    // ユーザ情報更新失敗
-    if($updateMsg !== CommonMessage::UPDATESUCSESS){
-        $user_name = $_POST['userName'];
-    }
     // ユーザ情報更新成功
-    else{
-        $user_name = $dbRow['user_name'];
+    if($updateMsg === CommonMessage::UPDATESUCSESS){
+        $user_name = $_SESSION['user_name'];
         $isUpdatePassword = 'notupdatepassword';
+    }
+    // ユーザ情報更新失敗
+    else{
+        $user_name = $_POST['userName'];
     }
 }
 else{

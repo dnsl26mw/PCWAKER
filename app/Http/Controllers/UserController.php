@@ -59,34 +59,47 @@ Class UserController{
 
         $userModel = new UserModel();
 
-        $retStr = '';
-
         if(!empty($data['userName']) && !empty($data['userID']) &&!empty($data['isUpdatePassword']) && !empty($data['token'])){
 
-            if($data['isUpdatePassword'] === 'updatepassword'){
-                return;
-            }
+            // パスワード更新を行う場合で、現在のパスワードまたは新しいパスワードが未入力
+            if($data['isUpdatePassword'] === 'updatepassword' && (empty($data['oldPassword']) || empty($data['newPassword']))){
 
+                // セッションからトークンを削除
+                Util::deleteToken();
+
+                // 現在のパスワードおよび新しいパスワード未入力メッセージを返す
+                return CommonMessage::OLDPASSWORDANDNEWPASSWORDNOTENTERD;
+            }
+            
             // ユーザ情報更新処理を呼び出す
             if($userModel->updateUserInfoModel($data)){
 
                 // セッションにユーザ名をセット
                 $_SESSION['user_name'] = $data['userName'];
 
-                $retStr = CommonMessage::UPDATESUCSESS;
+                // セッションからトークンを削除
+                Util::deleteToken();
+                    
+                // ユーザ情報更新成功メッセージを返す
+                return CommonMessage::UPDATESUCSESS;
             }
             else{
-                $retStr = CommonMessage::UPDATEFAILURE;
+
+                // セッションからトークンを削除
+                Util::deleteToken();
+
+                // ユーザ情報更新失敗メッセージを返す
+                return CommonMessage::UPDATEFAILURE;
             }
         }
         else{
-            $retStr = CommonMessage::USERNAMENOTENTERD;
+
+            // セッションからトークンを削除
+            Util::deleteToken();
+
+            // ユーザ名未入力メッセージを返す
+            return CommonMessage::USERNAMENOTENTERD;
         }
-
-        // セッションからトークンを削除
-        Util::deleteToken();
-
-        return $retStr;
     }
 
     // パスワードの更新
