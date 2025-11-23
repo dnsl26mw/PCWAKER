@@ -10,9 +10,6 @@ class AuthModel{
     // ログイン処理
     public function loginModel(array $data){
 
-        // ログイン失敗時メッセージ
-        $retStr = '';
-
         // トークンが正しい場合
         if($data['token'] === $_SESSION['token']){
 
@@ -35,19 +32,17 @@ class AuthModel{
                     $this->setSession($dbRow['user_id'], $dbRow['user_name']);
                 }
                 else{
-                    $retStr = CommonMessage::USERIDORPASSWORDUNMATCHED;
+                    return CommonMessage::USERIDORPASSWORDUNMATCHED;
                 }
             }
             // ユーザIDが存在しなかった場合
             else{
-                $retStr = CommonMessage::USERIDORPASSWORDUNMATCHED;
+                return CommonMessage::USERIDORPASSWORDUNMATCHED;
             }
         }
         else{
-            $retStr = CommonMessage::USERIDORPASSWORDUNMATCHED;
+            return CommonMessage::USERIDORPASSWORDUNMATCHED;
         }
-
-        return $retStr;
     }
     
     // パスワードのみの照合

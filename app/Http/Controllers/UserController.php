@@ -11,15 +11,14 @@ Class UserController{
 
         $userModel = new UserModel();
 
-        // ユーザID重複時のメッセージ
-        $retStr = '';
-
         //  ユーザID、パスワード、ユーザ名の未入力チェック
         if(!empty($data['userID']) && !empty($data['password']) && !empty($data['userName'] && !empty($data['token']))){
 
             // ユーザID重複チェック
             if(!$userModel->isNotDuplicationUserID(['userID' => $data['userID']])){
-                $retStr = CommonMessage::USERIDUSED;
+
+                // ユーザID重複メッセージを返す
+                return CommonMessage::USERIDUSED;
             }
 
             // ユーザ登録処理を呼び出す
@@ -35,15 +34,13 @@ Class UserController{
             }
             else{
                 // ユーザIDおよびパスワード未入力メッセージを返す
-                $retStr = CommonMessage::USERIDANDPASSWORDANDUSERNAMENOTENTERD;
+                return CommonMessage::USERIDANDPASSWORDANDUSERNAMENOTENTERD;
             }
         }
         else{
             // ユーザIDおよびパスワード未入力メッセージを返す
-            $retStr = CommonMessage::USERIDANDPASSWORDANDUSERNAMENOTENTERD;
+            return  CommonMessage::USERIDANDPASSWORDANDUSERNAMENOTENTERD;
         }
-
-        return $retStr;
     }
 
     // ユーザ情報取得
