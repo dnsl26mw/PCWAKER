@@ -24,11 +24,8 @@ function router($url){
         // ユーザ情報確認
         '/userinfo' => 'routesUserInfo',
 
-        // ユーザ情報確認
+        // ユーザ情報更新
         '/updateuserinfo' => 'routesUpdateUserInfo',
-
-        // パスワード更新
-        '/updatepassword' => 'routesUpdatePassword',
 
         // ユーザ情報削除
         '/deleteuser' => 'routesDeleteUser',

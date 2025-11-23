@@ -61,13 +61,34 @@ Class UserController{
 
         if(!empty($data['userName']) && !empty($data['userID']) &&!empty($data['isUpdatePassword']) && !empty($data['token'])){
 
-            // パスワード更新を行う場合で、現在のパスワードまたは新しいパスワードが未入力
-            if($data['isUpdatePassword'] === 'updatepassword' && (empty($data['oldPassword']) || empty($data['newPassword']))){
+            // パスワード更新を行う場合
+            if($data['isUpdatePassword'] === 'updatepassword' && !empty($data['oldPassword']) && !empty($data['newPassword'])){
+
+                $authModel = new AuthModel();
+
+                // 現在のパスワードを照合
+                if($authModel->onlyPasswordCheckModel($data)){
+                    
+                    // パスワード更新処理を呼び出す
+                    if(!$userModel->updatePasswordModel($data)){
+
+                        // パスワード更新失敗
+                        return CommonMessage::UPDATEFAILURE;
+                    }
+                }
+                else{
+
+                    // 現在のパスワードが違うメッセージを返す
+                    return CommonMessage::OLDPASSWORDNOTMATCHED;
+                }
+            }
+            else{
+
                 // 現在のパスワードおよび新しいパスワード未入力メッセージを返す
                 return CommonMessage::OLDPASSWORDANDNEWPASSWORDNOTENTERD;
             }
             
-            // ユーザ情報更新処理を呼び出す
+            // パスワード以外のユーザ情報更新処理を呼び出す
             if($userModel->updateUserInfoModel($data)){
 
                 // セッションにユーザ名をセット
