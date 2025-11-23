@@ -27,9 +27,6 @@ class AuthController{
             exit;
         }
 
-        // セッションからトークンを削除
-        Util::deleteToken();
-
         // リクエストされたURLに遷移
         $url = Util::parseURL();
         header("Location: $url");

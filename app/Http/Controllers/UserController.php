@@ -63,10 +63,6 @@ Class UserController{
 
             // パスワード更新を行う場合で、現在のパスワードまたは新しいパスワードが未入力
             if($data['isUpdatePassword'] === 'updatepassword' && (empty($data['oldPassword']) || empty($data['newPassword']))){
-
-                // セッションからトークンを削除
-                Util::deleteToken();
-
                 // 現在のパスワードおよび新しいパスワード未入力メッセージを返す
                 return CommonMessage::OLDPASSWORDANDNEWPASSWORDNOTENTERD;
             }
@@ -76,27 +72,16 @@ Class UserController{
 
                 // セッションにユーザ名をセット
                 $_SESSION['user_name'] = $data['userName'];
-
-                // セッションからトークンを削除
-                Util::deleteToken();
                     
                 // ユーザ情報更新成功メッセージを返す
                 return CommonMessage::UPDATESUCSESS;
             }
             else{
-
-                // セッションからトークンを削除
-                Util::deleteToken();
-
                 // ユーザ情報更新失敗メッセージを返す
                 return CommonMessage::UPDATEFAILURE;
             }
         }
         else{
-
-            // セッションからトークンを削除
-            Util::deleteToken();
-
             // ユーザ名未入力メッセージを返す
             return CommonMessage::USERNAMENOTENTERD;
         }
@@ -120,9 +105,6 @@ Class UserController{
             $retStr = CommonMessage::UPDATEFAILURE;
         }
 
-        // セッションからトークンを削除
-        Util::deleteToken();
-
         return $retStr;
     }
 
@@ -134,11 +116,7 @@ Class UserController{
         if(!empty($data['userID']) && !empty($data['token'])){
 
             // ユーザ削除処理を呼び出す
-            if($userModel->deleteModel($data)){
-
-                // セッションからトークンを削除
-                Util::deleteToken();
-                
+            if($userModel->deleteModel($data)){                
                 header("Location: /deleted");
                 exit;
             }

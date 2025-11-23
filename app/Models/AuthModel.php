@@ -47,9 +47,6 @@ class AuthModel{
             $retStr = CommonMessage::USERIDORPASSWORDUNMATCHED;
         }
 
-        // トークンの削除
-        Util::deleteToken();
-
         return $retStr;
     }
     

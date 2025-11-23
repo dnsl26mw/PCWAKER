@@ -33,11 +33,6 @@ Class Util {
         return $token;
     }
 
-    // トークンの削除
-    public static function deleteToken(){
-        unset($_SESSION['token']);
-    }
-
     // ソルト付きハッシュ化済みパスワードを取得
     public static function getHashPassword($salt, $password){
 
