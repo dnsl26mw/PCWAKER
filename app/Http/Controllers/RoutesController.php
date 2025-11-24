@@ -49,12 +49,6 @@ Class RoutesController{
         $this->render('ユーザー情報更新', 'UpdateUserInfoForm.php');
     }
 
-    // パスワード更新
-    public function routesUpdatePassword(){
-        $this->forLoginForm();
-        $this->render('パスワード更新', 'updatePasswordForm.php');
-    }
-
     // ユーザ削除
     public function routesDeleteUser(){
         $this->forLoginForm();
