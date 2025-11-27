@@ -5,7 +5,7 @@ require_once __DIR__ . '/../../Service/util.php';
 Class RoutesController{
 
     // 共通
-    private function render($title, $viewName){
+    private function render($title, $viewName, $data = []){
         $title = htmlspecialchars($title);
         $contentView = __DIR__ . '/../../../resources/views/'.$viewName;
         include __DIR__ . '/../../../resources/views/layouts/layout.php';
@@ -29,12 +29,6 @@ Class RoutesController{
     public function routesRegistedUser(){
         $this->forLoginForm();
         $this->render('ユーザー情報登録完了', 'userRegistedPage.php');
-    }
-
-    // メニュー
-    public function routesMenu(){
-        $this->forLoginForm();
-        $this->render('メニュー', 'menuPage.php');
     }
 
     // ユーザ情報確認
