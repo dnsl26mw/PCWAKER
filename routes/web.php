@@ -35,9 +35,6 @@ function router($url){
 
         // デバイス一覧
         '/devicelist' => 'routesDeviceList',
-
-        // DB接続失敗
-        '/disconnect' => 'routesDisConnect'
     ];
 
     // 定義済みURLの場合
