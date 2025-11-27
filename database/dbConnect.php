@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../app/Http/Controllers/RoutesController.php';
+
 class DBConnect {
     // DBへの接続
     private static $pdo;
@@ -11,7 +13,8 @@ class DBConnect {
                 self::$pdo = new PDO('mysql:dbname=PCWAKER;host=127.0.0.1;charset=utf8','root','root');
             } catch(PDOException $e) {
                 // データベース接続失敗
-                header("Location: /disconnect");
+                $routesController = new RoutesController();
+                $routesController->routesDisConnect();
             }
         }
         return self::$pdo;
