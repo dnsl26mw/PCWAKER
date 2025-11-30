@@ -50,7 +50,7 @@ Class UserController{
 
         // 指定されたユーザIDのユーザ情報を受け取り、返す
         $retRow = $userModel->getUserInfoModel($data);
-        return $retRow;
+        return ['userInfo' => $retRow];
     }
 
     // ユーザ情報更新

@@ -13,7 +13,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 }
 ?>
 
-<p>ようこそ、<?php echo Util::escape($_SESSION['user_name']) ?>さん</p>
 <ul>
     <li><a href="/devicelist"><button>デバイス一覧</button></a></li>
     <li><a href="/userinfo"><button>ユーザー情報</button></a></li>

@@ -1,10 +1,6 @@
 <?php
 // ユーザ情報更新画面
 
-require_once __DIR__ . '/../../app/Http/Controllers/UserController.php';
-require_once __DIR__ . '/../../database/dbConnect.php';
-require_once __DIR__ . '/../../app/Service/Util.php';
-
 $userController = new UserController();
 
 // 更新時メッセージ
@@ -14,7 +10,7 @@ $updateMsg = '';
 $token = '';
 
 // ユーザ情報
-$userID = $_SESSION['user_id'];
+$userID = $userInfo['user_id'];
 $user_name = '';
 
 // パスワード更新ラジオボタンの選択
@@ -35,18 +31,17 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $token = Util::createToken();
 
     // ユーザ情報更新失敗
-    if($updateMsg === CommonMessage::UPDATEFAILURE){
+    if($updateMsg !== ''){
         $user_name = $_POST['userName'];
     }
 }
 else{
     $token = Util::createToken();
-    $user_name = $_SESSION['user_name'];
+    $user_name = $userInfo['user_name'];
 }
 
 ?>
 
-<p>ようこそ、<?php echo Util::escape($_SESSION['user_name']) ?>さん</p>
 <p>
     <?php
         if($updateMsg != ''){

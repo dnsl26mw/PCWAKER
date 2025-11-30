@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../../Service/util.php';
+require_once __DIR__ . '/../../Http/Controllers/UserController.php';
 
 Class RoutesController{
 
@@ -8,6 +9,7 @@ Class RoutesController{
     private function render($title, $viewName, $data = []){
         $title = htmlspecialchars($title);
         $contentView = __DIR__ . '/../../../resources/views/'.$viewName;
+        extract($data);
         include __DIR__ . '/../../../resources/views/layouts/layout.php';
         exit;
     }
@@ -34,13 +36,17 @@ Class RoutesController{
     // ユーザ情報確認
     public function routesUserInfo(){
         $this->forLoginForm();
-        $this->render('ユーザー情報', 'userInfoPage.php');
+        $userController = new UserController();
+        $data = $userController->getUserInfoController(['userID' => $_SESSION['user_id']]);
+        $this->render('ユーザー情報', 'userInfoPage.php', $data);
     }
 
     // ユーザ情報更新
     public function routesUpdateUserInfo(){
         $this->forLoginForm();
-        $this->render('ユーザー情報更新', 'UpdateUserInfoForm.php');
+        $userController = new UserController();
+        $data = $userController->getUserInfoController(['userID' => $_SESSION['user_id']]);
+        $this->render('ユーザー情報更新', 'updateUserInfoForm.php', $data);
     }
 
     // ユーザ削除
