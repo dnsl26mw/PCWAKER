@@ -43,10 +43,49 @@ Class RoutesController{
 
     // ユーザ情報更新
     public function routesUpdateUserInfo(){
+
         $this->forLoginForm();
         $userController = new UserController();
+
+        // POST時
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+            $data = [
+                'userName' => $_POST['userName'],
+                'userID' => $_SESSION['user_id'],
+                'isUpdatePassword' => $_POST['updatepass'] ?? 'notupdatepassword',
+                'oldPassword' => $_POST['oldpass'] ?? '',
+                'newPassword' => $_POST['newpass'] ?? '',
+                'token' => Util::createToken()
+            ];
+
+            $updateFailMsg = $userController->updateUserInfoController($data);
+
+            // 更新失敗
+            if($updateFailMsg !== ''){
+
+                $data = [
+                    'userInfo' => [
+                        'user_id' => $data['userID'],
+                        'user_name' => $data['userName']
+                    ],
+                    'isUpdatePassword' => $data['isUpdatePassword'],
+                    'token' => Util::createToken(),
+                    'error' => $updateFailMsg,
+                ];
+
+                $this->render('ユーザー情報更新', 'UpdateUserInfoForm.php', $data);
+            }
+
+            // 更新成功
+            header("Location: /userinfo");
+            exit;
+        }
+
+        // GET時の表示用ユーザ情報
         $data = $userController->getUserInfoController(['userID' => $_SESSION['user_id']]);
-        $this->render('ユーザー情報更新', 'updateUserInfoForm.php', $data);
+
+        $this->render('ユーザー情報更新', 'UpdateUserInfoForm.php', $data);
     }
 
     // ユーザ削除

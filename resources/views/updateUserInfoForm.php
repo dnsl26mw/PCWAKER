@@ -1,54 +1,27 @@
 <?php
 // ユーザ情報更新画面
 
-$userController = new UserController();
+// ユーザ情報
+$userInfo = $data['userInfo'] ?? [];
 
-// 更新時メッセージ
-$updateMsg = '';
+// 更新失敗メッセージ
+$updateFailMsg = $data['updateMsg'] ?? '';
 
 // トークン
-$token = '';
+$token = $data['token'] ?? '';
 
-// ユーザ情報
-$userID = $userInfo['user_id'];
-$user_name = '';
+// ユーザID
+$userID = $userInfo['user_id'] ?? '';
+
+// ユーザ名
+$user_name = $userInfo['user_name'] ?? '';
 
 // パスワード更新ラジオボタンの選択
 $isUpdatePassword = $_POST['updatepass'] ?? 'notupdatepassword';
 
-// POST送信された場合
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
-
-    // ユーザ情報更新処理の呼び出し
-    $updateMsg = $userController->updateUserInfoController([
-        'userName' => $_POST['userName'],
-        'userID' => $_SESSION['user_id'],
-        'isUpdatePassword' => $_POST['updatepass'] ?? 'notupdatepassword',
-        'oldPassword' => $_POST['oldpass'] ?? '',
-        'newPassword' => $_POST['newpass'] ?? '',
-        'token' => $_POST['token']
-    ]);
-    $token = Util::createToken();
-
-    // ユーザ情報更新失敗
-    if($updateMsg !== ''){
-        $user_name = $_POST['userName'];
-    }
-}
-else{
-    $token = Util::createToken();
-    $user_name = $userInfo['user_name'];
-}
-
 ?>
 
-<p>
-    <?php
-        if($updateMsg != ''){
-            echo $updateMsg;
-        }
-    ?>
-</p>
+<p><?= Util::escape($error ?? '') ?></p>
 <form action="" method="POST">
     <table>
         <tr>
@@ -57,7 +30,7 @@ else{
         </tr>
         <tr>
             <th>ユーザー名</th>
-            <td><input type="text" value = "<?php echo $user_name ?>" name="userName" id="logininputbox" placeholder="ユーザー名"><br></td>
+            <td><input type="text" value = "<?php echo Util::escape($user_name) ?>" name="userName" id="logininputbox" placeholder="ユーザー名"><br></td>
         </tr>
         <tr>
             <th>
