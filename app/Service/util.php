@@ -46,6 +46,12 @@ Class Util {
         return $password;
     }
 
+    // セッション情報にユーザIDおよびユーザ名をセット
+    public static function setSession($userID, $user_name){
+        $_SESSION['user_id'] = $userID;
+        $_SESSION['user_name'] = $user_name;
+    }
+
     // 共通メッセージ画面に表示するメッセージをセット
     public static function setCommonMessage($message){
         $_SESSION['message'] = $message;

@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../../Models/UserModel.php';
 require_once __DIR__ . '/../../Models/AuthModel.php';
 require_once __DIR__ . '/../../Service/commonMessage.php';
+require_once __DIR__ . '/../../Service/util.php';
 
 Class UserController{
 
@@ -26,7 +27,7 @@ Class UserController{
 
                 // セッションにユーザIDおよびユーザ名をセット
                 $authModel = new AuthModel;
-                $authModel->setSession($data['userID'], $data['userName']);
+                Util::setSession($data['user_id'], $data['user_name']);
             
                 // ユーザ登録成功画面へ遷移
                 header("Location: /registeduser");
@@ -58,56 +59,51 @@ Class UserController{
 
         $userModel = new UserModel();
 
-        // ユーザ情報未入力判定
-        if(!empty($data['userName']) && !empty($data['userID']) &&!empty($data['isUpdatePassword']) && !empty($data['token'])){
+        // ユーザ情報入力判定
+        if(empty($data['userName']) || empty($data['userID']) || empty($data['token'])){
 
-            // パスワード更新を行う場合
-            if($data['isUpdatePassword'] === 'updatepassword'){
+            // ユーザ名未入力メッセージを返す
+            return CommonMessage::USERNAMENOTENTERD;
+        }
 
-                if(!empty($data['oldPassword']) && !empty($data['newPassword'])){
+        // パスワード更新を行う場合
+        if($data['isUpdatePassword'] === 'updatepassword'){
 
-                    $authModel = new AuthModel();
+            // 新旧パスワード入力判定
+            if(empty($data['oldPassword']) || empty($data['newPassword'])){
 
-                    // 現在のパスワードを照合
-                    if($authModel->onlyPasswordCheckModel($data)){
-                    
-                        // パスワード更新処理を呼び出す
-                        if(!$userModel->updatePasswordModel($data)){
-
-                            // 更新失敗メッセージを返す
-                            return CommonMessage::UPDATEFAILURE;
-                        }
-                    }
-                    else{
-                        // 現在のパスワードが違うメッセージを返す
-                        return CommonMessage::OLDPASSWORDNOTMATCHED;
-                    }
-                }
-                else{
-                    // 現在のパスワードおよび新しいパスワードが未入力メッセージを返す
-                    return CommonMessage::OLDPASSWORDANDNEWPASSWORDNOTENTERD;
-                }                
+                // 現在のパスワードおよび新しいパスワードが未入力メッセージを返す
+                return CommonMessage::OLDPASSWORDANDNEWPASSWORDNOTENTERD;
             }
 
-            // パスワード以外のユーザ情報更新処理を呼び出す
-            if($userModel->updateUserInfoModel($data)){
+            $authModel = new AuthModel();
 
-                // セッションにユーザ名をセット
-                $_SESSION['user_name'] = $data['userName'];
-                    
-                // ユーザ情報確認ページへ戻る
-                header("Location: /userinfo");
-                exit;
+            // 旧パスワード判定
+            if(!$authModel->onlyPasswordCheckModel($data)){
+
+                // 旧パスワードが違うメッセージを返す
+                return CommonMessage::OLDPASSWORDNOTMATCHED;
             }
-            else{
+
+            // パスワード更新
+            if(!$userModel->updatePasswordModel($data)){
+
                 // 更新失敗メッセージを返す
                 return CommonMessage::UPDATEFAILURE;
             }
         }
-        else{            
-            // ユーザ名未入力メッセージを返す
-            return CommonMessage::USERNAMENOTENTERD;
+
+        // パスワード以外のユーザ情報の更新
+        if(!$userModel->updateUserInfoModel($data)){
+
+            // 更新失敗メッセージを返す
+            return CommonMessage::UPDATEFAILURE;
         }
+
+        // セッションにユーザIDおよびユーザ名を再セット
+        Util::setSession($data['userID'], $data['userName']);
+
+        return '';
     }
 
     // ユーザ情報削除

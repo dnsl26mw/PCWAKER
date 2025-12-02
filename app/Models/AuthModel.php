@@ -29,7 +29,7 @@ class AuthModel{
                 if($password === $dbRow['password']){
                     
                     // セッションにユーザIDおよびユーザ名をセット
-                    $this->setSession($dbRow['user_id'], $dbRow['user_name']);
+                    Util::setSession($dbRow['user_id'], $dbRow['user_name']);
                 }
                 else{
                     return CommonMessage::USERIDORPASSWORDUNMATCHED;
@@ -59,12 +59,6 @@ class AuthModel{
 
         // パスワード照合結果を返す
         return $dbRow['password'] === $password;
-    }
-
-    // セッション情報にユーザIDおよびユーザ名をセット
-    public function setSession($userID, $user_name){
-        $_SESSION['user_id'] = $userID;
-        $_SESSION['user_name'] = $user_name;
     }
 
     // ログアウト処理
