@@ -22,7 +22,7 @@ class AuthController{
         // ログイン失敗の場合
         if($loginFailmsg !== ''){
 
-           // ログイン失敗メッセージを返す
+           // ログイン処理から渡されたログイン失敗メッセージを返す
            return $loginFailmsg;
            exit;  
         }

@@ -10,39 +10,41 @@ class AuthModel{
     // ログイン処理
     public function loginModel(array $data){
 
-        // トークンが正しい場合
-        if($data['token'] === $_SESSION['token']){
+        // トークン判定
+        if($data['token'] !== $_SESSION['token']){
 
-            // DBへの接続
-            $db = DBConnect::getDBConnect();
-
-            // 入力されたユーザIDを検索
-            $dbRow = UserTable::searchUserInfo(['userID' => $data['userID']], $db);
-                
-            // ユーザIDが存在した場合
-            if($dbRow){
-                
-                // 入力されたパスワードをハッシュ化
-                $password = Util::getHashPassword($dbRow['salt'], $data['password']);
-
-                // ソルト + 入力したパスワードが登録済みパスワードと一致した場合
-                if($password === $dbRow['password']){
-                    
-                    // セッションにユーザIDおよびユーザ名をセット
-                    Util::setSession($dbRow['user_id'], $dbRow['user_name']);
-                }
-                else{
-                    return CommonMessage::USERIDORPASSWORDUNMATCHED;
-                }
-            }
-            // ユーザIDが存在しなかった場合
-            else{
-                return CommonMessage::USERIDORPASSWORDUNMATCHED;
-            }
-        }
-        else{
+            // ユーザIDまたはパスワードが違うメッセージを返す(トークン不正とは表示しない)
             return CommonMessage::USERIDORPASSWORDUNMATCHED;
         }
+
+        // DBに接続
+        $db = DBConnect::getDBConnect();
+
+        // ユーザを検索
+        $dbRow = UserTable::searchUserInfo(['userID' => $data['userID']], $db);
+
+        // ユーザが存在しない場合
+        if(!$dbRow){
+
+            // ユーザIDまたはパスワードが違うメッセージを返す
+            return CommonMessage::USERIDORPASSWORDUNMATCHED;
+        }
+
+        // 入力されたパスワードをハッシュ化
+        $password = Util::getHashPassword($dbRow['salt'], $data['password']);
+
+        // ソルト + 入力されたパスワードが登録されたパスワードと不一致の場合
+        if($password !== $dbRow['password']){
+
+            // ユーザIDまたはパスワードが違うメッセージを返す
+            return CommonMessage::USERIDORPASSWORDUNMATCHED;
+        }
+
+        // セッションにユーザIDおよびユーザ名をセット
+        Util::setSession($dbRow['user_id'], $dbRow['user_name']);
+
+        // ログイン成功を表す空文字列を返す
+        return '';
     }
     
     // パスワードのみの照合
