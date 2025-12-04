@@ -8,23 +8,23 @@ class AuthController{
     // ログイン
     public function loginController(array $data){
 
+        // ユーザIDおよびパスワード入力チェック
+        if(empty($data['userID']) || empty($data['password']) || empty($data['token'])){
+
+            // ユーザIDおよびパスワード未入力メッセージを返す
+            return CommonMessage::USERIDANDPASSWORDNOTENTERD;
+        }
+
+        // ログイン処理の呼び出し
         $authModel = new AuthModel();
+        $loginFailmsg = $authModel->loginModel($data);
 
-        // ログイン失敗時メッセージ
-        $retStr = '';
+        // ログイン失敗の場合
+        if($loginFailmsg !== ''){
 
-        // ユーザIDおよびパスワードの未入力チェック
-        if(!empty($data['userID']) && !empty($data['password']) && !empty($data['token'])){
-            // ログイン処理の呼び出し
-            $retStr = $authModel->loginModel($data);
-        }
-        else{
-            $retStr = CommonMessage::USERIDANDPASSWORDNOTENTERD;
-        }
-
-        if($retStr != ''){
-            return $retStr;
-            exit;
+           // ログイン失敗メッセージを返す
+           return $loginFailmsg;
+           exit;  
         }
 
         // リクエストされたURLに遷移
@@ -35,9 +35,8 @@ class AuthController{
     // ログアウト
     public function logoutController(){
 
-        $authModel = new AuthModel();
-
         // ログアウト処理の呼び出し
+        $authModel = new AuthModel();
         $authModel->logoutModel();
 
         // トップページURLに戻す
