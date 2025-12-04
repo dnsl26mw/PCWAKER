@@ -27,7 +27,7 @@ Class UserController{
 
                 // セッションにユーザIDおよびユーザ名をセット
                 $authModel = new AuthModel;
-                Util::setSession($data['user_id'], $data['user_name']);
+                Util::setSession($data['userID'], $data['userName']);
             
                 // ユーザ登録成功画面へ遷移
                 header("Location: /registeduser");
