@@ -20,11 +20,11 @@ class AuthController{
         $loginFailmsg = $authModel->loginModel($data);
 
         // ログイン失敗の場合
-        if($loginFailmsg !== ''){
+        if(!$authModel->loginModel($data)){
 
-           // ログイン処理から渡されたログイン失敗メッセージを返す
-           return $loginFailmsg;
-           exit;  
+            // ユーザIDまたはパスワードが違うメッセージを返す
+            return CommonMessage::USERIDORPASSWORDUNMATCHED;
+            exit;  
         }
 
         // リクエストされたURLに遷移

@@ -12,9 +12,7 @@ class AuthModel{
 
         // トークン判定
         if($data['token'] !== $_SESSION['token']){
-
-            // ユーザIDまたはパスワードが違うメッセージを返す(トークン不正とは表示しない)
-            return CommonMessage::USERIDORPASSWORDUNMATCHED;
+            return false;
         }
 
         // DBに接続
@@ -25,9 +23,7 @@ class AuthModel{
 
         // ユーザが存在しない場合
         if(!$dbRow){
-
-            // ユーザIDまたはパスワードが違うメッセージを返す
-            return CommonMessage::USERIDORPASSWORDUNMATCHED;
+            return false;
         }
 
         // 入力されたパスワードをハッシュ化
@@ -35,16 +31,14 @@ class AuthModel{
 
         // ソルト + 入力されたパスワードが登録されたパスワードと不一致の場合
         if($password !== $dbRow['password']){
-
-            // ユーザIDまたはパスワードが違うメッセージを返す
-            return CommonMessage::USERIDORPASSWORDUNMATCHED;
+            return false;
         }
 
         // セッションにユーザIDおよびユーザ名をセット
         Util::setSession($dbRow['user_id'], $dbRow['user_name']);
 
-        // ログイン成功を表す空文字列を返す
-        return '';
+        // ログイン成功
+        return true;
     }
     
     // パスワードのみの照合
