@@ -34,9 +34,6 @@ class AuthModel{
             return false;
         }
 
-        // セッションにユーザIDおよびユーザ名をセット
-        Util::setSession($dbRow['user_id'], $dbRow['user_name']);
-
         // ログイン成功
         return true;
     }

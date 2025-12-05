@@ -47,9 +47,8 @@ Class Util {
     }
 
     // セッション情報にユーザIDおよびユーザ名をセット
-    public static function setSession($userID, $user_name){
+    public static function setSession($userID){
         $_SESSION['user_id'] = $userID;
-        $_SESSION['user_name'] = $user_name;
     }
 
     // 共通メッセージ画面に表示するメッセージをセット
@@ -64,7 +63,7 @@ Class Util {
 
     // ログイン済みかどうかを判定する
     public static function isLogin(){
-        return isset($_SESSION['user_id']) && isset($_SESSION['user_name']);
+        return isset($_SESSION['user_id']);
     }
 
     // 特殊文字列のエスケープ処理

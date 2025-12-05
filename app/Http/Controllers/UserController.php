@@ -25,9 +25,9 @@ Class UserController{
             // ユーザ登録処理を呼び出す
             if(empty($retStr) && $userModel->registModel($data)){
 
-                // セッションにユーザIDおよびユーザ名をセット
+                // セッションにユーザIDをセット
                 $authModel = new AuthModel;
-                Util::setSession($data['userID'], $data['userName']);
+                Util::setSession($data['userID']);
             
                 // ユーザ登録成功画面へ遷移
                 header("Location: /registeduser");
@@ -99,9 +99,6 @@ Class UserController{
             // 更新失敗メッセージを返す
             return CommonMessage::UPDATEFAILURE;
         }
-
-        // セッションにユーザIDおよびユーザ名を再セット
-        Util::setSession($data['userID'], $data['userName']);
 
         return '';
     }

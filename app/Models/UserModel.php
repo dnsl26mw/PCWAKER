@@ -35,15 +35,13 @@ Class UserModel{
             $password = Util::getHashPassword($salt, $data['password']);
 
             // 登録処理を呼び出す
-            $retFlg = UserTable::registUserInfo([
+            return UserTable::registUserInfo([
                 'userID' => $data['userID'],
                 'password' => $password,
                 'salt' => $salt,
                 'userName' => $data['userName']
             ],$db);
         }
-
-        return $retFlg;
     }
 
     // ユーザ情報取得
