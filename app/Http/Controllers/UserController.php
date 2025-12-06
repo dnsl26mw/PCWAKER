@@ -7,51 +7,50 @@ require_once __DIR__ . '/../../Service/util.php';
 
 Class UserController{
 
+    // ユーザ情報取得
+    public function getUserInfoController(array $data){
+
+        $userModel = new UserModel();
+
+        // 指定されたユーザIDのユーザ情報を取得
+        $retRow = $userModel->getUserInfoModel($data);
+
+        // 取得したユーザ情報を返す
+        return ['userInfo' => $retRow];
+    }
+
     // ユーザ情報登録
     public function registController(array $data){
 
         $userModel = new UserModel();
 
         //  ユーザID、パスワード、ユーザ名の未入力チェック
-        if(!empty($data['userID']) && !empty($data['password']) && !empty($data['userName'] && !empty($data['token']))){
+        if(empty($data['userID']) || empty($data['password']) || empty($data['userName'] || empty($data['token']))){
 
-            // ユーザID重複チェック
-            if(!$userModel->isNotDuplicationUserID(['userID' => $data['userID']])){
-
-                // ユーザID重複メッセージを返す
-                return CommonMessage::USERIDUSED;
-            }
-
-            // ユーザ登録処理を呼び出す
-            if(empty($retStr) && $userModel->registModel($data)){
-
-                // セッションにユーザIDをセット
-                $authModel = new AuthModel;
-                Util::setSession($data['userID']);
-            
-                // ユーザ登録成功画面へ遷移
-                header("Location: /registeduser");
-                exit;
-            }
-            else{
-                // ユーザIDおよびパスワード未入力メッセージを返す
-                return CommonMessage::USERIDANDPASSWORDANDUSERNAMENOTENTERD;
-            }
+            // ユーザID、パスワード、ユーザ名未入力メッセージを返す
+            return CommonMessage::USERIDANDPASSWORDANDUSERNAMENOTENTERD;
         }
-        else{
-            // ユーザIDおよびパスワード未入力メッセージを返す
-            return  CommonMessage::USERIDANDPASSWORDANDUSERNAMENOTENTERD;
+
+        // ユーザID重複チェック
+        if(!$userModel->isNotDuplicationUserID(['userID' => $data['userID']])){
+
+            // ユーザID重複メッセージを返す
+            return CommonMessage::USERIDUSED;
         }
-    }
 
-    // ユーザ情報取得
-    public function getUserInfoController(array $data){
+        // ユーザ登録処理を呼び出す
+        if(!$userModel->registModel($data)){
 
-        $userModel = new UserModel();
+            // ユーザ登録失敗メッセージを返す
+            return CommonMessage::REGISTFAILURE;
+        }
 
-        // 指定されたユーザIDのユーザ情報を受け取り、返す
-        $retRow = $userModel->getUserInfoModel($data);
-        return ['userInfo' => $retRow];
+        // セッションにユーザIDをセット
+        Util::setSession($data['userID']);
+
+        // ユーザ登録成功画面へ遷移
+        header("Location: /registeduser");
+        exit;
     }
 
     // ユーザ情報更新
@@ -100,6 +99,7 @@ Class UserController{
             return CommonMessage::UPDATEFAILURE;
         }
 
+        // 更新成功を表す空文字列を返す
         return '';
     }
 
@@ -108,21 +108,21 @@ Class UserController{
 
         $userModel = new UserModel();
 
-        if(!empty($data['userID']) && !empty($data['token'])){
-
-            // ユーザ削除処理を呼び出す
-            if($userModel->deleteModel($data)){                
-                header("Location: /deleted");
-                exit;
-            }
-            else{
-                header("Location: /deleteConfirm");
-                exit;
-            }
+        // ユーザIDまたはトークンが未セット
+        if(empty($data['userID']) || empty($data['token'])){
+            header("Location: /deleteConfirm");
         }
-        else{
+
+        // ユーザ削除処理を呼び出す
+        if(!$userModel->deleteModel($data)){
+
+            // 削除失敗
             header("Location: /deleteConfirm");
             exit;
         }
+
+        // ユーザ情報削除完了画面に遷移
+        header("Location: /deleteConfirm");
+        exit;
     }
 }

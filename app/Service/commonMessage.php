@@ -15,6 +15,8 @@ Class CommonMessage{
 
     const UPDATEFAILURE = '更新に失敗しました。';
 
+    const REGISTFAILURE = '登録に失敗しました。';
+
     const USERIDUSED = 'このユーザーIDは既に使われています。';
 }
 ?>
