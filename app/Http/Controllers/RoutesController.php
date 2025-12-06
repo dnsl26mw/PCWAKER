@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../../Service/util.php';
+require_once __DIR__ . '/../../Http/Controllers/AuthController.php';
 require_once __DIR__ . '/../../Http/Controllers/UserController.php';
 
 Class RoutesController{
@@ -44,7 +45,9 @@ Class RoutesController{
     // ユーザ情報更新
     public function routesUpdateUserInfo(){
 
+        // ログイン判定
         $this->forLoginForm();
+
         $userController = new UserController();
 
         // POST時
@@ -73,8 +76,6 @@ Class RoutesController{
                     'token' => $_POST['token'],
                     'error' => $updateFailMsg
                 ];
-
-                $this->render('ユーザー情報更新', 'UpdateUserInfoForm.php', $data);
             }
 
             // 更新成功
@@ -88,9 +89,9 @@ Class RoutesController{
 
             // CSRFトークンをセット
             $data['token'] = Util::createToken();
-
-            $this->render('ユーザー情報更新', 'UpdateUserInfoForm.php', $data);
         }
+
+        $this->render('ユーザー情報更新', 'UpdateUserInfoForm.php', $data);
     }
 
     // ユーザ削除
@@ -125,10 +126,48 @@ Class RoutesController{
 
     // ログイン
     private function forLoginForm(){
-        if(!Util::isLogin()){
-            $this->render('ログイン', 'loginForm.php');
-            exit;
+
+        // ログイン判定
+        if(Util::isLogin()){
+            return;
         }
+
+        // POST時
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+            $data = [
+                'userID' => $_POST['userId'],
+                'password' => $_POST['userPw'],
+                'token' => $_POST['token']
+            ];
+
+            $authController = new AuthController();
+
+            // ログイン処理の呼び出し
+            $loginFailMsg = $authController->loginController($data);
+
+            // ログイン失敗
+            if($loginFailMsg !== ''){
+
+                // ログイン失敗メッセージをセット
+                $data['loginFailMsg'] = $loginFailMsg;
+                header("Location: $url");
+                exit;
+            }
+
+            // リクエストされたURLに遷移
+            $url = Util::parseURL();
+            header("Location: $url");
+            exit;
+
+        }
+        else{
+
+            // CSRFトークンをセット
+            $data['token'] = Util::createToken();
+        }
+
+        $this->render('ログイン', 'loginForm.php', $data);
     }
 
 }

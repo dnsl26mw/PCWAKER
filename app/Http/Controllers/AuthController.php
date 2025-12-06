@@ -15,11 +15,9 @@ class AuthController{
             return CommonMessage::USERIDANDPASSWORDNOTENTERD;
         }
 
-        // ログイン処理の呼び出し
         $authModel = new AuthModel();
-        $loginFailmsg = $authModel->loginModel($data);
 
-        // ログイン失敗の場合
+        // ログイン処理の呼び出し
         if(!$authModel->loginModel($data)){
 
             // ユーザIDまたはパスワードが違うメッセージを返す
@@ -30,9 +28,9 @@ class AuthController{
         // セッションにユーザIDをセット
         Util::setSession($data['userID']);
 
-        // リクエストされたURLに遷移
-        $url = Util::parseURL();
-        header("Location: $url");
+        // // リクエストされたURLに遷移
+        // $url = Util::parseURL();
+        // header("Location: $url");
     }
 
     // ログアウト

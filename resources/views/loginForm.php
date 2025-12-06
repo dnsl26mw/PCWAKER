@@ -4,32 +4,9 @@
 require_once __DIR__ . '/../../app/Http/Controllers/AuthController.php';
 require_once __DIR__ . '/../../app/Service/Util.php';
 
-// ログイン失敗時のメッセージ
-$loginFailMsg = '';
+// ログイン失敗メッセージ
+$loginFailMsg = $data['loginFailMsg'] ?? '';
 
-// トークン
-$token = '';
-
-// POST送信された場合
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
-
-    // ログイン処理の呼び出し
-    $authController = new AuthController();
-    $loginFailMsg = $authController->loginController([
-        'userID' => $_POST['userId'],
-        'password' => $_POST['userPw'],
-        'token' => $_POST['token']
-    ]);
-
-    // ログイン失敗時
-    if(!empty($loginFailMsg)){
-        $token = Util::createToken();
-    }
-}
-// POST送信以外
-else{
-    $token = Util::createToken();
-}
 ?>
 
 <form action="" method="POST">
