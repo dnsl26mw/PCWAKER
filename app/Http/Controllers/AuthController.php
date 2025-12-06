@@ -27,10 +27,6 @@ class AuthController{
 
         // セッションにユーザIDをセット
         Util::setSession($data['userID']);
-
-        // // リクエストされたURLに遷移
-        // $url = Util::parseURL();
-        // header("Location: $url");
     }
 
     // ログアウト
