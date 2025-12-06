@@ -90,6 +90,6 @@ Class UserModel{
         $db = DBConnect::getDBConnect();
 
         // 削除処理を呼び出す
-        $retFlg = UserTable::deleteUserInfo($data, $db);
+        return UserTable::deleteUserInfo($data, $db);
     }
 }
