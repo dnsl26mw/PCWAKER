@@ -56,7 +56,7 @@ Class RoutesController{
                 'isUpdatePassword' => $_POST['updatepass'] ?? 'notupdatepassword',
                 'oldPassword' => $_POST['oldpass'] ?? '',
                 'newPassword' => $_POST['newpass'] ?? '',
-                'token' => Util::createToken()
+                'token' => $_POST['token']
             ];
 
             $updateFailMsg = $userController->updateUserInfoController($data);
@@ -70,8 +70,8 @@ Class RoutesController{
                         'user_name' => $data['userName']
                     ],
                     'isUpdatePassword' => $data['isUpdatePassword'],
-                    'token' => Util::createToken(),
-                    'error' => $updateFailMsg,
+                    'token' => $_POST['token'],
+                    'error' => $updateFailMsg
                 ];
 
                 $this->render('ユーザー情報更新', 'UpdateUserInfoForm.php', $data);
@@ -81,11 +81,16 @@ Class RoutesController{
             header("Location: /userinfo");
             exit;
         }
+        else{
 
-        // GET時の表示用ユーザ情報
-        $data = $userController->getUserInfoController(['userID' => $_SESSION['user_id']]);
+            // 表示用ユーザ情報取得
+            $data = $userController->getUserInfoController(['userID' => $_SESSION['user_id']]);
 
-        $this->render('ユーザー情報更新', 'UpdateUserInfoForm.php', $data);
+            // CSRFトークンをセット
+            $data['token'] = Util::createToken();
+
+            $this->render('ユーザー情報更新', 'UpdateUserInfoForm.php', $data);
+        }
     }
 
     // ユーザ削除
