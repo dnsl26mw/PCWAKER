@@ -16,9 +16,31 @@ Class RoutesController{
     }
 
     // トップページ
-    public function routesTop(){   
+    public function routesTop(){
+        
+        //ログイン判定
         $this->forLoginForm();
-        $this->render('トップ', 'topPage.php');
+
+        // POST時
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+            $data = [
+                'token' => $_POST['token']
+            ];
+
+            // ログアウト処理の呼び出し
+            $autController = new AuthController();
+            $autController->logoutController($data);
+
+            // トップページURLに遷移
+            header("Location: /");
+            exit;
+        }
+
+        // CSRFトークンをセット
+        $data['token'] = Util::createToken();
+
+        $this->render('トップ', 'topPage.php', $data);
     }
 
     // ユーザ情報登録
@@ -82,14 +104,12 @@ Class RoutesController{
             header("Location: /userinfo");
             exit;
         }
-        else{
 
-            // 表示用ユーザ情報取得
-            $data = $userController->getUserInfoController(['userID' => $_SESSION['user_id']]);
+        // 表示用ユーザ情報取得
+        $data = $userController->getUserInfoController(['userID' => $_SESSION['user_id']]);
 
-            // CSRFトークンをセット
-            $data['token'] = Util::createToken();
-        }
+        // CSRFトークンをセット
+        $data['token'] = Util::createToken();
 
         $this->render('ユーザー情報更新', 'UpdateUserInfoForm.php', $data);
     }
@@ -161,11 +181,9 @@ Class RoutesController{
             exit;
 
         }
-        else{
 
-            // CSRFトークンをセット
-            $data['token'] = Util::createToken();
-        }
+        // CSRFトークンをセット
+        $data['token'] = Util::createToken();
 
         $this->render('ログイン', 'loginForm.php', $data);
     }

@@ -55,11 +55,18 @@ class AuthModel{
     }
 
     // ログアウト処理
-    public function logoutModel(){
+    public function logoutModel(array $data){
+
+        // トークン判定
+        if($data['token'] !== $_SESSION['token']){
+            return false;
+        }
 
         // セッション情報の削除
         $_SESSION = array();
         session_destroy();
+
+        return true;
     }
 }
 ?>

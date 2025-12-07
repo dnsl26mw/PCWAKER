@@ -7,6 +7,9 @@ require_once __DIR__ . '/../../app/Service/Util.php';
 // ログイン失敗メッセージ
 $loginFailMsg = $data['loginFailMsg'] ?? '';
 
+// CSRFトークン
+$token = $data['token'] ?? '';
+
 ?>
 
 <form action="" method="POST">

@@ -4,13 +4,8 @@
 require_once __DIR__ . '/../../app/Http/Controllers/AuthController.php';
 require_once __DIR__ . '/../../app/Service/util.php';
 
-// POST送信された場合
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-
-    // ログアウト処理の呼び出し
-    $autController = new AuthController();
-    $autController->logoutController();
-}
+// CSRFトークン
+$token = $data['token'] ?? '';
 ?>
 
 <ul>
@@ -18,5 +13,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <li><a href="/userinfo"><button>ユーザー情報</button></a></li>
 </ul>
 <form action="" method="POST">
-<button type="submit" name="logoutBtn" id="logoutBtn">ログアウト</button>
+    <button type="submit" name="logoutBtn" id="logoutBtn">ログアウト</button>
+    <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
 </form>

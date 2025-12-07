@@ -30,14 +30,15 @@ class AuthController{
     }
 
     // ログアウト
-    public function logoutController(){
+    public function logoutController(array $data){
+
+        if(empty($data['token'])){
+            return;
+        }
 
         // ログアウト処理の呼び出し
         $authModel = new AuthModel();
-        $authModel->logoutModel();
-
-        // トップページURLに戻す
-        header("Location: /");
+        return $authModel->logoutModel($data);
     }
 }
 ?>
