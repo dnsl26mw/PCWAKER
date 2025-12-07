@@ -15,6 +15,13 @@ class AuthController{
             return CommonMessage::USERIDANDPASSWORDNOTENTERD;
         }
 
+        // CSRFトークン判定
+        if(Util::verificationToken()){
+            
+            // ユーザIDおよびパスワード未入力メッセージを返す
+            return CommonMessage::USERIDANDPASSWORDNOTENTERD;
+        }
+
         $authModel = new AuthModel();
 
         // ログイン処理の呼び出し
@@ -25,6 +32,9 @@ class AuthController{
             exit;  
         }
 
+        // セッションからCSRFトークンを削除
+        Util::deleteToken();
+
         // セッションにユーザIDをセット
         Util::setSession($data['userID']);
     }
@@ -32,13 +42,19 @@ class AuthController{
     // ログアウト
     public function logoutController(array $data){
 
+        // CSRFトークンが空でないことを確認
         if(empty($data['token'])){
             return;
         }
 
-        // ログアウト処理の呼び出し
-        $authModel = new AuthModel();
-        return $authModel->logoutModel($data);
+        // CSRFトークン判定
+        if(Util::verificationToken()){
+            return;
+        }
+
+        // セッション情報の削除
+        $_SESSION = array();
+        session_destroy();
     }
 }
 ?>

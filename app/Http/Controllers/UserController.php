@@ -31,6 +31,13 @@ Class UserController{
             return CommonMessage::USERIDANDPASSWORDANDUSERNAMENOTENTERD;
         }
 
+        // CSRFトークン判定
+        if(Util::verificationToken()){
+
+            // ユーザID、パスワード、ユーザ名未入力メッセージを返す
+            return CommonMessage::USERIDANDPASSWORDANDUSERNAMENOTENTERD;
+        }
+
         // ユーザID重複チェック
         if(!$userModel->isNotDuplicationUserID(['userID' => $data['userID']])){
 
@@ -44,6 +51,9 @@ Class UserController{
             // ユーザ登録失敗メッセージを返す
             return CommonMessage::REGISTFAILURE;
         }
+
+        // セッションからCSRFトークンを削除
+        Util::deleteToken();
 
         // セッションにユーザIDをセット
         Util::setSession($data['userID']);
@@ -61,6 +71,13 @@ Class UserController{
         // ユーザ情報入力判定
         if(empty($data['userName']) || empty($data['userID']) || empty($data['token'])){
 
+            // ユーザ名未入力メッセージを返す
+            return CommonMessage::USERNAMENOTENTERD;
+        }
+
+        // CSRFトークン判定
+        if(Util::verificationToken()){
+            
             // ユーザ名未入力メッセージを返す
             return CommonMessage::USERNAMENOTENTERD;
         }
@@ -99,6 +116,9 @@ Class UserController{
             return CommonMessage::UPDATEFAILURE;
         }
 
+        // セッションからCSRFトークンを削除
+        Util::deleteToken();
+
         // 更新成功を表す空文字列を返す
         return '';
     }
@@ -111,6 +131,13 @@ Class UserController{
         // ユーザIDまたはトークンが未セット
         if(empty($data['userID']) || empty($data['token'])){
             header("Location: /deleteConfirm");
+            exit;
+        }
+
+        // CSRFトークン判定
+        if(Util::verificationToken()){
+            header("Location: /deleteConfirm");
+            exit;
         }
 
         // ユーザ削除処理を呼び出す
@@ -120,6 +147,9 @@ Class UserController{
             header("Location: /deleteConfirm");
             exit;
         }
+
+        // セッションからCSRFトークンを削除
+        Util::deleteToken();
 
         // ユーザ情報削除完了画面に遷移
         header("Location: /deleteConfirm");

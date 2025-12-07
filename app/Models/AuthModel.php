@@ -10,11 +10,6 @@ class AuthModel{
     // ログイン処理
     public function loginModel(array $data){
 
-        // トークン判定
-        if($data['token'] !== $_SESSION['token']){
-            return false;
-        }
-
         // DBに接続
         $db = DBConnect::getDBConnect();
 
@@ -52,21 +47,6 @@ class AuthModel{
 
         // パスワード照合結果を返す
         return $dbRow['password'] === $password;
-    }
-
-    // ログアウト処理
-    public function logoutModel(array $data){
-
-        // トークン判定
-        if($data['token'] !== $_SESSION['token']){
-            return false;
-        }
-
-        // セッション情報の削除
-        $_SESSION = array();
-        session_destroy();
-
-        return true;
     }
 }
 ?>

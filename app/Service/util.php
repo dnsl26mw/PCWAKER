@@ -26,11 +26,21 @@ Class Util {
         return self::hashConvert(self::retRandomStr());
     }
 
-    // トークンの生成
+    // CSRFトークンの生成
     public static function createToken(){
         $token = self::createSaltOrTokenCommon();
         $_SESSION['token'] = $token;
         return $token;
+    }
+
+    // CSRFトークンの照合
+    public static function verificationToken(){
+        return $data['token'] === $_SESSION['token'];
+    }
+
+    // CSRFトークンの削除
+    public static function deleteToken(){
+        unset($_SESSION['token']);
     }
 
     // ソルト付きハッシュ化済みパスワードを取得
