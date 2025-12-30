@@ -45,6 +45,8 @@ Class RoutesController{
 
     // ユーザ情報登録
     public function routesRegistUser(){
+
+        // ログイン判定
         if(!Util::isLogin()){
             $this->render('ユーザー情報登録', 'userRegistForm.php');
         }
@@ -140,6 +142,7 @@ Class RoutesController{
 
     // 404
     public function routesNotFoundPage(){
+        http_response_code(404);
         $this->render('ページが見つかりません', 'errors/404Page.php');
         exit;
     }
