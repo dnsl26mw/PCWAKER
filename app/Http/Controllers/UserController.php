@@ -57,10 +57,6 @@ Class UserController{
 
         // セッションにユーザIDをセット
         Util::setSession($data['userID']);
-
-        // ユーザ登録成功画面へ遷移
-        header("Location: /registeduser");
-        exit;
     }
 
     // ユーザ情報更新

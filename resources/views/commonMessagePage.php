@@ -2,9 +2,6 @@
 
 // 共通メッセージ画面
 
-require_once __DIR__ . '/../../app/Http/Controllers/UserController.php';
-require_once __DIR__ . '/../../app/Service/util.php';
-
 $userController = new UserController;
 
 ?>

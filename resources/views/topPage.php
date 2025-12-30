@@ -1,9 +1,6 @@
 <?php
 // トップページ
 
-require_once __DIR__ . '/../../app/Http/Controllers/AuthController.php';
-require_once __DIR__ . '/../../app/Service/util.php';
-
 // CSRFトークン
 $token = $data['token'] ?? '';
 ?>

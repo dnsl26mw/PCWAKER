@@ -1,8 +1,6 @@
 <?php
 // ユーザ情報削除後画面
 
-require_once __DIR__ . '/../../app/Http/Controllers/AuthController.php';
-
 // POST送信された場合
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 

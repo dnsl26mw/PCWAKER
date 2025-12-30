@@ -1,9 +1,6 @@
 <?php
 // ログイン画面
 
-require_once __DIR__ . '/../../app/Http/Controllers/AuthController.php';
-require_once __DIR__ . '/../../app/Service/Util.php';
-
 // ログイン失敗メッセージ
 $loginFailMsg = $data['loginFailMsg'] ?? '';
 

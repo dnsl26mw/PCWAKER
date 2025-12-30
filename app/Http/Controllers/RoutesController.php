@@ -46,10 +46,43 @@ Class RoutesController{
     // ユーザ情報登録
     public function routesRegistUser(){
 
-        // ログイン判定
-        if(!Util::isLogin()){
-            $this->render('ユーザー情報登録', 'userRegistForm.php');
+        // ログイン済みの場合
+        if(Util::isLogin()){
+            return;
         }
+
+        // POST時
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+            $data = [
+                'userID' => $_POST['userId'],
+                'password' => $_POST['userPw'],
+                'userName' => $_POST['userName'],
+                'token' => $_POST['token']
+            ];
+
+            $userController = new UserController();
+            $registFailMsg = $userController->registController($data);
+
+            // 登録失敗
+            if($registFailMsg !== ''){
+
+                $data = [
+                    'userID' => $_data['userID'],
+                    'userName' => $_data['userName'],
+                    'token' => $_POST['token']
+                ];
+            }
+
+            // ユーザ登録成功画面へ遷移
+            header("Location: /registeduser");
+            exit;
+        }
+
+        // CSRFトークンをセット
+        $data['token'] = Util::createToken();
+
+        $this->render('ユーザー情報登録', 'userRegistForm.php', $data);
     }
 
     // ユーザ情報登録完了

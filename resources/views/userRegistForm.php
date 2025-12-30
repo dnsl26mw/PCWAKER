@@ -1,36 +1,12 @@
 <?php
-// ユーザー登録画面
+// ユーザ登録画面
 
-require_once __DIR__ . '/../../app/Http/Controllers/UserController.php';
-require_once __DIR__ . '/../../app/Service/Util.php';
+// ユーザ登録失敗メッセージ
+$registFailMsg = $data['registFailMsg'] ?? '';
 
-// ユーザ登録失敗時のメッセージ
-$registFailMsg = '';
+// CSRFトークン
+$token = $data['token'] ?? '';
 
-// トークン
-$token = '';
-
-// POST送信された場合
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-
-    // ユーザ登録処理の呼び出し
-    $userController = new UserController();
-    $registFailMsg = $userController->registController([
-        'userID' => $_POST['userId'],
-        'password' => $_POST['userPw'],
-        'userName' => $_POST['userName'],
-        'token' => $_POST['token']
-    ]);
-
-    // 登録失敗時
-    if(!empty($registFailMsg)){
-        $token = Util::createToken();
-    }
-}
-// POST送信以外
-else{
-    $token = Util::createToken();
-}
 ?>
 
 <form action="" method="POST">
