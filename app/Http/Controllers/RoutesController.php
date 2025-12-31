@@ -88,12 +88,6 @@ Class RoutesController{
         $this->render('ユーザー情報登録', 'userRegistForm.php', $data);
     }
 
-    // ユーザ情報登録完了
-    public function routesRegistedUser(){
-        $this->forLoginForm();
-        $this->render('ユーザー情報登録完了', 'userRegistedPage.php');
-    }
-
     // ユーザ情報確認
     public function routesUserInfo(){
         $this->forLoginForm();
