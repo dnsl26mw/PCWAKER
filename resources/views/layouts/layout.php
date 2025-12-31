@@ -14,6 +14,7 @@
     <body>
         <header>
             <h1><a href="/">PCWAKER</a></h1>
+            <p><a href="/userinfo"><?= Util::escape($_SESSION['user_id'] ?? '') ?></a>でログイン中</p>
         </header>
             <?php include $contentView; ?>
         <footer>
