@@ -16,7 +16,7 @@ function router($url){
         '/menu' => 'routesMenu',
 
         // ユーザ登録
-        '/regist' => 'routesRegistUser',
+        '/registuser' => 'routesRegistUser',
 
         // ユーザ登録完了
         '/registeduser' => 'routesRegistedUser',

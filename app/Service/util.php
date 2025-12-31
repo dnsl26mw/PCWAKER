@@ -34,7 +34,7 @@ Class Util {
     }
 
     // CSRFトークンの照合
-    public static function verificationToken(){
+    public static function verificationToken(array $data){
         return $data['token'] === $_SESSION['token'];
     }
 

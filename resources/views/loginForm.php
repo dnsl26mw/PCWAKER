@@ -22,5 +22,5 @@ $token = $data['token'] ?? '';
     <input type="password" name="userPw" id="logininputbox" placeholder="パスワード"><br>
     <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
     <button type="submit" name="loginBtn" id="loginBtn">ログイン</button><br>
-    <a href="/regist">ユーザー登録はこちら</a>
+    <a href="/registuser">ユーザー登録はこちら</a>
 </form>

@@ -16,7 +16,7 @@ class AuthController{
         }
 
         // CSRFトークン判定
-        if(Util::verificationToken()){
+        if(!Util::verificationToken($data)){
             
             // ユーザIDおよびパスワード未入力メッセージを返す
             return CommonMessage::USERIDANDPASSWORDNOTENTERD;
@@ -37,6 +37,9 @@ class AuthController{
 
         // セッションにユーザIDをセット
         Util::setSession($data['userID']);
+
+        // ログイン成功を表す空文字列を返す
+        return '';
     }
 
     // ログアウト
@@ -48,7 +51,7 @@ class AuthController{
         }
 
         // CSRFトークン判定
-        if(Util::verificationToken()){
+        if(!Util::verificationToken($data)){
             return;
         }
 

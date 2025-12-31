@@ -68,10 +68,13 @@ Class RoutesController{
             if($registFailMsg !== ''){
 
                 $data = [
-                    'userID' => $_data['userID'],
-                    'userName' => $_data['userName'],
-                    'token' => $_POST['token']
+                    'userID' => $_POST['userId'],
+                    'userName' => $_POST['userName'],
+                    'token' => $_POST['token'],
+                    'registFailMsg' => $registFailMsg
                 ];
+
+                $this->render('ユーザー情報登録', 'userRegistForm.php', $data);
             }
 
             // ユーザ登録成功画面へ遷移
@@ -133,6 +136,8 @@ Class RoutesController{
                     'token' => $_POST['token'],
                     'error' => $updateFailMsg
                 ];
+
+                $this->render('ユーザー情報更新', 'UpdateUserInfoForm.php', $data);
             }
 
             // 更新成功
@@ -207,8 +212,8 @@ Class RoutesController{
 
                 // ログイン失敗メッセージをセット
                 $data['loginFailMsg'] = $loginFailMsg;
-                header("Location: $url");
-                exit;
+
+                $this->render('ログイン', 'loginForm.php', $data);
             }
 
             // リクエストされたURLに遷移

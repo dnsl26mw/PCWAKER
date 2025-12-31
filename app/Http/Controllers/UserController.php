@@ -25,14 +25,14 @@ Class UserController{
         $userModel = new UserModel();
 
         //  ユーザID、パスワード、ユーザ名の未入力チェック
-        if(empty($data['userID']) || empty($data['password']) || empty($data['userName'] || empty($data['token']))){
+        if(empty($data['userID']) || empty($data['password']) || empty($data['userName']) || empty($data['token'])){
 
             // ユーザID、パスワード、ユーザ名未入力メッセージを返す
             return CommonMessage::USERIDANDPASSWORDANDUSERNAMENOTENTERD;
         }
 
         // CSRFトークン判定
-        if(Util::verificationToken()){
+        if(!Util::verificationToken($data)){
 
             // ユーザID、パスワード、ユーザ名未入力メッセージを返す
             return CommonMessage::USERIDANDPASSWORDANDUSERNAMENOTENTERD;
@@ -57,6 +57,9 @@ Class UserController{
 
         // セッションにユーザIDをセット
         Util::setSession($data['userID']);
+
+        // 登録成功を表す空文字列を返す
+        return '';
     }
 
     // ユーザ情報更新
@@ -72,7 +75,7 @@ Class UserController{
         }
 
         // CSRFトークン判定
-        if(Util::verificationToken()){
+        if(!Util::verificationToken($data)){
             
             // ユーザ名未入力メッセージを返す
             return CommonMessage::USERNAMENOTENTERD;
@@ -131,7 +134,7 @@ Class UserController{
         }
 
         // CSRFトークン判定
-        if(Util::verificationToken()){
+        if(!Util::verificationToken($data)){
             header("Location: /deleteConfirm");
             exit;
         }
