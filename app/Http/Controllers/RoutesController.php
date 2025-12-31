@@ -46,7 +46,7 @@ Class RoutesController{
     // ユーザ情報登録
     public function routesRegistUser(){
 
-        // ログイン済みの場合
+        // ログイン判定
         if(Util::isLogin()){
             return;
         }
@@ -156,14 +156,41 @@ Class RoutesController{
 
     // ユーザ削除
     public function routesDeleteUser(){
-        $this->forLoginForm();
-        $this->render('ユーザー情報削除', 'userDeleteForm.php');
-    }
 
-    // ユーザ削除完了
-    public function routesDeletedUser(){
+        // ログイン判定
         $this->forLoginForm();
-        $this->render('ユーザー情報削除完了', 'deletedPage.php');
+
+        // POST時
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+            $userController = new UserController();
+
+            $data = [
+                'userID' => $_SESSION['user_id'],
+                'token' => $_POST['token']
+            ];
+
+            // ユーザ削除処理の呼び出し
+            if(!$userController->deleteController($data)){
+
+                // 失敗した場合、削除確認画面にとどまる
+                $this->render('ユーザー情報削除', 'userDeleteForm.php', $data);
+                exit;
+            }
+
+            // ログアウト
+            $autController = new AuthController();
+            $autController->logoutController($data);
+
+            // トップページURLに遷移
+            header("Location: /");
+            exit;
+        }
+
+        // CSRFトークンをセット
+        $data['token'] = Util::createToken();
+
+        $this->render('ユーザー情報削除', 'userDeleteForm.php', $data);
     }
 
     // デバイス一覧

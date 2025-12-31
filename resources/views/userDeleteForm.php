@@ -1,29 +1,9 @@
 <?php
 // ユーザ情報削除画面
 
-require_once __DIR__ . '/../../app/Http/Controllers/UserController.php';
-require_once __DIR__ . '/../../app/Service/util.php';
+// CSRFトークン
+$token = $data['token'] ?? '';
 
-// トークン
-$token = '';
-
-// POST送信された場合
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-
-    // ユーザ情報削除処理の呼び出し
-    $userController = new UserController();
-    if(!$userController->deleteController([
-            'userID' => $_SESSION['user_id'],
-            'token' => $_POST['token'],
-        ])
-    ){
-        $token = Util::createToken();
-    }
-}
-// POST送信以外
-else{
-    $token = Util::createToken();
-}
 ?>
 
 <p>

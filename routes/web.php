@@ -12,9 +12,6 @@ function router($url){
         // トップ
         '/' => 'routesTop',
 
-        // メニュー
-        '/menu' => 'routesMenu',
-
         // ユーザ登録
         '/registuser' => 'routesRegistUser',
 
@@ -29,9 +26,6 @@ function router($url){
 
         // ユーザ情報削除
         '/deleteuser' => 'routesDeleteUser',
-
-        // ユーザ情報削除完了
-        '/deleted' => 'routesDeletedUser',
 
         // デバイス一覧
         '/devicelist' => 'routesDeviceList',

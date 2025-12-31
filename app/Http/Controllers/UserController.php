@@ -129,29 +129,20 @@ Class UserController{
 
         // ユーザIDまたはトークンが未セット
         if(empty($data['userID']) || empty($data['token'])){
-            header("Location: /deleteConfirm");
-            exit;
+            return false;
         }
 
         // CSRFトークン判定
         if(!Util::verificationToken($data)){
-            header("Location: /deleteConfirm");
-            exit;
+            return false;
         }
 
         // ユーザ削除処理を呼び出す
         if(!$userModel->deleteModel($data)){
-
-            // 削除失敗
-            header("Location: /deleteConfirm");
-            exit;
+            return false;
         }
 
-        // セッションからCSRFトークンを削除
-        Util::deleteToken();
-
-        // ユーザ情報削除完了画面に遷移
-        header("Location: /deleteConfirm");
-        exit;
+        // ユーザ削除成功
+        return true;
     }
 }
