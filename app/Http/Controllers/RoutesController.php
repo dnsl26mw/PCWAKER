@@ -77,8 +77,8 @@ Class RoutesController{
                 $this->render('ユーザー情報登録', 'userRegistForm.php', $data);
             }
 
-            // ユーザ登録成功画面へ遷移
-            header("Location: /registeduser");
+            // トップページに遷移
+            header("Location: /");
             exit;
         }
 
