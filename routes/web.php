@@ -26,6 +26,9 @@ function router($url){
 
         // デバイス一覧
         '/devicelist' => 'routesDeviceList',
+
+        // デバイス追加
+        '/registdevice' => 'routesRegistDevice'
     ];
 
     // 定義済みURLの場合

@@ -193,6 +193,23 @@ Class RoutesController{
         $this->render('デバイス一覧', 'deviceListPage.php');
     }
 
+    // デバイス登録
+    public function routesRegistDevice(){
+        
+        // ログイン判定
+        $this->forLoginForm();
+
+        // POST時
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+        }
+
+        // CSRFトークンをセット
+        $data['token'] = Util::createToken();
+
+        $this->render('デバイス登録', 'deviceRegistForm.php');
+    }
+
     // DB接続エラー
     public function routesDisConnect(){
         $this->render('接続失敗', 'errors/dbConnectErrorPage.php');
