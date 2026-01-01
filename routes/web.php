@@ -19,7 +19,7 @@ function router($url){
         '/userinfo' => 'routesUserInfo',
 
         // ユーザ情報更新
-        '/updateuserinfo' => 'routesUpdateUserInfo',
+        '/userinfo/update' => 'routesUpdateUserInfo',
 
         // ユーザ情報削除
         '/deleteuser' => 'routesDeleteUser',
