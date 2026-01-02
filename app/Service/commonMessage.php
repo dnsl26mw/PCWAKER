@@ -18,5 +18,11 @@ Class CommonMessage{
     const REGISTFAILURE = '登録に失敗しました。';
 
     const USERIDUSED = 'このユーザーIDは既に使われています。';
+
+    const DEVICEIDANDDEVICENAMEANDMACADDRESSNOTENTERD = 'デバイスID、デバイス名、MACアドレスアドレスを入力してください。';
+
+    const DEVICEIDUSED = 'このデバイスIDは既に使われています。';
+
+    const DEVICENAMEANDMACADDRESSNOTENTERD = 'デバイス名、MACアドレスアドレスを入力してください。';
 }
 ?>

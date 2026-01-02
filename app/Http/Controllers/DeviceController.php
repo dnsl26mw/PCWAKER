@@ -28,27 +28,27 @@ Class UserController{
         if(empty($data['deviceID']) || empty($data['deviceName']) || empty($data['macAddress']) || empty($data['token'])){
 
             // デバイスID、デバイス名、MACアドレス未入力メッセージを返す
-            return CommonMessage::USERIDANDPASSWORDANDUSERNAMENOTENTERD;
+            return CommonMessage::DEVICEIDANDDEVICENAMEANDMACADDRESSNOTENTERD;
         }
 
         // CSRFトークン判定
         if(!Util::verificationToken($data)){
 
             // デバイスID、デバイス名、MACアドレス未入力メッセージを返す
-            return CommonMessage::USERIDANDPASSWORDANDUSERNAMENOTENTERD;
+            return CommonMessage::DEVICEIDANDDEVICENAMEANDMACADDRESSNOTENTERD;
         }
 
         // デバイスID重複チェック
         if(!$deviceModel->isNotDuplicationUserID(['deviceID' => $data['deviceID']])){
 
             // デバイスID重複メッセージを返す
-            return CommonMessage::USERIDUSED;
+            return CommonMessage::DEVICEIDUSED;
         }
 
         // デバイス登録処理を呼び出す
         if(!$deviceModel->registDeviceModel($data)){
 
-            // デバイス登録失敗メッセージを返す
+            // 登録失敗メッセージを返す
             return CommonMessage::REGISTFAILURE;
         }
 
@@ -68,14 +68,14 @@ Class UserController{
         if(empty($data['deviceName']) || empty($data['macAddress']) || empty($data['token'])){
 
             // デバイス名、MACアドレス名未入力メッセージを返す
-            return CommonMessage::USERNAMENOTENTERD;
+            return CommonMessage::DEVICENAMEANDMACADDRESSNOTENTERD;
         }
 
         // CSRFトークン判定
         if(!Util::verificationToken($data)){
             
             // デバイス名、MACアドレス名未入力メッセージを返す
-            return CommonMessage::USERNAMENOTENTERD;
+            return CommonMessage::DEVICENAMEANDMACADDRESSNOTENTERD;
         }
 
         // デバイス情報の更新
