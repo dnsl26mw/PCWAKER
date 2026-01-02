@@ -1,11 +1,10 @@
 <?php
 
-require_once __DIR__ . '/../../Models/UserModel.php';
-require_once __DIR__ . '/../../Models/AuthModel.php';
+require_once __DIR__ . '/../../Models/DeviceModel.php';
 require_once __DIR__ . '/../../Service/commonMessage.php';
 require_once __DIR__ . '/../../Service/util.php';
 
-Class UserController{
+Class DeviceController{
 
     // デバイス情報取得
     public function getDeviceInfoController(array $data){
@@ -14,6 +13,18 @@ Class UserController{
 
         // 指定されたデバイスIDのデバイス情報を取得
         $retRow = $deviceModel->getDeviceInfoModel($data);
+
+        // 取得したデバイス情報を返す
+        return ['deviceInfo' => $retRow];
+    }
+
+    // デバイス情報全取得
+    public function getDeviceInfoAllController(array $data){
+
+        $deviceModel = new DeviceModel();
+
+        // 指定されたユーザIDに紐づくデバイス情報を取得
+        $retRow = $deviceModel->getDeviceInfoAllModel($data);
 
         // 取得したデバイス情報を返す
         return ['deviceInfo' => $retRow];
@@ -39,14 +50,14 @@ Class UserController{
         }
 
         // デバイスID重複チェック
-        if(!$deviceModel->isNotDuplicationUserID(['deviceID' => $data['deviceID']])){
+        if(!$deviceModel->isNotDuplicationDeviceID(['deviceID' => $data['deviceID']])){
 
             // デバイスID重複メッセージを返す
             return CommonMessage::DEVICEIDUSED;
         }
 
         // デバイス登録処理を呼び出す
-        if(!$deviceModel->registDeviceModel($data)){
+        if(!$deviceModel->registDeviceInfoModel($data)){
 
             // 登録失敗メッセージを返す
             return CommonMessage::REGISTFAILURE;
@@ -132,7 +143,7 @@ Class UserController{
         }
 
         // デバイス削除処理を呼び出す
-        if(!$userModel->deleteAllDeviceInfoModel($data)){
+        if(!$deviceModel->deleteAllDeviceInfoModel($data)){
             return false;
         }
 

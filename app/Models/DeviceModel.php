@@ -1,10 +1,9 @@
 <?php
 
 require_once __DIR__ . '/../../database/dbConnect.php';
-require_once __DIR__ . '/../../database/userTable.php';
-require_once __DIR__ . '/../Service/util.php';
+require_once __DIR__ . '/../../database/deviceTable.php';
 
-Class UserModel{
+Class DeviceModel{
 
     // デバイスID重複チェック
     public function isNotDuplicationDeviceID(array $data){
@@ -37,6 +36,20 @@ Class UserModel{
         // 指定されたデバイス情報のレコードを取得
         $retRow = deviceTable::searchDeviceInfo([
             'deviceID' => $data['deviceID']
+        ], $db);
+
+        return $retRow;
+    }
+
+    // デバイス情報全取得
+    public function getDeviceInfoAllModel(array $data){
+
+        // DBに接続
+        $db = DBConnect::getDBConnect();
+
+        // 指定されたユーザに紐づくデバイス情報のレコードを取得
+        $retRow = deviceTable::searchDeviceInfoAll([
+            'userID' => $data['userID']
         ], $db);
 
         return $retRow;

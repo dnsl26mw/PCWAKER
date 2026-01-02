@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../../Service/util.php';
 require_once __DIR__ . '/../../Http/Controllers/AuthController.php';
 require_once __DIR__ . '/../../Http/Controllers/UserController.php';
+require_once __DIR__ . '/../../Http/Controllers/DeviceController.php';
 
 Class RoutesController{
 
@@ -190,7 +191,9 @@ Class RoutesController{
     // デバイス一覧
     public function routesDeviceList(){
         $this->forLoginForm();
-        $this->render('デバイス一覧', 'deviceListPage.php');
+        $deviceController = new DeviceController();
+        $data = $deviceController->getDeviceInfoAllController(['userID' => $_SESSION['user_id']]);
+        $this->render('デバイス一覧', 'deviceListPage.php', $data);
     }
 
     // デバイス登録
@@ -202,12 +205,41 @@ Class RoutesController{
         // POST時
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
+                $data = [
+                    'deviceID' => $_POST['deviceId'],
+                    'deviceName' => $_POST['deviceName'],
+                    'macAddress' => $_POST['macAddress'],
+                    'userID' => $_SESSION['user_id'],
+                    'token' => $_POST['token']
+                ];
+
+            $deviceController = new DeviceController();
+            $registFailMsg = $deviceController->registDeviceInfoController($data);
+
+            // 登録失敗
+            if($registFailMsg !== ''){
+
+                $data = [
+                    'deviceID' => $_POST['deviceId'],
+                    'deviceName' => $_POST['deviceName'],
+                    'macAddress' => $_POST['macAddress'],
+                    'userID' => $_SESSION['user_id'],
+                    'token' => $_POST['token'],
+                    'registFailMsg' => $registFailMsg
+                ];
+
+                $this->render('デバイス登録', 'deviceRegistForm.php', $data);
+            }
+
+            // デバイス一覧画面に遷移
+            header("Location: /devicelist");
+            exit;
         }
 
         // CSRFトークンをセット
         $data['token'] = Util::createToken();
 
-        $this->render('デバイス登録', 'deviceRegistForm.php');
+        $this->render('デバイス登録', 'deviceRegistForm.php', $data);
     }
 
     // DB接続エラー
