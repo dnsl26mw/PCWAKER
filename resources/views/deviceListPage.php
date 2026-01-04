@@ -2,25 +2,31 @@
 // デバイス一覧画面
 
 // デバイス一覧情報
-$deviceListInfo = $data ?? [];
+$deviceListInfo = $data['deviceListInfo'] ?? [];
 
 ?>
 
 <table>
-    <tr>
-        <th>選択</th>
-        <th>デバイスID</th>
-        <th>デバイス名</th>
-        <th>MACアドレス</th>
-    </tr>
-    <?php for ($i = 0; $i <= count($deviceListInfo); $i++): ?>
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <?php endfor; ?>
+    <thead>
+        <tr>
+            <th>選択</th>
+            <th>デバイスID</th>
+            <th>デバイス名</th>
+            <th>MACアドレス</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if(!empty($deviceListInfo)): ?>
+            <?php foreach ($deviceListInfo as $device): ?>
+                <tr>
+                    <td><input type="checkbox"></input></td>
+                    <td<?= Util::escape($device['device_id']) ?></td>
+                    <td><?= Util::escape($device['device_name']) ?></td>
+                    <td><?= Util::escape($device['macaddress']) ?></td>
+                </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </tbody>
 </table>
 
 <a href="/registdevice">デバイスの追加はこちら</a>

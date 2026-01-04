@@ -23,11 +23,8 @@ Class DeviceController{
 
         $deviceModel = new DeviceModel();
 
-        // 指定されたユーザIDに紐づくデバイス情報を取得
-        $retRow = $deviceModel->getDeviceInfoAllModel($data);
-
-        // 取得したデバイス情報を返す
-        return ['deviceInfo' => $retRow];
+        // 指定されたユーザIDに紐づくデバイス情報を取得し、返す
+        return $deviceModel->getDeviceInfoAllModel($data);
     }
 
     // デバイス情報登録

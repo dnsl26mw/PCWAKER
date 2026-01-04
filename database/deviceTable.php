@@ -7,8 +7,8 @@ class DeviceTable {
     public static function searchDeviceInfoAll(array $data, $db){
         $stmt = $db->prepare('SELECT device_id, device_name, macaddress FROM devicetable WHERE user_id=?');
         $stmt->execute(array($data['userID']));
-        $dbRow = $stmt->fetch();
-        return $dbRow;
+        $dt = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $dt;
     }
 
     // デバイス情報検索

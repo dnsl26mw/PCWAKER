@@ -48,11 +48,11 @@ Class DeviceModel{
         $db = DBConnect::getDBConnect();
 
         // 指定されたユーザに紐づくデバイス情報のレコードを取得
-        $retRow = deviceTable::searchDeviceInfoAll([
+        $retDt = deviceTable::searchDeviceInfoAll([
             'userID' => $data['userID']
         ], $db);
 
-        return $retRow;
+        return $retDt;
     }
 
     // デバイス情報更新

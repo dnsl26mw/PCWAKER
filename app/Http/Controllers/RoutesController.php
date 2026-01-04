@@ -193,7 +193,7 @@ Class RoutesController{
         $this->forLoginForm();
         $deviceController = new DeviceController();
         $data = $deviceController->getDeviceInfoAllController(['userID' => $_SESSION['user_id']]);
-        $this->render('デバイス一覧', 'deviceListPage.php', $data);
+        $this->render('デバイス一覧', 'deviceListPage.php', ['deviceListInfo' => $data]);
     }
 
     // デバイス登録
