@@ -24,5 +24,7 @@ Class CommonMessage{
     const DEVICEIDUSED = 'このデバイスIDは既に使われています。';
 
     const DEVICENAMEANDMACADDRESSNOTENTERD = 'デバイス名、MACアドレスを入力してください。';
+
+    const MACADDRESSFORMATNOTMATCHED = 'MACアドレスの形式が正しくありません。<br>"XX-XX-XX-XX-XX-XX"(XはA～Fまたはa～f、0～9の半角英数字)の形式で入力してください。';
 }
 ?>

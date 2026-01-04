@@ -47,10 +47,17 @@ Class DeviceController{
         }
 
         // デバイスIDおよびユーザID重複チェック
-        if(!$deviceModel->isNotDuplicationDeviceID(['deviceID' => $data['deviceID']])){
+        if(!$deviceModel->isNotDuplicationDeviceID($data)){
 
             // デバイスID重複メッセージを返す
             return CommonMessage::DEVICEIDUSED;
+        }
+
+        // MACアドレスのバリデーション
+        if(!$this->validateMacAddress($data)){
+
+            // MACアドレスフォーマット不正メッセージを返す
+            return CommonMessage::MACADDRESSFORMATNOTMATCHED;
         }
 
         // デバイス登録処理を呼び出す
@@ -84,6 +91,13 @@ Class DeviceController{
             
             // デバイス名、MACアドレス名未入力メッセージを返す
             return CommonMessage::DEVICENAMEANDMACADDRESSNOTENTERD;
+        }
+
+        // MACアドレスのバリデーション
+        if(!$this->validateMacAddress($data)){
+
+            // MACアドレスフォーマット不正メッセージを返す
+            return CommonMessage::MACADDRESSFORMATNOTMATCHED;
         }
 
         // デバイス情報の更新
@@ -146,5 +160,18 @@ Class DeviceController{
 
         // デバイス情報全削除成功
         return true;
+    }
+
+    // MACアドレスのバリデーション
+    private function validateMacAddress($data){
+
+        // MACアドレスのフォーマット
+        $format = '/^([0-9A-Fa-f]{2}-){5}[0-9A-Fa-f]{2}$/';
+
+        // MACアドレス
+        $macStr = $data['macAddress'];
+
+        // バリデーション結果を返す
+        return preg_match($format, $macStr);
     }
 }

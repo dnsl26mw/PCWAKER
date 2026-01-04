@@ -39,7 +39,7 @@ Class UserController{
         }
 
         // ユーザID重複チェック
-        if(!$userModel->isNotDuplicationUserID(['userID' => $data['userID']])){
+        if(!$userModel->isNotDuplicationUserID($data)){
 
             // ユーザID重複メッセージを返す
             return CommonMessage::USERIDUSED;
