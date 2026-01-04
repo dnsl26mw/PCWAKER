@@ -20,7 +20,7 @@ Class UserController{
     }
 
     // ユーザ情報登録
-    public function registController(array $data){
+    public function registUserInfoController(array $data){
 
         $userModel = new UserModel();
 
@@ -46,7 +46,7 @@ Class UserController{
         }
 
         // ユーザ登録処理を呼び出す
-        if(!$userModel->registModel($data)){
+        if(!$userModel->registUserInfoModel($data)){
 
             // ユーザ登録失敗メッセージを返す
             return CommonMessage::REGISTFAILURE;
@@ -123,7 +123,7 @@ Class UserController{
     }
 
     // ユーザ情報削除
-    public function deleteController(array $data){
+    public function deleteUserInfoController(array $data){
 
         $userModel = new UserModel();
 
@@ -138,7 +138,7 @@ Class UserController{
         }
 
         // ユーザ削除処理を呼び出す
-        if(!$userModel->deleteModel($data)){
+        if(!$userModel->deleteUserInfoModel($data)){
             return false;
         }
 

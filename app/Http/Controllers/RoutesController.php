@@ -9,7 +9,7 @@ Class RoutesController{
 
     // 共通
     private function render($title, $viewName, $data = []){
-        $title = htmlspecialchars($title);
+        $title = Util::escape($title);
         $contentView = __DIR__ . '/../../../resources/views/'.$viewName;
         extract($data);
         include __DIR__ . '/../../../resources/views/layouts/layout.php';
@@ -63,7 +63,7 @@ Class RoutesController{
             ];
 
             $userController = new UserController();
-            $registFailMsg = $userController->registController($data);
+            $registFailMsg = $userController->registUserInfoController($data);
 
             // 登録失敗
             if($registFailMsg !== ''){
@@ -149,7 +149,7 @@ Class RoutesController{
         $this->render('ユーザー情報更新', 'UpdateUserInfoForm.php', $data);
     }
 
-    // ユーザ削除
+    // ユーザ情報削除
     public function routesDeleteUser(){
 
         // ログイン判定
@@ -158,6 +158,8 @@ Class RoutesController{
         // POST時
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
+            $deviceController = new DeviceController();
+
             $userController = new UserController();
 
             $data = [
@@ -165,8 +167,16 @@ Class RoutesController{
                 'token' => $_POST['token']
             ];
 
-            // ユーザ削除処理の呼び出し
-            if(!$userController->deleteController($data)){
+            // デバイス情報全削除処理の呼び出し
+            if(!$deviceController->deleteDeviceInfoAllController($data)){
+
+                // 失敗した場合、削除確認画面にとどまる
+                $this->render('ユーザー情報削除', 'userDeleteForm.php', $data);
+                exit;
+            }
+
+            // ユーザ情報削除処理の呼び出し
+            if(!$userController->deleteUserInfoController($data)){
 
                 // 失敗した場合、削除確認画面にとどまる
                 $this->render('ユーザー情報削除', 'userDeleteForm.php', $data);
@@ -188,7 +198,7 @@ Class RoutesController{
         $this->render('ユーザー情報削除', 'userDeleteForm.php', $data);
     }
 
-    // デバイス一覧
+    // デバイス情報一覧
     public function routesDeviceList(){
         $this->forLoginForm();
         $deviceController = new DeviceController();
@@ -196,7 +206,7 @@ Class RoutesController{
         $this->render('デバイス一覧', 'deviceListPage.php', ['deviceListInfo' => $data]);
     }
 
-    // デバイス情報
+    // デバイス情報確認
     public function routesDeviceInfo(){
         $this->forLoginForm();
         $deviceController = new DeviceController();
@@ -207,7 +217,7 @@ Class RoutesController{
         $this->render('デバイス情報', 'deviceInfoPage.php', $data);
     }
 
-    // デバイス登録
+    // デバイス情報登録
     public function routesRegistDevice(){
         
         // ログイン判定

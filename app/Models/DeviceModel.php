@@ -75,7 +75,7 @@ Class DeviceModel{
         // DBに接続
         $db = DBConnect::getDBConnect();
 
-        // 削除処理を呼び出す
+        // 全削除処理を呼び出す
         return deviceTable::deleteDeviceInfoAll($data, $db);
     }
 }

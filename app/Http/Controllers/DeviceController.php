@@ -139,12 +139,12 @@ Class DeviceController{
             return false;
         }
 
-        // デバイス削除処理を呼び出す
+        // デバイス情報全削除処理を呼び出す
         if(!$deviceModel->deleteAllDeviceInfoModel($data)){
             return false;
         }
 
-        // デバイス削除成功
+        // デバイス情報全削除成功
         return true;
     }
 }

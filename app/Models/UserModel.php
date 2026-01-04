@@ -19,7 +19,7 @@ Class UserModel{
     }
 
     // ユーザ情報登録
-    public function registModel(array $data){
+    public function registUserInfoModel(array $data){
 
         // DBに接続
         $db = DBConnect::getDBConnect();
@@ -82,7 +82,7 @@ Class UserModel{
     }
 
     // ユーザ情報削除
-    public function deleteModel(array $data){
+    public function deleteUserInfoModel(array $data){
 
         // DBに接続
         $db = DBConnect::getDBConnect();
