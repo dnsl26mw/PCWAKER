@@ -44,9 +44,7 @@ Class DeviceModel{
         $db = DBConnect::getDBConnect();
 
         // 指定されたユーザに紐づくデバイス情報のレコードを取得
-        $retDt = deviceTable::searchDeviceInfoAll([
-            'userID' => $data['userID']
-        ], $db);
+        $retDt = deviceTable::searchDeviceInfoAll($data, $db);
 
         return $retDt;
     }

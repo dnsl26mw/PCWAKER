@@ -46,9 +46,7 @@ Class UserModel{
         $db = DBConnect::getDBConnect();
 
         // 指定されたユーザのレコードを取得
-        $retRow = UserTable::searchUserInfo([
-            'userID' => $data['userID']
-        ], $db);
+        $retRow = UserTable::searchUserInfo($data, $db);
 
         return $retRow;
     }

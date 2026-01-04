@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../app/Service/util.php';
 
 class UserTable {
+    
     // ユーザ情報検索
     public static function searchUserInfo(array $data, $db){
         $stmt = $db->prepare('SELECT user_id, salt, password, user_name FROM usertable WHERE user_id=?');

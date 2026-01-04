@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../app/Service/util.php';
 
 class DeviceTable {
+    
     // デバイス情報全検索
     public static function searchDeviceInfoAll(array $data, $db){
         $stmt = $db->prepare('SELECT device_id, device_name, macaddress FROM devicetable WHERE user_id=?');
