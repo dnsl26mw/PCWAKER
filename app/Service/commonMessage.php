@@ -11,6 +11,8 @@ Class CommonMessage{
 
     const USERIDANDPASSWORDANDUSERNAMENOTENTERD = 'ユーザーID、パスワード、ユーザ名を入力してください。';
 
+    const USERIDNOTHALFSIZENUMBER = 'ユーザーIDは記号無しの半角英数字で、20文字以内で入力してください。';
+
     const USERNAMENOTENTERD = 'ユーザー名を入力してください。';
 
     const UPDATEFAILURE = '更新に失敗しました。';
@@ -20,6 +22,8 @@ Class CommonMessage{
     const USERIDUSED = 'このユーザーIDは既に使われています。';
 
     const DEVICEIDANDDEVICENAMEANDMACADDRESSNOTENTERD = 'デバイスID、デバイス名、MACアドレスを入力してください。';
+
+    const DEVICEIDNOTHALFSIZENUMBER = 'デバイスIDは記号無しの半角英数字で、20文字以内で入力してください。';
 
     const DEVICEIDUSED = 'このデバイスIDは既に使われています。';
 

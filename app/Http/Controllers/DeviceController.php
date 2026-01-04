@@ -46,6 +46,13 @@ Class DeviceController{
             return CommonMessage::DEVICEIDANDDEVICENAMEANDMACADDRESSNOTENTERD;
         }
 
+        // デバイスID半角英数字バリデーション
+        if(!Util::validateHalfSizeAlphaNum($data['userID'])){
+
+            // デバイスIDが20文字以内の記号なし半角英数字ではないメッセージを返す
+            return CommonMessage::DEVICEIDNOTHALFSIZENUMBER;
+        }
+
         // デバイスIDおよびユーザID重複チェック
         if(!$deviceModel->isNotDuplicationDeviceID($data)){
 

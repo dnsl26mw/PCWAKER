@@ -38,6 +38,13 @@ Class UserController{
             return CommonMessage::USERIDANDPASSWORDANDUSERNAMENOTENTERD;
         }
 
+        // ユーザID半角英数字バリデーション
+        if(!Util::validateHalfSizeAlphaNum($data['userID'])){
+
+            // ユーザIDが20文字以内の記号なし半角英数字ではないメッセージを返す
+            return CommonMessage::USERIDNOTHALFSIZENUMBER;
+        }
+
         // ユーザID重複チェック
         if(!$userModel->isNotDuplicationUserID($data)){
 

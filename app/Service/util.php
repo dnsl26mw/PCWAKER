@@ -1,5 +1,6 @@
 <?php
 Class Util {
+
     // 文字列のハッシュ変換を行う
     public static function hashConvert($paramStr){
 
@@ -84,6 +85,16 @@ Class Util {
     // URLのパース
     public static function parseURL(){
         return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    }
+
+    // IDバリデーション
+    public static function validateHalfSizeAlphaNum($str){
+
+        // IDの共通フォーマット(記号なし半角英数字で20文字以内)
+        $format = '/^([0-9A-Za-z]){1,20}$/';
+
+        // バリデーション結果を返す
+        return preg_match($format, $str);
     }
 }
 ?>
