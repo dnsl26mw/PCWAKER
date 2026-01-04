@@ -25,8 +25,16 @@ $wakeFailMsg = $data['loginFailMsg'] ?? '';
             <?php foreach ($deviceListInfo as $device): ?>
                 <tr>
                     <td><input type="checkbox"></input></td>
-                    <td><a href="/deviceinfo"><?= Util::escape($device['device_id']) ?></a></td>
-                    <td><a href="/deviceinfo"><?= Util::escape($device['device_name']) ?></a></td>
+                    <td>
+                        <a href="/deviceinfo?device_id=<?php echo Util::escape($device['device_id']) ?>">
+                            <?php echo Util::escape($device['device_id']) ?>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/deviceinfo?device_id=<?php echo Util::escape($device['device_id']) ?>">
+                            <?php echo Util::escape($device['device_name']) ?>
+                        </a>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

@@ -201,7 +201,7 @@ Class RoutesController{
         $this->forLoginForm();
         $deviceController = new DeviceController();
         $data = $deviceController->getDeviceInfoController([
-            'deviceID' => '114',
+            'deviceID' => $_GET['device_id'],
             'userID' => $_SESSION['user_id']
         ]);
         $this->render('デバイス情報', 'deviceInfoPage.php', $data);
