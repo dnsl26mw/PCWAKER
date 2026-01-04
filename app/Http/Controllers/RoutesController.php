@@ -196,6 +196,17 @@ Class RoutesController{
         $this->render('デバイス一覧', 'deviceListPage.php', ['deviceListInfo' => $data]);
     }
 
+    // デバイス情報
+    public function routesDeviceInfo(){
+        $this->forLoginForm();
+        $deviceController = new DeviceController();
+        $data = $deviceController->getDeviceInfoController([
+            'userID' => $_SESSION['user_id'],
+            'deviceID' => '114'
+        ]);
+        $this->render('デバイス情報', 'deviceInfoPage.php', $data);
+    }
+
     // デバイス登録
     public function routesRegistDevice(){
         
@@ -240,6 +251,58 @@ Class RoutesController{
         $data['token'] = Util::createToken();
 
         $this->render('デバイス登録', 'deviceRegistForm.php', $data);
+    }
+
+    // デバイス情報更新
+    public function routesUpdateDeviceInfo(){
+
+        // ログイン判定
+        $this->forLoginForm();
+
+        $deviceController = new DeviceController();
+
+        // POST時
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+            $data = [
+                'userName' => $_POST['userName'],
+                'userID' => $_SESSION['user_id'],
+                'isUpdatePassword' => $_POST['updatepass'] ?? 'notupdatepassword',
+                'oldPassword' => $_POST['oldpass'] ?? '',
+                'newPassword' => $_POST['newpass'] ?? '',
+                'token' => $_POST['token']
+            ];
+
+            $updateFailMsg = $userController->updateUserInfoController($data);
+
+            // 更新失敗
+            if($updateFailMsg !== ''){
+
+                $data = [
+                    'userInfo' => [
+                        'user_id' => $data['userID'],
+                        'user_name' => $data['userName']
+                    ],
+                    'isUpdatePassword' => $data['isUpdatePassword'],
+                    'token' => $_POST['token'],
+                    'error' => $updateFailMsg
+                ];
+
+                $this->render('デバイス情報更新', 'updateDeviceInfoForm.php', $data);
+            }
+
+            // 更新成功
+            header("Location: /userinfo");
+            exit;
+        }
+
+        // 表示用ユーザ情報取得
+        $data = $userController->getUserInfoController(['userID' => $_SESSION['user_id']]);
+
+        // CSRFトークンをセット
+        $data['token'] = Util::createToken();
+
+        $this->render('デバイス情報更新', 'updateDeviceInfoForm.php', $data);
     }
 
     // DB接続エラー

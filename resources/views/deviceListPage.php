@@ -20,9 +20,8 @@ $deviceListInfo = $data['deviceListInfo'] ?? [];
             <?php foreach ($deviceListInfo as $device): ?>
                 <tr>
                     <td><input type="checkbox"></input></td>
-                    <td<?= Util::escape($device['device_id']) ?></td>
+                    <td><a href="/deviceinfo"><?= Util::escape($device['device_id']) ?></td>
                     <td><?= Util::escape($device['device_name']) ?></td>
-                    <td><?= Util::escape($device['macaddress']) ?></td>
                 </tr>
             <?php endforeach; ?>
         <?php endif; ?>

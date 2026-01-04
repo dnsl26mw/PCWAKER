@@ -27,6 +27,12 @@ function router($url){
         // デバイス一覧
         '/devicelist' => 'routesDeviceList',
 
+        // デバイス情報
+        '/deviceinfo' => 'routesDeviceInfo',
+
+        // デバイス情報更新
+        '/deviceinfo/update' => 'routesUpdateDeviceInfo',
+
         // デバイス追加
         '/registdevice' => 'routesRegistDevice'
     ];
