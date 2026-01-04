@@ -6,6 +6,15 @@ require_once __DIR__ . '/../../Service/util.php';
 
 Class DeviceController{
 
+    // デバイス情報全取得
+    public function getDeviceInfoAllController(array $data){
+
+        $deviceModel = new DeviceModel();
+
+        // 指定されたユーザIDに紐づくデバイス情報を取得し、返す
+        return $deviceModel->getDeviceInfoAllModel($data);
+    }
+
     // デバイス情報取得
     public function getDeviceInfoController(array $data){
 
@@ -16,15 +25,6 @@ Class DeviceController{
 
         // 取得したデバイス情報を返す
         return ['deviceInfo' => $retRow];
-    }
-
-    // デバイス情報全取得
-    public function getDeviceInfoAllController(array $data){
-
-        $deviceModel = new DeviceModel();
-
-        // 指定されたユーザIDに紐づくデバイス情報を取得し、返す
-        return $deviceModel->getDeviceInfoAllModel($data);
     }
 
     // デバイス情報登録
@@ -46,7 +46,7 @@ Class DeviceController{
             return CommonMessage::DEVICEIDANDDEVICENAMEANDMACADDRESSNOTENTERD;
         }
 
-        // デバイスID重複チェック
+        // デバイスIDおよびユーザID重複チェック
         if(!$deviceModel->isNotDuplicationDeviceID(['deviceID' => $data['deviceID']])){
 
             // デバイスID重複メッセージを返す

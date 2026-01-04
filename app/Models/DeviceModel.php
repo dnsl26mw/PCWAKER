@@ -5,16 +5,14 @@ require_once __DIR__ . '/../../database/deviceTable.php';
 
 Class DeviceModel{
 
-    // デバイスID重複チェック
+    // デバイスIDおよびユーザID重複チェック
     public function isNotDuplicationDeviceID(array $data){
 
         // DBに接続
         $db = DBConnect::getDBConnect();
         
-        // デバイスID重複の有無を返す
-        return !$dbRow = DeviceTable::searchDeviceInfo([
-            'deviceID' => $data['deviceID']],
-        $db);
+        // デバイスIDおよびユーザID重複の有無を返す
+        return !$dbRow = DeviceTable::searchDeviceInfo($data, $db);
     }
 
     // デバイス情報登録
@@ -34,9 +32,7 @@ Class DeviceModel{
         $db = DBConnect::getDBConnect();
 
         // 指定されたデバイス情報のレコードを取得
-        $retRow = deviceTable::searchDeviceInfo([
-            'deviceID' => $data['deviceID']
-        ], $db);
+        $retRow = deviceTable::searchDeviceInfo($data, $db);
 
         return $retRow;
     }

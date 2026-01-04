@@ -13,8 +13,8 @@ class DeviceTable {
 
     // デバイス情報検索
     public static function searchDeviceInfo(array $data, $db){
-        $stmt = $db->prepare('SELECT device_id, device_name, macaddress FROM devicetable WHERE device_id=?');
-        $stmt->execute(array($data['deviceID']));
+        $stmt = $db->prepare('SELECT device_id, device_name, macaddress FROM devicetable WHERE device_id=? AND user_id=?');
+        $stmt->execute(array($data['deviceID'], $data['userID']));
         $dbRow = $stmt->fetch();
         return $dbRow;
     }
