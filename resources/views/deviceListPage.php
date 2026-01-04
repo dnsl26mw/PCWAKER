@@ -12,7 +12,6 @@ $deviceListInfo = $data['deviceListInfo'] ?? [];
             <th>選択</th>
             <th>デバイスID</th>
             <th>デバイス名</th>
-            <th>MACアドレス</th>
         </tr>
     </thead>
     <tbody>
