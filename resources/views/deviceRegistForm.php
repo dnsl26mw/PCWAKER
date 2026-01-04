@@ -10,7 +10,7 @@ $token = $data['token'] ?? '';
 ?>
 
 <form action="" method="POST">
-    <h2 id="loginLabel">デバイス登録</h2>
+    <h2>デバイス登録</h2>
     <p>
         <?php 
             if($registFailMsg != ''){
@@ -23,5 +23,5 @@ $token = $data['token'] ?? '';
     <input type="text" name="macAddress" placeholder="MACアドレス"><br>
     <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
     <button type="submit" name="registBtn">登録</button><br>
-    <a href="/devicelist">デバイス一覧に戻る</a>
+    <a href="/devicelist">デバイス一覧画面に戻る</a>
 </form>

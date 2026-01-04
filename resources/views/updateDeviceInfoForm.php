@@ -21,6 +21,7 @@ $macaddress = $userInfo['user_name'] ?? '';
 
 ?>
 
+<h2>デバイス情報更新</h2>
 <p><?= Util::escape($error ?? '') ?></p>
 <form action="" method="POST">
     <table>

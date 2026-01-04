@@ -3,6 +3,7 @@
 
 ?>
 
+<h2>デバイス情報</h2>
 <?php if(!empty($deviceInfo)): ?>
     <table>
         <tr>

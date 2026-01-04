@@ -10,7 +10,7 @@ $token = $data['token'] ?? '';
 ?>
 
 <form action="" method="POST">
-    <h2 id="loginLabel">ユーザー登録</h2>
+    <h2>ユーザー登録</h2>
     <p>
         <?php 
             if($registFailMsg != ''){

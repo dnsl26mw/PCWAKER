@@ -21,6 +21,7 @@ $isUpdatePassword = $_POST['updatepass'] ?? 'notupdatepassword';
 
 ?>
 
+<h2>ユーザー情報更新</h2>
 <p><?= Util::escape($error ?? '') ?></p>
 <form action="" method="POST">
     <table>
@@ -52,7 +53,8 @@ $isUpdatePassword = $_POST['updatepass'] ?? 'notupdatepassword';
     <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
     <button type="submit" name="updateBtn" id="updateBtn">ユーザー情報更新</button>
 </form>
-<a href="/deleteuser"><button>ユーザー情報削除</button></a>
+<a href="/deleteuser"><button>ユーザー情報削除</button></a><br>
+<a href="/userinfo">ユーザー情報画面に戻る</a>
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){

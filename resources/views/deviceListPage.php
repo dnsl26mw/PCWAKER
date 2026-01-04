@@ -12,6 +12,7 @@ $wakeFailMsg = $data['loginFailMsg'] ?? '';
 
 ?>
 
+<h2>デバイス一覧</h2>
 <?php if(!empty($deviceListInfo)): ?>
     <table>
         <thead>
@@ -46,4 +47,5 @@ $wakeFailMsg = $data['loginFailMsg'] ?? '';
     <p>登録されているデバイスはありません。</p>
 <?php endif; ?>
 
-<a href="/registdevice">デバイス情報の登録はこちら</a>
+<a href="/registdevice">デバイス情報の登録はこちら</a><br>
+<a href="/">トップに戻る</a>
