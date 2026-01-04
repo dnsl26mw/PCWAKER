@@ -17,4 +17,5 @@
         <td><?php echo Util::escape($deviceInfo['macaddress']) ?></td>
     </tr>
 </table>
-<a href="/deviceinfo/update">デバイス情報の更新および削除はこちら</a>
+<a href="/deviceinfo/update">デバイス情報の更新および削除はこちら</a><br>
+<a href="/devicelist">デバイス一覧画面に戻る</a>
