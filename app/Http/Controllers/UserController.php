@@ -187,10 +187,7 @@ Class UserController{
         // 最小文字数
         $minCount = 8;
 
-        // 最大文字数
-        $maxCount = 20;
-
-        // 8文字以上20文字以内かを返す
-        return mb_strlen($str) >= $minCount && mb_strlen($str) <= $maxCount;
+        // 最小文字数以上かを返す
+        return mb_strlen($str) >= $minCount;
     }
 }

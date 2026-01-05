@@ -7,14 +7,14 @@ $userInfo = $data['userInfo'] ?? [];
 // 更新失敗メッセージ
 $updateFailMsg = $data['updateMsg'] ?? '';
 
-// トークン
+// CSRFトークン
 $token = $data['token'] ?? '';
 
 // ユーザID
 $userID = $userInfo['user_id'] ?? '';
 
 // ユーザ名
-$user_name = $userInfo['user_name'] ?? '';
+$userName = $userInfo['user_name'] ?? '';
 
 // パスワード更新ラジオボタンの選択
 $isUpdatePassword = $_POST['updatepass'] ?? 'notupdatepassword';
@@ -31,7 +31,7 @@ $isUpdatePassword = $_POST['updatepass'] ?? 'notupdatepassword';
         </tr>
         <tr>
             <th>ユーザー名</th>
-            <td><input type="text" value = "<?php echo Util::escape($user_name) ?>" name="userName" id="logininputbox" placeholder="ユーザー名"><br></td>
+            <td><input type="text" value = "<?php echo Util::escape($userName) ?>" name="userName" id="logininputbox" placeholder="ユーザー名"><br></td>
         </tr>
         <tr>
             <th>

@@ -307,7 +307,10 @@ Class RoutesController{
         }
 
         // 表示用ユーザ情報取得
-        $data = $userController->getUserInfoController(['userID' => $_SESSION['user_id']]);
+        $data = $deviceController->getDeviceInfoController([
+            'deviceID' => $_GET['device_id'],
+            'userID' => $_SESSION['user_id']
+        ]);
 
         // CSRFトークンをセット
         $data['token'] = Util::createToken();

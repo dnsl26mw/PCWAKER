@@ -5,7 +5,7 @@ Class CommonMessage{
 
     const USERIDORPASSWORDUNMATCHED = 'ユーザーIDまたはパスワードが違います。';
 
-    const PASSWORDCOUNTUNDEROROVER = 'パスワードは8文字以上20文字以内で入力してください。';
+    const PASSWORDCOUNTUNDEROROVER = 'パスワードは8文字以上で入力してください。';
 
     const OLDPASSWORDANDNEWPASSWORDNOTENTERD = '現在のパスワードおよび新しいパスワードを入力してください。';
     

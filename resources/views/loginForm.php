@@ -7,6 +7,9 @@ $loginFailMsg = $data['loginFailMsg'] ?? '';
 // CSRFトークン
 $token = $data['token'] ?? '';
 
+// ユーザID
+$userID = $data['userID'] ?? '';
+
 ?>
 
 <form action="" method="POST">
@@ -18,9 +21,9 @@ $token = $data['token'] ?? '';
             }
         ?>
     </p>
-    <input type="text" name="userId" id="logininputbox" placeholder="ユーザーID"><br>
-    <input type="password" name="userPw" id="logininputbox" placeholder="パスワード"><br>
+    <input type="text" value = "<?php echo Util::escape($userID) ?>" name="userId" placeholder="ユーザーID"><br>
+    <input type="password" name="userPw" placeholder="パスワード"><br>
     <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
-    <button type="submit" name="loginBtn" id="loginBtn">ログイン</button><br>
+    <button type="submit" name="loginBtn">ログイン</button><br>
     <a href="/registuser">ユーザー登録はこちら</a>
 </form>
