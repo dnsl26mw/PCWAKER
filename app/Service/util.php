@@ -88,13 +88,23 @@ Class Util {
     }
 
     // IDバリデーション
-    public static function validateHalfSizeAlphaNum($str){
+    public static function validateID($str){
 
         // IDの共通フォーマット(記号なし半角英数字で20文字以内)
         $format = '/^([0-9A-Za-z]){1,20}$/';
 
         // バリデーション結果を返す
         return preg_match($format, $str);
+    }
+
+    // 名前バリデーション
+    public static function validateName($str){
+
+        // 最大文字数
+        $maxCount = 20;
+
+        // 20文字以内かを返す
+        return mb_strlen($str) <= $maxCount;
     }
 }
 ?>

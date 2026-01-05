@@ -39,7 +39,7 @@ Class UserController{
         }
 
         // ユーザID半角英数字バリデーション
-        if(!Util::validateHalfSizeAlphaNum($data['userID'])){
+        if(!Util::validateID($data['userID'])){
 
             // ユーザIDが20文字以内の記号なし半角英数字ではないメッセージを返す
             return CommonMessage::USERIDNOTHALFSIZENUMBER;
@@ -50,6 +50,20 @@ Class UserController{
 
             // ユーザID重複メッセージを返す
             return CommonMessage::USERIDUSED;
+        }
+
+        // パスワードバリデーション
+        if(!$this->validatePassword($data['password'])){
+
+            // 文字数不足または超過メッセージを返す
+            return CommonMessage::PASSWORDCOUNTUNDEROROVER;
+        }
+
+        // ユーザ名バリデーション
+        if(!Util::validateName($data['userName'])){
+
+            // 文字数超過メッセージを返す
+            return CommonMessage::USERNAMECOUNTOVER;
         }
 
         // ユーザ登録処理を呼び出す
@@ -88,6 +102,13 @@ Class UserController{
             return CommonMessage::USERNAMENOTENTERD;
         }
 
+        // ユーザ名バリデーション
+        if(!Util::validateName($data['userName'])){
+
+            // 文字数超過メッセージを返す
+            return CommonMessage::USERNAMECOUNTOVER;
+        }
+
         // パスワード更新を行う場合
         if($data['isUpdatePassword'] === 'updatepassword'){
 
@@ -105,6 +126,13 @@ Class UserController{
 
                 // 旧パスワードが違うメッセージを返す
                 return CommonMessage::OLDPASSWORDNOTMATCHED;
+            }
+
+            // 新パスワードバリデーション
+            if(!$this->validatePassword($data['newPassword'])){
+
+                // 文字数不足または超過メッセージを返す
+                return '新'.CommonMessage::PASSWORDCOUNTUNDEROROVER;
             }
 
             // パスワード更新
@@ -151,5 +179,18 @@ Class UserController{
 
         // ユーザ削除成功
         return true;
+    }
+
+    // パスワードバリデーション
+    private static function validatePassword($str){
+
+        // 最小文字数
+        $minCount = 8;
+
+        // 最大文字数
+        $maxCount = 20;
+
+        // 8文字以上20文字以内かを返す
+        return mb_strlen($str) >= $minCount && mb_strlen($str) <= $maxCount;
     }
 }

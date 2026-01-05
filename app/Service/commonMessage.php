@@ -5,6 +5,8 @@ Class CommonMessage{
 
     const USERIDORPASSWORDUNMATCHED = 'ユーザーIDまたはパスワードが違います。';
 
+    const PASSWORDCOUNTUNDEROROVER = 'パスワードは8文字以上20文字以内で入力してください。';
+
     const OLDPASSWORDANDNEWPASSWORDNOTENTERD = '現在のパスワードおよび新しいパスワードを入力してください。';
     
     const OLDPASSWORDNOTMATCHED = '現在のパスワードが違います。';
@@ -14,6 +16,8 @@ Class CommonMessage{
     const USERIDNOTHALFSIZENUMBER = 'ユーザーIDは記号無しの半角英数字で、20文字以内で入力してください。';
 
     const USERNAMENOTENTERD = 'ユーザー名を入力してください。';
+
+    const USERNAMECOUNTOVER = 'ユーザー名は20文字以内で入力してください。';
 
     const UPDATEFAILURE = '更新に失敗しました。';
 
@@ -29,6 +33,8 @@ Class CommonMessage{
 
     const DEVICENAMEANDMACADDRESSNOTENTERD = 'デバイス名、MACアドレスを入力してください。';
 
-    const MACADDRESSFORMATNOTMATCHED = 'MACアドレスの形式が正しくありません。<br>"XX-XX-XX-XX-XX-XX"(XはA～Fまたはa～f、0～9の半角英数字)の形式で入力してください。';
+    const DEVICEIDCOUNTOVERANDFORMATVIOLATION = 'デバイス名は20文字以内で入力してください。';
+
+    const MACADDRESSFORMATVIOLATION = 'MACアドレスは次の形式で入力してください。<br>"XX-XX-XX-XX-XX-XX"(XはA～F、a～f、0～9のいずれかの半角英数字)';
 }
 ?>

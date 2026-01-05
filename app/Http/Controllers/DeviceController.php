@@ -46,11 +46,11 @@ Class DeviceController{
             return CommonMessage::DEVICEIDANDDEVICENAMEANDMACADDRESSNOTENTERD;
         }
 
-        // デバイスID半角英数字バリデーション
-        if(!Util::validateHalfSizeAlphaNum($data['userID'])){
+        // デバイスIDバリデーション
+        if(!Util::validateID($data['deviceID'])){
 
-            // デバイスIDが20文字以内の記号なし半角英数字ではないメッセージを返す
-            return CommonMessage::DEVICEIDNOTHALFSIZENUMBER;
+            // 文字数超過または形式違反メッセージを返す
+            return CommonMessage::DEVICEIDCOUNTOVERANDFORMATVIOLATION;
         }
 
         // デバイスIDおよびユーザID重複チェック
@@ -60,11 +60,18 @@ Class DeviceController{
             return CommonMessage::DEVICEIDUSED;
         }
 
-        // MACアドレスのバリデーション
+        // デバイス名バリデーション
+        if(!Util::validateName($data['deviceName'])){
+
+            // デバイスID文字数超過メッセージを返す
+            return CommonMessage::DEVICENAMECOUNTOVER;
+        }
+
+        // MACアドレスバリデーション
         if(!$this->validateMacAddress($data)){
 
-            // MACアドレスフォーマット不正メッセージを返す
-            return CommonMessage::MACADDRESSFORMATNOTMATCHED;
+            // MACアドレス形式違反メッセージを返す
+            return CommonMessage::MACADDRESSFORMATVIOLATION;
         }
 
         // デバイス登録処理を呼び出す
@@ -100,11 +107,18 @@ Class DeviceController{
             return CommonMessage::DEVICENAMEANDMACADDRESSNOTENTERD;
         }
 
-        // MACアドレスのバリデーション
+        // デバイス名バリデーション
+        if(!Util::validateName($data['deviceName'])){
+
+            // デバイスID文字数超過メッセージを返す
+            return CommonMessage::DEVICENAMECOUNTOVER;
+        }
+
+        // MACアドレスバリデーション
         if(!$this->validateMacAddress($data)){
 
-            // MACアドレスフォーマット不正メッセージを返す
-            return CommonMessage::MACADDRESSFORMATNOTMATCHED;
+            // MACアドレス形式違反メッセージを返す
+            return CommonMessage::MACADDRESSFORMATVIOLATION;
         }
 
         // デバイス情報の更新
