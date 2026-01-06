@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../database/deviceTable.php';
 Class DeviceModel{
 
     // デバイスIDおよびユーザID重複チェック
-    public function isNotDuplicationDeviceID(array $data){
+    public function isNotDuplicationdevice_id(array $data){
 
         // DBに接続
         $db = DBConnect::getDBConnect();

@@ -7,7 +7,7 @@ class UserTable {
     // ユーザ情報検索
     public static function searchUserInfo(array $data, $db){
         $stmt = $db->prepare('SELECT user_id, salt, password, user_name FROM usertable WHERE user_id=?');
-        $stmt->execute(array($data['userID']));
+        $stmt->execute(array($data['user_id']));
         $dbRow = $stmt->fetch();
         return $dbRow;
     }
@@ -16,7 +16,7 @@ class UserTable {
     public static function registUserInfo(array $data, $db){
         try{
             $registStmt = $db->prepare('INSERT INTO usertable(user_id, salt, password, user_name) VALUES(?, ?, ?, ?)');
-            $registStmt->execute(array($data['userID'],  $data['salt'], $data['password'], $data['userName']));
+            $registStmt->execute(array($data['user_id'],  $data['salt'], $data['password'], $data['user_name']));
             return true;
         }
         catch(Exception $e){
@@ -28,7 +28,7 @@ class UserTable {
     public static function updateUserInfo(array $data, $db){
         try{
             $registStmt = $db->prepare('UPDATE usertable SET user_name = ? WHERE user_id = ?');
-            $registStmt->execute(array($data['userName'], $data['userID']));
+            $registStmt->execute(array($data['user_name'], $data['user_id']));
             return true;
         }
         catch(Exception $e){
@@ -40,7 +40,7 @@ class UserTable {
     public static function updateUserInfoPassword(array $data, $db){
         try{
             $registStmt = $db->prepare('UPDATE usertable SET password = ?, salt = ? WHERE user_id = ?');
-            $registStmt->execute(array($data['password'], $data['salt'], $data['userID']));
+            $registStmt->execute(array($data['password'], $data['salt'], $data['user_id']));
             return true;
         }
         catch(Exception $e){
@@ -52,7 +52,7 @@ class UserTable {
     public static function deleteUserInfo(array $data, $db){
         try{
             $stmt = $db->prepare('DELETE FROM usertable WHERE user_id=?');
-            $stmt->execute(array($data['userID']));
+            $stmt->execute(array($data['user_id']));
             return true;
         }
         catch(Exception $e){

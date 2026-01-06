@@ -56,9 +56,9 @@ Class RoutesController{
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             $data = [
-                'userID' => $_POST['userId'],
+                'user_id' => $_POST['user_id'],
                 'password' => $_POST['userPw'],
-                'userName' => $_POST['userName'],
+                'user_name' => $_POST['user_name'],
                 'token' => $_POST['token']
             ];
 
@@ -69,8 +69,8 @@ Class RoutesController{
             if($registFailMsg !== ''){
 
                 $data = [
-                    'userID' => $_POST['userId'],
-                    'userName' => $_POST['userName'],
+                    'user_id' => $_POST['user_id'],
+                    'user_name' => $_POST['user_name'],
                     'token' => $_POST['token'],
                     'registFailMsg' => $registFailMsg
                 ];
@@ -93,7 +93,7 @@ Class RoutesController{
     public function routesUserInfo(){
         $this->forLoginForm();
         $userController = new UserController();
-        $data = $userController->getUserInfoController(['userID' => $_SESSION['user_id']]);
+        $data = $userController->getUserInfoController(['user_id' => $_SESSION['user_id']]);
         $this->render('ユーザー情報', 'userInfoPage.php', $data);
     }
 
@@ -109,8 +109,8 @@ Class RoutesController{
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             $data = [
-                'userName' => $_POST['userName'],
-                'userID' => $_SESSION['user_id'],
+                'user_id' => $_SESSION['user_id'],
+                'user_name' => $_POST['user_name'],
                 'isUpdatePassword' => $_POST['updatepass'] ?? 'notupdatepassword',
                 'oldPassword' => $_POST['oldpass'] ?? '',
                 'newPassword' => $_POST['newpass'] ?? '',
@@ -123,13 +123,11 @@ Class RoutesController{
             if($updateFailMsg !== ''){
 
                 $data = [
-                    'userInfo' => [
-                        'user_id' => $data['userID'],
-                        'user_name' => $data['userName']
-                    ],
+                    'user_id' => $data['user_id'],
+                    'user_name' => $data['user_name'],
                     'isUpdatePassword' => $data['isUpdatePassword'],
                     'token' => $_POST['token'],
-                    'error' => $updateFailMsg
+                    'updateFailMsg' => $updateFailMsg
                 ];
 
                 $this->render('ユーザー情報更新', 'UpdateUserInfoForm.php', $data);
@@ -141,7 +139,7 @@ Class RoutesController{
         }
 
         // 表示用ユーザ情報取得
-        $data = $userController->getUserInfoController(['userID' => $_SESSION['user_id']]);
+        $data = $userController->getUserInfoController(['user_id' => $_SESSION['user_id']]);
 
         // CSRFトークンをセット
         $data['token'] = Util::createToken();
@@ -163,7 +161,7 @@ Class RoutesController{
             $userController = new UserController();
 
             $data = [
-                'userID' => $_SESSION['user_id'],
+                'user_id' => $_SESSION['user_id'],
                 'token' => $_POST['token']
             ];
 
@@ -202,7 +200,7 @@ Class RoutesController{
     public function routesDeviceList(){
         $this->forLoginForm();
         $deviceController = new DeviceController();
-        $data = $deviceController->getDeviceInfoAllController(['userID' => $_SESSION['user_id']]);
+        $data = $deviceController->getDeviceInfoAllController(['user_id' => $_SESSION['user_id']]);
         $this->render('デバイス一覧', 'deviceListPage.php', ['deviceListInfo' => $data]);
     }
 
@@ -211,8 +209,8 @@ Class RoutesController{
         $this->forLoginForm();
         $deviceController = new DeviceController();
         $data = $deviceController->getDeviceInfoController([
-            'deviceID' => $_GET['device_id'],
-            'userID' => $_SESSION['user_id']
+            'device_id' => $_GET['device_id'],
+            'user_id' => $_SESSION['user_id']
         ]);
         $this->render('デバイス情報', 'deviceInfoPage.php', $data);
     }
@@ -227,10 +225,10 @@ Class RoutesController{
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
                 $data = [
-                    'deviceID' => $_POST['deviceId'],
-                    'deviceName' => $_POST['deviceName'],
-                    'macAddress' => $_POST['macAddress'],
-                    'userID' => $_SESSION['user_id'],
+                    'device_id' => $_POST['device_id'],
+                    'device_name' => $_POST['device_name'],
+                    'macaddress' => $_POST['macaddress'],
+                    'user_id' => $_SESSION['user_id'],
                     'token' => $_POST['token']
                 ];
 
@@ -241,10 +239,10 @@ Class RoutesController{
             if($registFailMsg !== ''){
 
                 $data = [
-                    'deviceID' => $_POST['deviceId'],
-                    'deviceName' => $_POST['deviceName'],
-                    'macAddress' => $_POST['macAddress'],
-                    'userID' => $_SESSION['user_id'],
+                    'device_id' => $_POST['device_id'],
+                    'device_name' => $_POST['device_name'],
+                    'macaddress' => $_POST['macaddress'],
+                    'user_id' => $_SESSION['user_id'],
                     'token' => $_POST['token'],
                     'registFailMsg' => $registFailMsg
                 ];
@@ -275,41 +273,39 @@ Class RoutesController{
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             $data = [
-                'userName' => $_POST['userName'],
-                'userID' => $_SESSION['user_id'],
-                'isUpdatePassword' => $_POST['updatepass'] ?? 'notupdatepassword',
-                'oldPassword' => $_POST['oldpass'] ?? '',
-                'newPassword' => $_POST['newpass'] ?? '',
+                'device_id' => $_POST['device_id'],
+                'device_name' => $_POST['device_name'],
+                'macaddress' => $_POST['macaddress'],
+                'user_id' => $_SESSION['user_id'],
                 'token' => $_POST['token']
             ];
 
-            $updateFailMsg = $userController->updateUserInfoController($data);
+            $updateFailMsg = $deviceController->updateDeviceInfoController($data);
 
             // 更新失敗
             if($updateFailMsg !== ''){
 
                 $data = [
-                    'userInfo' => [
-                        'user_id' => $data['userID'],
-                        'user_name' => $data['userName']
-                    ],
-                    'isUpdatePassword' => $data['isUpdatePassword'],
+                    'device_id' => $data['device_id'],
+                    'device_name' => $data['device_name'],
+                    'macaddress' => $data['macaddress'],
+                    'user_id' => $_SESSION['user_id'],
                     'token' => $_POST['token'],
-                    'error' => $updateFailMsg
+                    'updateFailMsg' => $updateFailMsg
                 ];
 
                 $this->render('デバイス情報更新', 'updateDeviceInfoForm.php', $data);
             }
 
             // 更新成功
-            header("Location: /userinfo");
+            header("Location: /deviceInfo?=device_id=");
             exit;
         }
 
-        // 表示用ユーザ情報取得
+        // 表示用デバイス情報取得
         $data = $deviceController->getDeviceInfoController([
-            'deviceID' => $_GET['device_id'],
-            'userID' => $_SESSION['user_id']
+            'device_id' => $_GET['device_id'],
+            'user_id' => $_SESSION['user_id']
         ]);
 
         // CSRFトークンをセット
@@ -343,7 +339,7 @@ Class RoutesController{
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             $data = [
-                'userID' => $_POST['userId'],
+                'user_id' => $_POST['user_id'],
                 'password' => $_POST['userPw'],
                 'token' => $_POST['token']
             ];

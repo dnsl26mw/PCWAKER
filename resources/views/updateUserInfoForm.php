@@ -1,28 +1,25 @@
 <?php
 // ユーザ情報更新画面
 
-// ユーザ情報
-$userInfo = $data['userInfo'] ?? [];
-
-// 更新失敗メッセージ
-$updateFailMsg = $data['updateMsg'] ?? '';
-
-// CSRFトークン
-$token = $data['token'] ?? '';
-
 // ユーザID
-$userID = $userInfo['user_id'] ?? '';
+$userID = $data['user_id'] ?? '';
 
 // ユーザ名
-$userName = $userInfo['user_name'] ?? '';
+$userName = $data['user_name'] ?? '';
 
 // パスワード更新ラジオボタンの選択
 $isUpdatePassword = $_POST['updatepass'] ?? 'notupdatepassword';
 
+// CSRFトークン
+$token = $data['token'] ?? '';
+
+// 更新失敗メッセージ
+$updateFailMsg = $data['updateFailMsg'] ?? '';
+
 ?>
 
 <h2>ユーザー情報更新</h2>
-<p><?= Util::escape($error ?? '') ?></p>
+<p><?= Util::escape($updateFailMsg ?? '') ?></p>
 <form action="" method="POST">
     <table>
         <tr>
@@ -31,7 +28,7 @@ $isUpdatePassword = $_POST['updatepass'] ?? 'notupdatepassword';
         </tr>
         <tr>
             <th>ユーザー名</th>
-            <td><input type="text" value = "<?php echo Util::escape($userName) ?>" name="userName" id="logininputbox" placeholder="ユーザー名"><br></td>
+            <td><input type="text" value = "<?php echo Util::escape($userName) ?>" name="user_name" id="logininputbox" placeholder="ユーザー名"><br></td>
         </tr>
         <tr>
             <th>

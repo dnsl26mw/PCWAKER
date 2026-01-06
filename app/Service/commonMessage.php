@@ -29,11 +29,11 @@ Class CommonMessage{
 
     const DEVICEIDNOTHALFSIZENUMBER = 'デバイスIDは記号無しの半角英数字で、20文字以内で入力してください。';
 
-    const DEVICEIDUSED = 'このデバイスIDは既に使われています。';
+    const DEVICEUSED = 'このデバイスIDは既に使われています。';
 
     const DEVICENAMEANDMACADDRESSNOTENTERD = 'デバイス名、MACアドレスを入力してください。';
 
-    const DEVICEIDCOUNTOVERANDFORMATVIOLATION = 'デバイス名は20文字以内で入力してください。';
+    const DEVICENAMECOUNTOVER= 'デバイス名は20文字以内で入力してください。';
 
     const MACADDRESSFORMATVIOLATION = 'MACアドレスは次の形式で入力してください。<br>"XX-XX-XX-XX-XX-XX"(XはA～F、a～f、0～9のいずれかの半角英数字)';
 }

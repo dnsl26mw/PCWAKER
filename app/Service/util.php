@@ -58,8 +58,8 @@ Class Util {
     }
 
     // セッション情報にユーザIDおよびユーザ名をセット
-    public static function setSession($userID){
-        $_SESSION['user_id'] = $userID;
+    public static function setSession($user_id){
+        $_SESSION['user_id'] = $user_id;
     }
 
     // 共通メッセージ画面に表示するメッセージをセット

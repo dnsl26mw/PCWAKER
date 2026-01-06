@@ -8,7 +8,7 @@ $loginFailMsg = $data['loginFailMsg'] ?? '';
 $token = $data['token'] ?? '';
 
 // ユーザID
-$userID = $data['userID'] ?? '';
+$user_id = $data['user_id'] ?? '';
 
 ?>
 
@@ -21,7 +21,7 @@ $userID = $data['userID'] ?? '';
             }
         ?>
     </p>
-    <input type="text" value = "<?php echo Util::escape($userID) ?>" name="userId" placeholder="ユーザーID"><br>
+    <input type="text" value = "<?php echo Util::escape($user_id) ?>" name="user_id" placeholder="ユーザーID"><br>
     <input type="password" name="userPw" placeholder="パスワード"><br>
     <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
     <button type="submit" name="loginBtn">ログイン</button><br>

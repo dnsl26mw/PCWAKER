@@ -14,7 +14,7 @@ class AuthModel{
         $db = DBConnect::getDBConnect();
 
         // ユーザを検索
-        $dbRow = UserTable::searchUserInfo(['userID' => $data['userID']], $db);
+        $dbRow = UserTable::searchUserInfo(['user_id' => $data['user_id']], $db);
 
         // ユーザが存在しない場合
         if(!$dbRow){

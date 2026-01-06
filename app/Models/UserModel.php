@@ -7,14 +7,14 @@ require_once __DIR__ . '/../Service/util.php';
 Class UserModel{
 
     // ユーザID重複チェック
-    public function isNotDuplicationUserID(array $data){
+    public function isNotDuplicationuser_id(array $data){
 
         // DBに接続
         $db = DBConnect::getDBConnect();
         
         // ユーザID重複の有無を返す
         return !$dbRow = UserTable::searchUserInfo([
-            'userID' => $data['userID']],
+            'user_id' => $data['user_id']],
         $db);
     }
 
@@ -32,10 +32,10 @@ Class UserModel{
 
         // 登録処理を呼び出す
         return UserTable::registUserInfo([
-            'userID' => $data['userID'],
+            'user_id' => $data['user_id'],
             'password' => $password,
             'salt' => $salt,
-            'userName' => $data['userName']
+            'user_name' => $data['user_name']
         ],$db);
     }
 
@@ -77,7 +77,7 @@ Class UserModel{
         return UserTable::updateUserInfoPassword([
             'password' => $password,
             'salt' => $salt,
-            'userID' => $data['userID']
+            'user_id' => $data['user_id']
         ], $db);
     }
 

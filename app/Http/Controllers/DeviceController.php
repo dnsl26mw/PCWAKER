@@ -20,11 +20,8 @@ Class DeviceController{
 
         $deviceModel = new DeviceModel();
 
-        // 指定されたデバイスIDのデバイス情報を取得
-        $retRow = $deviceModel->getDeviceInfoModel($data);
-
-        // 取得したデバイス情報を返す
-        return ['deviceInfo' => $retRow];
+        // 指定されたデバイスIDのデバイス情報を取得し、返す
+        return $deviceModel->getDeviceInfoModel($data);
     }
 
     // デバイス情報登録
@@ -33,7 +30,7 @@ Class DeviceController{
         $deviceModel = new DeviceModel();
 
         //  デバイスID、デバイス名、MACアドレスの未入力チェック
-        if(empty($data['deviceID']) || empty($data['deviceName']) || empty($data['macAddress']) || empty($data['token'])){
+        if(empty($data['device_id']) || empty($data['device_name']) || empty($data['macaddress']) || empty($data['token'])){
 
             // デバイスID、デバイス名、MACアドレス未入力メッセージを返す
             return CommonMessage::DEVICEIDANDDEVICENAMEANDMACADDRESSNOTENTERD;
@@ -47,28 +44,28 @@ Class DeviceController{
         }
 
         // デバイスIDバリデーション
-        if(!Util::validateID($data['deviceID'])){
+        if(!Util::validateID($data['device_id'])){
 
             // 文字数超過または形式違反メッセージを返す
             return CommonMessage::DEVICEIDCOUNTOVERANDFORMATVIOLATION;
         }
 
         // デバイスIDおよびユーザID重複チェック
-        if(!$deviceModel->isNotDuplicationDeviceID($data)){
+        if(!$deviceModel->isNotDuplicationdevice_id($data)){
 
             // デバイスID重複メッセージを返す
-            return CommonMessage::DEVICEIDUSED;
+            return CommonMessage::DEVICEUSED;
         }
 
         // デバイス名バリデーション
-        if(!Util::validateName($data['deviceName'])){
+        if(!Util::validateName($data['device_name'])){
 
-            // デバイスID文字数超過メッセージを返す
+            // 文字数超過メッセージを返す
             return CommonMessage::DEVICENAMECOUNTOVER;
         }
 
         // MACアドレスバリデーション
-        if(!$this->validateMacAddress($data)){
+        if(!$this->validatemacaddress($data)){
 
             // MACアドレス形式違反メッセージを返す
             return CommonMessage::MACADDRESSFORMATVIOLATION;
@@ -94,7 +91,7 @@ Class DeviceController{
         $deviceModel = new DeviceModel();
 
         // デバイス情報入力判定
-        if(empty($data['deviceName']) || empty($data['macAddress']) || empty($data['token'])){
+        if(empty($data['device_name']) || empty($data['macaddress']) || empty($data['token'])){
 
             // デバイス名、MACアドレス名未入力メッセージを返す
             return CommonMessage::DEVICENAMEANDMACADDRESSNOTENTERD;
@@ -108,14 +105,14 @@ Class DeviceController{
         }
 
         // デバイス名バリデーション
-        if(!Util::validateName($data['deviceName'])){
+        if(!Util::validateName($data['device_name'])){
 
-            // デバイスID文字数超過メッセージを返す
+            // デバイス名文字数超過メッセージを返す
             return CommonMessage::DEVICENAMECOUNTOVER;
         }
 
         // MACアドレスバリデーション
-        if(!$this->validateMacAddress($data)){
+        if(!$this->validatemacaddress($data)){
 
             // MACアドレス形式違反メッセージを返す
             return CommonMessage::MACADDRESSFORMATVIOLATION;
@@ -141,7 +138,7 @@ Class DeviceController{
         $deviceModel = new DeviceModel();
 
         // デバイスIDまたはCSRFトークンが未セット
-        if(empty($data['deviceID']) || empty($data['token'])){
+        if(empty($data['device_id']) || empty($data['token'])){
             return false;
         }
 
@@ -165,7 +162,7 @@ Class DeviceController{
         $deviceModel = new DeviceModel();
 
         // ユーザIDまたはCSRFトークンが未セット
-        if(empty($data['userID']) || empty($data['token'])){
+        if(empty($data['user_id']) || empty($data['token'])){
             return false;
         }
 
@@ -184,13 +181,13 @@ Class DeviceController{
     }
 
     // MACアドレスのバリデーション
-    private function validateMacAddress($data){
+    private function validatemacaddress($data){
 
         // MACアドレスのフォーマット
         $format = '/^([0-9A-Fa-f]{2}-){5}[0-9A-Fa-f]{2}$/';
 
         // MACアドレス
-        $macStr = $data['macAddress'];
+        $macStr = $data['macaddress'];
 
         // バリデーション結果を返す
         return preg_match($format, $macStr);

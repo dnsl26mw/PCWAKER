@@ -12,11 +12,8 @@ Class UserController{
 
         $userModel = new UserModel();
 
-        // 指定されたユーザIDのユーザ情報を取得
-        $retRow = $userModel->getUserInfoModel($data);
-
-        // 取得したユーザ情報を返す
-        return ['userInfo' => $retRow];
+        // 指定されたユーザIDのユーザ情報を取得し、返す
+        return $userModel->getUserInfoModel($data);
     }
 
     // ユーザ情報登録
@@ -25,7 +22,7 @@ Class UserController{
         $userModel = new UserModel();
 
         //  ユーザID、パスワード、ユーザ名の未入力チェック
-        if(empty($data['userID']) || empty($data['password']) || empty($data['userName']) || empty($data['token'])){
+        if(empty($data['user_id']) || empty($data['password']) || empty($data['user_name']) || empty($data['token'])){
 
             // ユーザID、パスワード、ユーザ名未入力メッセージを返す
             return CommonMessage::USERIDANDPASSWORDANDUSERNAMENOTENTERD;
@@ -39,14 +36,14 @@ Class UserController{
         }
 
         // ユーザID半角英数字バリデーション
-        if(!Util::validateID($data['userID'])){
+        if(!Util::validateID($data['user_id'])){
 
             // ユーザIDが20文字以内の記号なし半角英数字ではないメッセージを返す
             return CommonMessage::USERIDNOTHALFSIZENUMBER;
         }
 
         // ユーザID重複チェック
-        if(!$userModel->isNotDuplicationUserID($data)){
+        if(!$userModel->isNotDuplicationuser_id($data)){
 
             // ユーザID重複メッセージを返す
             return CommonMessage::USERIDUSED;
@@ -60,7 +57,7 @@ Class UserController{
         }
 
         // ユーザ名バリデーション
-        if(!Util::validateName($data['userName'])){
+        if(!Util::validateName($data['user_name'])){
 
             // 文字数超過メッセージを返す
             return CommonMessage::USERNAMECOUNTOVER;
@@ -77,7 +74,7 @@ Class UserController{
         Util::deleteToken();
 
         // セッションにユーザIDをセット
-        Util::setSession($data['userID']);
+        Util::setSession($data['user_id']);
 
         // 登録成功を表す空文字列を返す
         return '';
@@ -89,7 +86,7 @@ Class UserController{
         $userModel = new UserModel();
 
         // ユーザ情報入力判定
-        if(empty($data['userName']) || empty($data['userID']) || empty($data['token'])){
+        if(empty($data['user_id']) || empty($data['user_name']) || empty($data['token'])){
 
             // ユーザ名未入力メッセージを返す
             return CommonMessage::USERNAMENOTENTERD;
@@ -103,7 +100,7 @@ Class UserController{
         }
 
         // ユーザ名バリデーション
-        if(!Util::validateName($data['userName'])){
+        if(!Util::validateName($data['user_name'])){
 
             // 文字数超過メッセージを返す
             return CommonMessage::USERNAMECOUNTOVER;
@@ -132,7 +129,7 @@ Class UserController{
             if(!$this->validatePassword($data['newPassword'])){
 
                 // 文字数不足または超過メッセージを返す
-                return '新'.CommonMessage::PASSWORDCOUNTUNDEROROVER;
+                return '新しい'.CommonMessage::PASSWORDCOUNTUNDEROROVER;
             }
 
             // パスワード更新
@@ -163,7 +160,7 @@ Class UserController{
         $userModel = new UserModel();
 
         // ユーザIDまたはトークンが未セット
-        if(empty($data['userID']) || empty($data['token'])){
+        if(empty($data['user_id']) || empty($data['token'])){
             return false;
         }
 

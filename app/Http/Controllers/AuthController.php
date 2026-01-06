@@ -9,7 +9,7 @@ class AuthController{
     public function loginController(array $data){
 
         // ユーザIDおよびパスワード入力チェック
-        if(empty($data['userID']) || empty($data['password']) || empty($data['token'])){
+        if(empty($data['user_id']) || empty($data['password']) || empty($data['token'])){
 
             // ユーザIDおよびパスワード未入力メッセージを返す
             return CommonMessage::USERIDANDPASSWORDNOTENTERD;
@@ -36,7 +36,7 @@ class AuthController{
         Util::deleteToken();
 
         // セッションにユーザIDをセット
-        Util::setSession($data['userID']);
+        Util::setSession($data['user_id']);
 
         // ログイン成功を表す空文字列を返す
         return '';

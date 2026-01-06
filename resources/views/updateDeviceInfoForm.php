@@ -1,28 +1,25 @@
 <?php
 // デバイス情報更新画面
 
-// デバイス情報
-$deviceInfo = $data['userInfo'] ?? [];
-
-// 更新失敗メッセージ
-$updateFailMsg = $data['updateMsg'] ?? '';
-
-// トークン
-$token = $data['token'] ?? '';
-
 // デバイスID
-$deviceID = $userInfo['user_id'] ?? '';
+$deviceID = $data['device_id'] ?? '';
 
 // デバイス名
-$device_name = $userInfo['user_name'] ?? '';
+$deviceName = $data['device_name'] ?? '';
 
 // MACアドレス
-$macaddress = $userInfo['user_name'] ?? '';
+$macAddress = $data['macaddress'] ?? '';
+
+// CSRFトークン
+$token = $data['token'] ?? '';
+
+// 更新失敗メッセージ
+$updateFailMsg = $data['updateFailMsg'] ?? '';
 
 ?>
 
 <h2>デバイス情報更新</h2>
-<p><?= Util::escape($error ?? '') ?></p>
+<p><?= Util::escape($updateFailMsg ?? '') ?></p>
 <form action="" method="POST">
     <table>
         <tr>
@@ -31,14 +28,16 @@ $macaddress = $userInfo['user_name'] ?? '';
         </tr>
         <tr>
             <th>デバイス名</th>
-            <td><input type="text" value = "<?php echo Util::escape($device_name) ?>" name="deviceName" placeholder="デバイス名"><br></td>
+            <td><input type="text" value = "<?php echo Util::escape($deviceName) ?>" name="device_name" placeholder="デバイス名"><br></td>
         </tr>
         <tr>
             <th>MACアドレス</th>
-            <td><input type="text" value = "<?php echo Util::escape($device_name) ?>" name="deviceName" placeholder="MACアドレス"><br></td>
+            <td><input type="text" value = "<?php echo Util::escape($macAddress) ?>" name="macaddress" placeholder="MACアドレス"><br></td>
         <tr>
     </table>
+    <input type="hidden" name="device_id" value = "<?php echo $token; ?>"/>
     <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
     <button type="submit" name="updateBtn" id="updateBtn">デバイス情報更新</button>
 </form>
-<a href="/deletedeviceinfo"><button>デバイス情報削除</button></a>
+<a href="/deletedeviceinfo"><button>デバイス情報削除</button></a><br>
+<a href="/deviceinfo?device_id=<?php echo Util::escape($deviceID) ?>">デバイス情報画面に戻る</a>
