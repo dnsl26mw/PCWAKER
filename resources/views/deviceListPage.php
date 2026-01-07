@@ -27,12 +27,12 @@ $wakeFailMsg = $data['loginFailMsg'] ?? '';
                 <tr>
                     <td><input type="checkbox"></input></td>
                     <td>
-                        <a href="/deviceinfo?device_id=<?php echo Util::escape($device['device_id']) ?>">
+                        <a href="/deviceinfo?device_id=<?php echo urlencode(Util::escape($device['device_id'])) ?>">
                             <?php echo Util::escape($device['device_id']) ?>
                         </a>
                     </td>
                     <td>
-                        <a href="/deviceinfo?device_id=<?php echo Util::escape($device['device_id']) ?>">
+                        <a href="/deviceinfo?device_id=<?php echo urlencode(Util::escape($device['device_id'])) ?>">
                             <?php echo Util::escape($device['device_name']) ?>
                         </a>
                     </td>

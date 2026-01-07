@@ -31,5 +31,5 @@ $macAddress = $data['macaddress'] ?? '';
 <?php else: ?>
     <p>お探しのデバイスは見つかりませんでした。</p>
 <?php endif; ?>
-<a href="/deviceinfo/update?device_id=<?php echo Util::escape($deviceID) ?>">デバイス情報の更新および削除はこちら</a><br>
+<a href="/deviceinfo/update?device_id=<?php echo urlencode(Util::escape($deviceID)) ?>">デバイス情報の更新および削除はこちら</a><br>
 <a href="/devicelist">デバイス一覧画面に戻る</a>

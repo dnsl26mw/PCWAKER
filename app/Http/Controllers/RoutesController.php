@@ -298,7 +298,7 @@ Class RoutesController{
             }
 
             // 更新成功
-            header("Location: /deviceInfo?=device_id=");
+            header("Location: /deviceinfo?device_id=".urlencode($data['device_id']));
             exit;
         }
 

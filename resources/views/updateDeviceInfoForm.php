@@ -19,7 +19,7 @@ $updateFailMsg = $data['updateFailMsg'] ?? '';
 ?>
 
 <h2>デバイス情報更新</h2>
-<p><?= Util::escape($updateFailMsg ?? '') ?></p>
+<p><?php echo Util::escape($updateFailMsg ?? '') ?></p>
 <form action="" method="POST">
     <table>
         <tr>
