@@ -35,7 +35,7 @@ $updateFailMsg = $data['updateFailMsg'] ?? '';
             <td><input type="text" value = "<?php echo Util::escape($macAddress) ?>" name="macaddress" placeholder="MACアドレス"><br></td>
         <tr>
     </table>
-    <input type="hidden" name="device_id" value = "<?php echo $token; ?>"/>
+    <input type="hidden" name="device_id" value = "<?php echo $deviceID; ?>"/>
     <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
     <button type="submit" name="updateBtn" id="updateBtn">デバイス情報更新</button>
 </form>
