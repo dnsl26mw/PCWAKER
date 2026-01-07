@@ -41,5 +41,5 @@ $updateFailMsg = $data['updateFailMsg'] ?? '';
     <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
     <button type="submit" name="updateBtn" id="updateBtn">デバイス情報更新</button>
 </form>
-<a href="/deletedeviceinfo"><button>デバイス情報削除</button></a><br>
+<a href="/deviceinfo/delete?device_id=<?php echo urlencode(Util::escape($deviceID)) ?>"><button>デバイス情報削除</button></a><br>
 <a href="/deviceinfo?device_id=<?php echo Util::escape($deviceID) ?>">デバイス情報画面に戻る</a>

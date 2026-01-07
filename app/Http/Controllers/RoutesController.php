@@ -216,11 +216,11 @@ Class RoutesController{
             'user_id' => $_SESSION['user_id']
         ]);
 
-        // ログイン中ユーザのデバイス情報が存在
+        // ログイン中ユーザに紐づくデバイス情報が存在
         if(!empty($data)){
             $this->render('デバイス情報', 'deviceInfoPage.php', $data);
         }
-        // ログイン中ユーザのデバイス情報が存在しない
+        // ログイン中ユーザに紐づくデバイス情報が存在しない
         else{
             $this->routesNotFoundPage();
         }
@@ -319,7 +319,7 @@ Class RoutesController{
             'user_id' => $_SESSION['user_id']
         ]);
 
-        // ログイン中ユーザのデバイス情報が存在
+        // ログイン中ユーザに紐づくデバイス情報が存在
         if(!empty($data)){
 
             // CSRFトークンをセット
@@ -327,7 +327,7 @@ Class RoutesController{
 
             $this->render('デバイス情報更新', 'updateDeviceInfoForm.php', $data);
         }
-        // ログイン中ユーザのデバイス情報が存在しない
+        // ログイン中ユーザに紐づくデバイス情報が存在しない
         else{
             $this->routesNotFoundPage();
         }
@@ -369,10 +369,18 @@ Class RoutesController{
             'user_id' => $_SESSION['user_id']
         ]);
 
-        // CSRFトークンをセット
-        $data['token'] = Util::createToken();
+        // ログイン中ユーザに紐づくデバイス情報が存在
+        if(!empty($data)){
 
-        $this->render('デバイス情報削除', 'deviceDeleteForm.php', $data);
+            // CSRFトークンをセット
+            $data['token'] = Util::createToken();
+
+            $this->render('デバイス情報削除', 'deviceDeleteForm.php', $data);
+        }
+        // ログイン中ユーザに紐づくデバイス情報が存在しない
+        else{
+            $this->routesNotFoundPage();
+        }        
     }
 
     // DB接続エラー

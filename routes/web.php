@@ -33,6 +33,9 @@ function router($url){
         // デバイス情報登録
         '/registdevice' => 'routesRegistDevice',
 
+        // デバイス情報更新
+        '/deviceinfo/update' => 'routesUpdateDeviceInfo',
+
         // デバイス情報削除
         '/deviceinfo/delete' => 'routesDeleteDeviceInfo'
     ];
