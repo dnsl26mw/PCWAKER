@@ -212,7 +212,15 @@ Class RoutesController{
             'device_id' => $_GET['device_id'],
             'user_id' => $_SESSION['user_id']
         ]);
-        $this->render('デバイス情報', 'deviceInfoPage.php', $data);
+
+        // ログイン中ユーザのデバイス情報が存在
+        if(!empty($data)){
+            $this->render('デバイス情報', 'deviceInfoPage.php', $data);
+        }
+        // ログイン中ユーザのデバイス情報が存在しない
+        else{
+            $this->routesNotFoundPage();
+        }
     }
 
     // デバイス情報登録
@@ -308,10 +316,18 @@ Class RoutesController{
             'user_id' => $_SESSION['user_id']
         ]);
 
-        // CSRFトークンをセット
-        $data['token'] = Util::createToken();
+        // ログイン中ユーザのデバイス情報が存在
+        if(!empty($data)){
 
-        $this->render('デバイス情報更新', 'updateDeviceInfoForm.php', $data);
+            // CSRFトークンをセット
+            $data['token'] = Util::createToken();
+
+            $this->render('デバイス情報更新', 'updateDeviceInfoForm.php', $data);
+        }
+        // ログイン中ユーザのデバイス情報が存在しない
+        else{
+            $this->routesNotFoundPage();
+        }
     }
 
     // DB接続エラー
