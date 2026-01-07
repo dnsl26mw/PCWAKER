@@ -190,6 +190,9 @@ Class RoutesController{
             exit;
         }
 
+        // ユーザIDをセット
+        $data['user_id'] = $_SESSION['user_id'];
+
         // CSRFトークンをセット
         $data['token'] = Util::createToken();
 
@@ -328,6 +331,48 @@ Class RoutesController{
         else{
             $this->routesNotFoundPage();
         }
+    }
+
+    // デバイス情報削除
+    public function routesDeleteDeviceInfo(){
+
+        // ログイン判定
+        $this->forLoginForm();
+
+        $deviceController = new DeviceController();
+
+        // POST時
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+            $data = [
+                'device_id' => $_POST['device_id'],
+                'user_id' => $_SESSION['user_id'],
+                'token' => $_POST['token']
+            ];
+
+            // デバイス情報全削除処理の呼び出し
+            if(!$deviceController->deleteDeviceInfoController($data)){
+
+                // 失敗した場合、削除確認画面にとどまる
+                $this->render('デバイス情報削除', 'deviceDeleteForm.php', $data);
+                exit;
+            }
+
+            // デバイス一覧画面に遷移
+            header("Location: /devicelist");
+            exit;
+        }
+
+        // デバイス情報を取得
+        $data = $deviceController->getDeviceInfoController([
+            'device_id' => $_GET['device_id'],
+            'user_id' => $_SESSION['user_id']
+        ]);
+
+        // CSRFトークンをセット
+        $data['token'] = Util::createToken();
+
+        $this->render('デバイス情報削除', 'deviceDeleteForm.php', $data);
     }
 
     // DB接続エラー

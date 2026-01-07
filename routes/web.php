@@ -12,7 +12,7 @@ function router($url){
         // トップ
         '/' => 'routesTop',
 
-        // ユーザ登録
+        // ユーザ情報登録
         '/registuser' => 'routesRegistUser',
 
         // ユーザ情報確認
@@ -30,11 +30,11 @@ function router($url){
         // デバイス情報
         '/deviceinfo' => 'routesDeviceInfo',
 
-        // デバイス情報更新
-        '/deviceinfo/update' => 'routesUpdateDeviceInfo',
+        // デバイス情報登録
+        '/registdevice' => 'routesRegistDevice',
 
-        // デバイス追加
-        '/registdevice' => 'routesRegistDevice'
+        // デバイス情報削除
+        '/deviceinfo/delete' => 'routesDeleteDeviceInfo'
     ];
 
     // 定義済みURLの場合

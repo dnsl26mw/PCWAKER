@@ -148,7 +148,7 @@ Class DeviceController{
         }
 
         // デバイス削除処理を呼び出す
-        if(!$userModel->deleteDeviceInfoModel($data)){
+        if(!$deviceModel->deleteDeviceInfoModel($data)){
             return false;
         }
 

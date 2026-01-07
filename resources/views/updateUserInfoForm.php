@@ -19,7 +19,9 @@ $updateFailMsg = $data['updateFailMsg'] ?? '';
 ?>
 
 <h2>ユーザー情報更新</h2>
-<p><?= Util::escape($updateFailMsg ?? '') ?></p>
+<p>
+    <?= Util::escape($updateFailMsg ?? '') ?>
+</p>
 <form action="" method="POST">
     <table>
         <tr>

@@ -1,25 +1,21 @@
 <?php
 // ログイン画面
 
-// ログイン失敗メッセージ
-$loginFailMsg = $data['loginFailMsg'] ?? '';
+// ユーザID
+$user_id = $data['user_id'] ?? '';
 
 // CSRFトークン
 $token = $data['token'] ?? '';
 
-// ユーザID
-$user_id = $data['user_id'] ?? '';
+// ログイン失敗メッセージ
+$loginFailMsg = $data['loginFailMsg'] ?? '';
 
 ?>
 
 <form action="" method="POST">
     <h2 id="loginLabel">ログイン</h2>
     <p>
-        <?php
-            if($loginFailMsg != ''){
-                echo $loginFailMsg;
-            }
-        ?>
+        <?php echo Util::escape($loginFailMsg ?? '') ?>
     </p>
     <input type="text" value = "<?php echo Util::escape($user_id) ?>" name="user_id" placeholder="ユーザーID"><br>
     <input type="password" name="userPw" placeholder="パスワード"><br>

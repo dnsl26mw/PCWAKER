@@ -1,12 +1,6 @@
 <?php
 // デバイス登録画面
 
-// デバイス登録失敗メッセージ
-$registFailMsg = $data['registFailMsg'] ?? '';
-
-// CSRFトークン
-$token = $data['token'] ?? '';
-
 // デバイスID
 $device_id = $data['device_id'] ?? '';
 
@@ -16,16 +10,18 @@ $device_name = $data['device_name'] ?? '';
 // MACアドレス
 $macaddress = $data['macaddress'] ?? '';
 
+// CSRFトークン
+$token = $data['token'] ?? '';
+
+// デバイス登録失敗メッセージ
+$registFailMsg = $data['registFailMsg'] ?? '';
+
 ?>
 
 <form action="" method="POST">
     <h2>デバイス登録</h2>
     <p>
-        <?php 
-            if($registFailMsg != ''){
-                echo $registFailMsg;
-            }
-        ?>
+        <?php echo Util::escape($registFailMsg ?? '') ?>
     </p>
     <input type="text" value = "<?php echo Util::escape($device_id) ?>" name="device_id" placeholder="デバイスID"><br>
     <input type="text" value = "<?php echo Util::escape($device_name) ?>" name="device_name" placeholder="デバイス名"><br>
