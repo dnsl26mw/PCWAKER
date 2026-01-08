@@ -91,9 +91,15 @@ Class RoutesController{
 
     // ユーザ情報確認
     public function routesUserInfo(){
+
+        // ログイン判定
         $this->forLoginForm();
+
         $userController = new UserController();
+
+        // ユーザ情報取得
         $data = $userController->getUserInfoController(['user_id' => $_SESSION['user_id']]);
+
         $this->render('ユーザー情報', 'userInfoPage.php', $data);
     }
 
@@ -138,7 +144,7 @@ Class RoutesController{
             exit;
         }
 
-        // 表示用ユーザ情報取得
+        // ユーザ情報取得
         $data = $userController->getUserInfoController(['user_id' => $_SESSION['user_id']]);
 
         // CSRFトークンをセット
@@ -209,19 +215,30 @@ Class RoutesController{
 
     // デバイス情報確認
     public function routesDeviceInfo(){
+
+        // ログイン判定
         $this->forLoginForm();
+
         $deviceController = new DeviceController();
+
+        // URLパラメータにデバイスIDがセット済みか確認
+        $this->isSetUrlParameter($_GET['device_id']);
+
+        // デバイス情報取得
         $data = $deviceController->getDeviceInfoController([
             'device_id' => $_GET['device_id'],
             'user_id' => $_SESSION['user_id']
         ]);
 
-        // ログイン中ユーザに紐づくデバイス情報が存在
+        // URLパラメータにデバイスIDがセットされており、ログイン中ユーザに紐づく場合
         if(!empty($data)){
+
             $this->render('デバイス情報', 'deviceInfoPage.php', $data);
         }
-        // ログイン中ユーザに紐づくデバイス情報が存在しない
+        // それ以外
         else{
+
+            // 404ページに遷移
             $this->routesNotFoundPage();
         }
     }
@@ -313,6 +330,9 @@ Class RoutesController{
             exit;
         }
 
+        // URLパラメータにデバイスIDがセット済みか確認
+        $this->isSetUrlParameter($_GET['device_id']);
+
         // 表示用デバイス情報取得
         $data = $deviceController->getDeviceInfoController([
             'device_id' => $_GET['device_id'],
@@ -327,8 +347,10 @@ Class RoutesController{
 
             $this->render('デバイス情報更新', 'updateDeviceInfoForm.php', $data);
         }
-        // ログイン中ユーザに紐づくデバイス情報が存在しない
+        // それ以外
         else{
+
+            // 404ページに遷移
             $this->routesNotFoundPage();
         }
     }
@@ -363,13 +385,16 @@ Class RoutesController{
             exit;
         }
 
+        // URLパラメータにデバイスIDがセット済みか確認
+        $this->isSetUrlParameter($_GET['device_id']);
+
         // デバイス情報を取得
         $data = $deviceController->getDeviceInfoController([
             'device_id' => $_GET['device_id'],
             'user_id' => $_SESSION['user_id']
         ]);
 
-        // ログイン中ユーザに紐づくデバイス情報が存在
+        // URLパラメータにデバイスIDがセットされており、ログイン中ユーザに紐づく場合
         if(!empty($data)){
 
             // CSRFトークンをセット
@@ -377,8 +402,10 @@ Class RoutesController{
 
             $this->render('デバイス情報削除', 'deviceDeleteForm.php', $data);
         }
-        // ログイン中ユーザに紐づくデバイス情報が存在しない
+        // それ以外
         else{
+
+            // 404ページに遷移
             $this->routesNotFoundPage();
         }        
     }
@@ -440,6 +467,16 @@ Class RoutesController{
         $this->render('ログイン', 'loginForm.php', $data);
     }
 
+    // URLパラメータのセット有無を確認
+    private function isSetUrlParameter($data){
+
+        // URLパラメータが未セット
+        if(empty($data)){
+
+            // 404ページに遷移
+            $this->routesNotFoundPage();
+        }
+    }
 }
 
 ?>
