@@ -129,7 +129,7 @@ Class RoutesController{
             if($updateFailMsg !== ''){
 
                 $data = [
-                    'user_id' => $data['user_id'],
+                    'user_id' => $_SESSION['user_id'],
                     'user_name' => $data['user_name'],
                     'isUpdatePassword' => $data['isUpdatePassword'],
                     'token' => $_POST['token'],
@@ -207,9 +207,15 @@ Class RoutesController{
 
     // デバイス情報一覧
     public function routesDeviceList(){
+
+        // ログイン判定
         $this->forLoginForm();
+
         $deviceController = new DeviceController();
+
+        // デバイス情報取得
         $data = $deviceController->getDeviceInfoAllController(['user_id' => $_SESSION['user_id']]);
+
         $this->render('デバイス一覧', 'deviceListPage.php', ['deviceListInfo' => $data]);
     }
 

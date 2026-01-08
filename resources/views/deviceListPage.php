@@ -25,7 +25,9 @@ $wakeFailMsg = $data['loginFailMsg'] ?? '';
         <tbody>
             <?php foreach ($deviceListInfo as $device): ?>
                 <tr>
-                    <td><input type="checkbox" class="selectcheckboxes"></input></td>
+                    <td>
+                        <input type="checkbox" class="selectcheckboxes" name="device_ids[]" value="<?php echo Util::escape($device['device_id']) ?>"</input>
+                    </td>
                     <td>
                         <a href="/deviceinfo?device_id=<?php echo urlencode(Util::escape($device['device_id'])) ?>">
                             <?php echo Util::escape($device['device_id']) ?>
@@ -42,6 +44,7 @@ $wakeFailMsg = $data['loginFailMsg'] ?? '';
     </table>
     <form action="" method="POST">
         <button type="submit" name="wakeBtn" id="wakebutton" disabled>起動</button><br>
+        <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
     </form>
 <?php else: ?>
     <p>登録されているデバイスはありません。</p>
