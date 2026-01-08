@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function(){
     // 新しいパスワード入力ボックス
     const newPassText = document.getElementById('newpasstextbox');
 
-    // パスワード入力ボックスの有効化制御
+    // パスワード入力ボックス有効化制御
     function switchingEnablePasswordFields(){
         const disable = notUpdatePassRadio.checked;
         if(disable){
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     }
 
-    // 読み込み時にパスワード入力ボックスの有効化制御を呼び出す
+    // 読み込み時にパスワード入力ボックス有効化制御を呼び出す
     switchingEnablePasswordFields();
 
     // 更新しないラジオボタン選択イベント

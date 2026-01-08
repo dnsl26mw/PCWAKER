@@ -25,7 +25,7 @@ $wakeFailMsg = $data['loginFailMsg'] ?? '';
         <tbody>
             <?php foreach ($deviceListInfo as $device): ?>
                 <tr>
-                    <td><input type="checkbox"></input></td>
+                    <td><input type="checkbox" class="selectcheckboxes"></input></td>
                     <td>
                         <a href="/deviceinfo?device_id=<?php echo urlencode(Util::escape($device['device_id'])) ?>">
                             <?php echo Util::escape($device['device_id']) ?>
@@ -41,7 +41,7 @@ $wakeFailMsg = $data['loginFailMsg'] ?? '';
         </tbody>
     </table>
     <form action="" method="POST">
-        <button type="submit" name="wakeBtn">起動</button><br>
+        <button type="submit" name="wakeBtn" id="wakebutton" disabled>起動</button><br>
     </form>
 <?php else: ?>
     <p>登録されているデバイスはありません。</p>
@@ -49,3 +49,30 @@ $wakeFailMsg = $data['loginFailMsg'] ?? '';
 
 <a href="/registdevice">デバイス情報の登録はこちら</a><br>
 <a href="/">トップに戻る</a>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    
+    // 選択チェックボックス
+    const selectCheckBoxes = document.querySelectorAll('.selectcheckboxes');
+
+    // 起動ボタン
+    const wakeButton = document.getElementById('wakebutton');
+
+    // 起動ボタンの有効化制御
+    function switchingEnableWakeButton(){
+
+        // 1つ以上チェックされていたら有効化
+        const anyChecked = Array.from(selectCheckBoxes).some(cb => cb.checked);
+        wakeButton.disabled = !anyChecked;
+    }
+
+    // 読み込み時に起動ボタン有効化制御を呼び出す
+    switchingEnableWakeButton();
+
+    // 選択チェックボックス選択イベント
+    selectCheckBoxes.forEach(cb => {
+        cb.addEventListener('change', switchingEnableWakeButton);
+    });
+});
+</script>
