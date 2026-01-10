@@ -51,7 +51,7 @@ Class DeviceController{
         }
 
         // デバイスIDおよびユーザID重複チェック
-        if(!$deviceModel->isNotDuplicationdevice_id($data)){
+        if(!$deviceModel->isNotExsistDeviceID($data)){
 
             // デバイスID重複メッセージを返す
             return CommonMessage::DEVICEUSED;
@@ -205,6 +205,30 @@ Class DeviceController{
 
         // CSRFトークン判定
         if(!Util::verificationToken($data)){
+
+            // マジックパケット送信失敗メッセージを返す
+            return CommonMessage::SENDMAGICKPACKETFAILURE;
+        }
+
+        $deviceModel = new DeviceModel();
+
+        // デバイスIDが全てログイン中ユーザに紐づくことを確認
+        foreach($data['selectdevices'] as $device){
+
+            $data = [
+                'device_id' => $device,
+                'user_id' => $data['user_id']
+            ];
+            
+            if($deviceModel->isNotExsistDeviceID($data)){
+
+                // マジックパケット送信失敗メッセージを返す
+                return CommonMessage::SENDMAGICKPACKETFAILURE;
+            }
+        }
+
+        // マジックパケット送信処理を呼び出す
+        if(!$deviceModel->sendMagickPacketModel($data)){
 
             // マジックパケット送信失敗メッセージを返す
             return CommonMessage::SENDMAGICKPACKETFAILURE;

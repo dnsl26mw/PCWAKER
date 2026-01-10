@@ -7,7 +7,7 @@ require_once __DIR__ . '/../Service/util.php';
 Class UserModel{
 
     // ユーザID重複チェック
-    public function isNotDuplicationuser_id(array $data){
+    public function isNotExsistUserID(array $data){
 
         // DBに接続
         $db = DBConnect::getDBConnect();

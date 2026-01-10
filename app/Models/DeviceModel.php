@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../database/deviceTable.php';
 Class DeviceModel{
 
     // デバイスIDおよびユーザID重複チェック
-    public function isNotDuplicationdevice_id(array $data){
+    public function isNotExsistDeviceID(array $data){
 
         // DBに接続
         $db = DBConnect::getDBConnect();
@@ -82,5 +82,42 @@ Class DeviceModel{
     // マジックパケット送信
     public function sendMagickPacketModel($data){
 
+        $retBool = true;
+
+        try{
+            // ソケット
+            $socket = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
+
+            foreach($data['selectdevices'] as $device){
+
+                // デバイス情報
+                $deviceInfo = $this->getDeviceInfoModel($data);
+
+                // IPアドレス
+                $ipAddress = '192.168.10.255';
+
+                // MACアドレス
+                $macAddress = pack('H12', (str_replace(['-'], '', $deviceInfo['macaddress'])));
+
+                // マジックパケット
+                $magickPacket = str_repeat(chr(0xFF), 6) . str_repeat($macAddress, 16);
+
+                // ブロードキャスト送信オプションを設定
+                socket_set_option($socket, SOL_SOCKET, SO_BROADCAST, 1);
+
+                // マジックパケット送信
+                socket_sendto($socket, $magicPacket, strlen($magicPacket), 0, $ipAddress, 9);
+            }
+        }
+        catch(Exception $e){
+            $retBool = false;
+        }
+        finally{
+
+            // ソケットを閉じる
+            socket_close($socket);
+
+            return $retBool;
+        }
     }
 }
