@@ -37,6 +37,8 @@ Class CommonMessage{
 
     const MACADDRESSFORMATVIOLATION = 'MACアドレスは次の形式で入力してください。"XX-XX-XX-XX-XX-XX"(XはA～F、a～f、0～9のいずれかの半角英数字)';
 
-    const SENDMAGICKPACKETFAILURE = 'MACアドレスは次の形式で入力してください。"XX-XX-XX-XX-XX-XX"(XはA～F、a～f、0～9のいずれかの半角英数字)';
+    const DEVICENOTSELECTED = 'デバイスを選択してください。';
+
+    const SENDMAGICKPACKETFAILURE = 'マジックパケットの送信に失敗しました。';
 }
 ?>

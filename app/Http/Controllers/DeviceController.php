@@ -196,5 +196,21 @@ Class DeviceController{
     // マジックパケット送信
     public function sendMagickPacketController($data){
 
+        // デバイスが未選択
+        if(empty($data['selectdevices'])){
+
+            // デバイス未選択メッセージを返す
+            return CommonMessage::DEVICENOTSELECTED;
+        }
+
+        // CSRFトークン判定
+        if(!Util::verificationToken($data)){
+
+            // マジックパケット送信失敗メッセージを返す
+            return CommonMessage::SENDMAGICKPACKETFAILURE;
+        }
+
+        // 送信成功を表す空文字列を返す
+        return '';
     }
 }

@@ -123,6 +123,7 @@ Class RoutesController{
                 'token' => $_POST['token']
             ];
 
+            // ユーザ情報更新処理の呼び出し
             $updateFailMsg = $userController->updateUserInfoController($data);
 
             // 更新失敗
@@ -215,29 +216,36 @@ Class RoutesController{
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             $data = [
-
+                'selectdevices' => $_POST['selectdevices'],
+                'user_id' => $_SESSION['user_id'],
+                'token' => $_POST['token']     
             ];
 
             // マジックパケット送信処理の呼び出し
-            $sendFailMsg = $deviceController->sendMagickPacketController($data);
+            $magickPacketSendFailmsg = $deviceController->sendMagickPacketController($data);
 
-            if(!empty($sendFailMsg)){
+            // 送信失敗
+            if(!empty($magickPacketSendFailmsg)){
 
-                $data = [
+                // デバイス一覧情報情報取得
+                $deviceListInfo = $deviceController->getDeviceInfoAllController(['user_id' => $_SESSION['user_id']]);
 
-                ];
-
-                $this->render('デバイス一覧', 'deviceListPage.php', ['deviceListInfo' => $data]);
+                $this->render('デバイス一覧', 'deviceListPage.php', [
+                    'deviceListInfo' => $deviceListInfo, 
+                    'selectdevices' => $_POST['selectdevices'],
+                    'magickpacketsendfailmsg' => $magickPacketSendFailmsg, 
+                    'token' => $_POST['token']
+                ]);
             }
 
             // トップページURLに遷移
             header("Location: /");
         }
 
-        // デバイス情報取得
-        $data = $deviceController->getDeviceInfoAllController(['user_id' => $_SESSION['user_id']]);
+        // デバイス一覧情報情報取得
+        $deviceListInfo = $deviceController->getDeviceInfoAllController(['user_id' => $_SESSION['user_id']]);
 
-        $this->render('デバイス一覧', 'deviceListPage.php', ['deviceListInfo' => $data]);
+        $this->render('デバイス一覧', 'deviceListPage.php', ['deviceListInfo' => $deviceListInfo, 'token' => Util::createToken(), 'selectDeviceIds' => []]);
     }
 
     // デバイス情報確認
@@ -248,7 +256,7 @@ Class RoutesController{
 
         $deviceController = new DeviceController();
 
-        // URLパラメータにデバイスIDがセット済みか確認
+        // URLパラメータが未セットの場合は404ページに遷移
         $this->isSetUrlParameter($_GET['device_id']);
 
         // デバイス情報取得
@@ -357,7 +365,7 @@ Class RoutesController{
             exit;
         }
 
-        // URLパラメータにデバイスIDがセット済みか確認
+        // URLパラメータが未セットの場合は404ページに遷移
         $this->isSetUrlParameter($_GET['device_id']);
 
         // 表示用デバイス情報取得
@@ -412,7 +420,7 @@ Class RoutesController{
             exit;
         }
 
-        // URLパラメータにデバイスIDがセット済みか確認
+        // URLパラメータが未セットの場合は404ページに遷移
         $this->isSetUrlParameter($_GET['device_id']);
 
         // デバイス情報を取得

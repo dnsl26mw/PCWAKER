@@ -4,16 +4,22 @@
 // デバイス一覧情報
 $deviceListInfo = $data['deviceListInfo'] ?? [];
 
+// デバイス選択リスト
+$selectDevices = $data['selectdevices'] ?? [];
+
 // CSRFトークン
 $token = $data['token'] ?? '';
 
-// 起動失敗メッセージ
-$wakeFailMsg = $data['loginFailMsg'] ?? '';
+// マジックパケット送信失敗メッセージ
+$magickPacketSendFailMsg = $data['magickpacketsendfailmsg'] ?? '';
 
 ?>
 
 <h2>デバイス一覧</h2>
 <?php if(!empty($deviceListInfo)): ?>
+    <p>
+        <?php echo Util::escape($magickPacketSendFailMsg ?? '') ?>
+    </p>
     <form action="" method="POST">
         <table>
             <thead>
@@ -27,7 +33,11 @@ $wakeFailMsg = $data['loginFailMsg'] ?? '';
                 <?php foreach ($deviceListInfo as $device): ?>
                     <tr>
                         <td>
-                            <input type="checkbox" class="selectcheckboxes" name="device_ids[]" value="<?php echo Util::escape($device['device_id']) ?>"</input>
+                            <input type="checkbox" 
+                            class="selectcheckboxes" 
+                            name="selectdevices[]" 
+                            value="<?php echo Util::escape($device['device_id']) ?>"
+                            <?php echo in_array($device['device_id'], $selectDevices, true) ? 'checked' : ''?>
                         </td>
                         <td>
                             <a href="/deviceinfo?device_id=<?php echo urlencode(Util::escape($device['device_id'])) ?>">
