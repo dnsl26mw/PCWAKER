@@ -66,7 +66,7 @@ Class RoutesController{
             $registFailMsg = $userController->registUserInfoController($data);
 
             // 登録失敗
-            if($registFailMsg !== ''){
+            if(!empty($registFailMsg)){
 
                 $data = [
                     'user_id' => $_POST['user_id'],
@@ -126,7 +126,7 @@ Class RoutesController{
             $updateFailMsg = $userController->updateUserInfoController($data);
 
             // 更新失敗
-            if($updateFailMsg !== ''){
+            if(!empty($updateFailMsg)){
 
                 $data = [
                     'user_id' => $_SESSION['user_id'],
@@ -338,7 +338,7 @@ Class RoutesController{
             $updateFailMsg = $deviceController->updateDeviceInfoController($data);
 
             // 更新失敗
-            if($updateFailMsg !== ''){
+            if(!empty($updateFailMsg)){
 
                 $data = [
                     'device_id' => $data['device_id'],
@@ -473,7 +473,7 @@ Class RoutesController{
             $loginFailMsg = $authController->loginController($data);
 
             // ログイン失敗
-            if($loginFailMsg !== ''){
+            if(!empty($loginFailMsg)){
 
                 // ログイン失敗メッセージをセット
                 $data['loginFailMsg'] = $loginFailMsg;

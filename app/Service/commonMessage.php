@@ -36,5 +36,7 @@ Class CommonMessage{
     const DEVICENAMECOUNTOVER= 'デバイス名は20文字以内で入力してください。';
 
     const MACADDRESSFORMATVIOLATION = 'MACアドレスは次の形式で入力してください。"XX-XX-XX-XX-XX-XX"(XはA～F、a～f、0～9のいずれかの半角英数字)';
+
+    const SENDMAGICKPACKETFAILURE = 'MACアドレスは次の形式で入力してください。"XX-XX-XX-XX-XX-XX"(XはA～F、a～f、0～9のいずれかの半角英数字)';
 }
 ?>
