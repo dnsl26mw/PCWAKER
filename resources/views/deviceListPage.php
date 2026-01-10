@@ -14,35 +14,35 @@ $wakeFailMsg = $data['loginFailMsg'] ?? '';
 
 <h2>デバイス一覧</h2>
 <?php if(!empty($deviceListInfo)): ?>
-    <table>
-        <thead>
-            <tr>
-                <th>選択</th>
-                <th>デバイスID</th>
-                <th>デバイス名</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($deviceListInfo as $device): ?>
-                <tr>
-                    <td>
-                        <input type="checkbox" class="selectcheckboxes" name="device_ids[]" value="<?php echo Util::escape($device['device_id']) ?>"</input>
-                    </td>
-                    <td>
-                        <a href="/deviceinfo?device_id=<?php echo urlencode(Util::escape($device['device_id'])) ?>">
-                            <?php echo Util::escape($device['device_id']) ?>
-                        </a>
-                    </td>
-                    <td>
-                        <a href="/deviceinfo?device_id=<?php echo urlencode(Util::escape($device['device_id'])) ?>">
-                            <?php echo Util::escape($device['device_name']) ?>
-                        </a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
     <form action="" method="POST">
+        <table>
+            <thead>
+                <tr>
+                    <th>選択</th>
+                    <th>デバイスID</th>
+                    <th>デバイス名</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($deviceListInfo as $device): ?>
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="selectcheckboxes" name="device_ids[]" value="<?php echo Util::escape($device['device_id']) ?>"</input>
+                        </td>
+                        <td>
+                            <a href="/deviceinfo?device_id=<?php echo urlencode(Util::escape($device['device_id'])) ?>">
+                                <?php echo Util::escape($device['device_id']) ?>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/deviceinfo?device_id=<?php echo urlencode(Util::escape($device['device_id'])) ?>">
+                                <?php echo Util::escape($device['device_name']) ?>
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
         <button type="submit" name="wakeBtn" id="wakebutton" disabled>起動</button><br>
         <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
     </form>

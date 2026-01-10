@@ -192,4 +192,9 @@ Class DeviceController{
         // バリデーション結果を返す
         return preg_match($format, $macStr);
     }
+
+    // マジックパケット送信
+    public function sendMagickPacketController($data){
+
+    }
 }

@@ -176,7 +176,6 @@ Class RoutesController{
 
                 // 失敗した場合、削除確認画面にとどまる
                 $this->render('ユーザー情報削除', 'userDeleteForm.php', $data);
-                exit;
             }
 
             // ユーザ情報削除処理の呼び出し
@@ -184,7 +183,6 @@ Class RoutesController{
 
                 // 失敗した場合、削除確認画面にとどまる
                 $this->render('ユーザー情報削除', 'userDeleteForm.php', $data);
-                exit;
             }
 
             // ログアウト
@@ -212,6 +210,29 @@ Class RoutesController{
         $this->forLoginForm();
 
         $deviceController = new DeviceController();
+
+        // POST時
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+            $data = [
+
+            ];
+
+            // マジックパケット送信処理の呼び出し
+            $sendFailMsg = $deviceController->sendMagickPacketController($data);
+
+            if(!empty($sendFailMsg)){
+
+                $data = [
+
+                ];
+
+                $this->render('デバイス一覧', 'deviceListPage.php', ['deviceListInfo' => $data]);
+            }
+
+            // トップページURLに遷移
+            header("Location: /");
+        }
 
         // デバイス情報取得
         $data = $deviceController->getDeviceInfoAllController(['user_id' => $_SESSION['user_id']]);

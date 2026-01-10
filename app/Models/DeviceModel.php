@@ -78,4 +78,9 @@ Class DeviceModel{
         // 全削除処理を呼び出す
         return deviceTable::deleteDeviceInfoAll($data, $db);
     }
+
+    // マジックパケット送信
+    public function sendMagickPacketModel($data){
+
+    }
 }
