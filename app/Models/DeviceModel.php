@@ -93,8 +93,8 @@ Class DeviceModel{
                 // デバイス情報
                 $deviceInfo = $this->getDeviceInfoModel($data);
 
-                // IPアドレス
-                $ipAddress = '192.168.10.255';
+                // ブロードキャストIPアドレス
+                $bloadCastIpAddress = '255.255.255.255';
 
                 // MACアドレス
                 $macAddress = pack('H12', (str_replace(['-'], '', $deviceInfo['macaddress'])));
@@ -106,7 +106,7 @@ Class DeviceModel{
                 socket_set_option($socket, SOL_SOCKET, SO_BROADCAST, 1);
 
                 // マジックパケット送信
-                socket_sendto($socket, $magicPacket, strlen($magicPacket), 0, $ipAddress, 9);
+                socket_sendto($socket, $magicPacket, strlen($magicPacket), 0, $bloadCastIpAddress, 9);
             }
         }
         catch(Exception $e){
