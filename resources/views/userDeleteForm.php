@@ -11,7 +11,7 @@ $token = $data['token'] ?? '';
 
 <h2 id="loginLabel"><?php echo Util::escape($pageTitle); ?></h2>
 <p>
-    ユーザーIDが<?php echo Util::escape($userID ?? '') ?>のユーザー情報を削除します。よろしいですか？
+    ユーザーIDが<a href="/userinfo"><?php echo Util::escape($userID ?? '') ?></a>のユーザー情報を削除します。よろしいですか？
 </p>
 <form action="" method="POST">
     <input type="hidden" name="token" value = "<?php echo $token; ?>"/>

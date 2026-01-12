@@ -11,7 +11,9 @@ $token = $data['token'] ?? '';
 
 <h2 id="loginLabel"><?php echo Util::escape($pageTitle); ?></h2>
 <p>
-    デバイスIDが<?php echo Util::escape($deviceID ?? '') ?>のデバイス情報を削除します。よろしいですか？
+    デバイスIDが
+    <a href="/deviceinfo?device_id=<?php echo urlencode(Util::escape($deviceID)) ?>">
+    <?php echo Util::escape($deviceID ?? '') ?></a>のデバイス情報を削除します。よろしいですか？
 </p>
 <form action="" method="POST">
     <input type="hidden" name="device_id" value = "<?php echo $deviceID; ?>"/>
