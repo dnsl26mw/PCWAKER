@@ -16,7 +16,7 @@ $registFailMsg = $data['registFailMsg'] ?? '';
 ?>
 
 <form action="" method="POST">
-    <h2 id="loginLabel"><?php echo Util::escape($pageTitle); ?></h2>
+    <h2 id="loginLabel"><?php echo Util::escape($pageTitle) ?? ''; ?></h2>
     <p>
         <?php 
             if($registFailMsg != ''){

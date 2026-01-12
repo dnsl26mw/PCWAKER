@@ -18,7 +18,7 @@ $updateFailMsg = $data['updateFailMsg'] ?? '';
 
 ?>
 
-<h2 id="loginLabel"><?php echo Util::escape($pageTitle); ?></h2>
+<h2 id="loginLabel"><?php echo Util::escape($pageTitle) ?? ''; ?></h2>
 <p>
     <?= Util::escape($updateFailMsg ?? '') ?>
 </p>

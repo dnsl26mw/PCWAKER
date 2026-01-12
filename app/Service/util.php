@@ -4,14 +4,17 @@ Class Util {
     // 文字列のハッシュ変換を行う
     public static function hashConvert($paramStr){
 
-        // ハッシュ化後に返す文字列
-        $retStr = $paramStr;
+        // ハッシュ関数
+        $hashFunction = 'sha256';
 
         // ストレッチング回数
         $streachingCount = 1000000;
 
+        // ハッシュ化後に返す文字列
+        $retStr = $paramStr;
+
         for($i = 0; $i <= $streachingCount; $i++){
-            $retStr = hash('sha256', $retStr);
+            $retStr = hash($hashFunction, $retStr);
         }
         
         return $retStr;
@@ -74,7 +77,7 @@ Class Util {
 
     // ログイン済みかどうかを判定する
     public static function isLogin(){
-        return isset($_SESSION['user_id']);
+        return !empty($_SESSION['user_id']);
     }
 
     // 特殊文字列のエスケープ処理

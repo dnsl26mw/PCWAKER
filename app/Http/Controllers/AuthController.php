@@ -45,19 +45,26 @@ class AuthController{
     // ログアウト
     public function logoutController(array $data){
 
-        // CSRFトークンが空でないことを確認
+        // CSRFトークンが未セット
         if(empty($data['token'])){
-            return;
+
+            // ログアウト失敗メッセージを返す
+            return CommonMessage::DELETEFAILURE;
         }
 
         // CSRFトークン判定
         if(!Util::verificationToken($data)){
-            return;
+
+            // ログアウト失敗メッセージを返す
+            return CommonMessage::LOGOUTFAILURE;
         }
 
         // セッション情報の削除
         $_SESSION = array();
         session_destroy();
+
+        // ログアウト成功を表す空文字列を返す
+        return '';
     }
 }
 ?>

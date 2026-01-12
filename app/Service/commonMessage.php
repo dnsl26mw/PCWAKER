@@ -19,6 +19,8 @@ Class CommonMessage{
 
     const USERNAMECOUNTOVER = 'ユーザー名は20文字以内で入力してください。';
 
+    const LOGOUTFAILURE = 'ログアウトに失敗しました。';
+
     const UPDATEFAILURE = '更新に失敗しました。';
 
     const REGISTFAILURE = '登録に失敗しました。';

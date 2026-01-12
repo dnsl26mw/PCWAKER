@@ -49,7 +49,17 @@ Class RoutesController{
 
             // ログアウト処理の呼び出し
             $autController = new AuthController();
-            $autController->logoutController($data);
+            $logoutFailMsg = $autController->logoutController($data);
+            if(!empty($logoutFailMsg)){
+
+                // ログアウト失敗
+                $data = [
+                    'token' => $_POST['token'],
+                    'logoutFailMsg' => $logoutFailMsg
+                ];
+
+                $this->render($pageTitle, $viewFileName, $data);
+            }
 
             // トップページURLに遷移
             header("Location: /");
@@ -239,16 +249,26 @@ Class RoutesController{
                 $this->render($pageTitle, $viewFileName, $data);
             }
 
-            // ログアウト
+            // ログアウト処理の呼び出し
             $autController = new AuthController();
-            $autController->logoutController($data);
+            $logoutFailMsg = $autController->logoutController($data);
+            if(!empty($logoutFailMsg)){
+
+                // ログアウト失敗
+                $data = [
+                    'token' => $_POST['token'],
+                    'deleteFailMsg' => $logoutFailMsg
+                ];
+
+                $this->render($pageTitle, $viewFileName, $data);
+            }
 
             // トップページURLに遷移
             header("Location: /");
             exit;
         }
 
-        // CSRFトークンをセット
+        // ユーザIDおよびCSRFトークンをセット
         $data = [
             'user_id' => $_SESSION['user_id'],
             'token' => Util::createToken()
@@ -599,11 +619,9 @@ Class RoutesController{
             // ログイン処理の呼び出し
             $authController = new AuthController();
             $loginFailMsg = $authController->loginController($data);
-
-            // ログイン失敗
             if(!empty($loginFailMsg)){
 
-                // ログイン失敗メッセージをセット
+                // ログイン失敗
                 $data['loginFailMsg'] = $loginFailMsg;
 
                 $this->render($pageTitle, $viewFileName, $data);

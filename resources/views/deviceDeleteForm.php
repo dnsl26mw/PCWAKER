@@ -12,7 +12,7 @@ $deleteFailMsg = $data['deleteFailMsg'] ?? '';
 
 ?>
 
-<h2 id="loginLabel"><?php echo Util::escape($pageTitle); ?></h2>
+<h2 id="loginLabel"><?php echo Util::escape($pageTitle) ?? ''; ?></h2>
 <p>
     <?php echo Util::escape($deleteFailMsg ?? '') ?>
 </p>

@@ -157,8 +157,6 @@ Class UserController{
     // ユーザ情報削除
     public function deleteUserInfoController(array $data){
 
-        $userModel = new UserModel();
-
         // ユーザIDまたはトークンが未セット
         if(empty($data['user_id']) || empty($data['token'])){
 
@@ -173,15 +171,13 @@ Class UserController{
             return CommonMessage::DELETEFAILURE;
         }
 
-        // ユーザ削除処理を呼び出す
+        // ユーザ情報削除処理を呼び出す
+        $userModel = new UserModel();
         if(!$userModel->deleteUserInfoModel($data)){
 
             // 削除失敗メッセージを返す
             return CommonMessage::DELETEFAILURE;
         }
-
-        // セッションからCSRFトークンを削除
-        Util::deleteToken();
 
         // 削除成功を表す空文字列を返す
         return '';
