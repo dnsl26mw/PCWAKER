@@ -21,7 +21,7 @@ Class UserController{
 
         $userModel = new UserModel();
 
-        //  ユーザID、パスワード、ユーザ名の未入力チェック
+        // ユーザ情報入力判定
         if(empty($data['user_id']) || empty($data['password']) || empty($data['user_name']) || empty($data['token'])){
 
             // ユーザID、パスワード、ユーザ名未入力メッセージを返す
@@ -66,7 +66,7 @@ Class UserController{
         // ユーザ登録処理を呼び出す
         if(!$userModel->registUserInfoModel($data)){
 
-            // ユーザ登録失敗メッセージを返す
+            // 登録失敗メッセージを返す
             return CommonMessage::REGISTFAILURE;
         }
 

@@ -8,7 +8,7 @@ class AuthController{
     // ログイン
     public function loginController(array $data){
 
-        // ユーザIDおよびパスワード入力チェック
+        // ユーザ情報入力判定
         if(empty($data['user_id']) || empty($data['password']) || empty($data['token'])){
 
             // ユーザIDおよびパスワード未入力メッセージを返す
@@ -22,9 +22,8 @@ class AuthController{
             return CommonMessage::USERIDANDPASSWORDNOTENTERD;
         }
 
-        $authModel = new AuthModel();
-
         // ログイン処理の呼び出し
+        $authModel = new AuthModel();
         if(!$authModel->loginModel($data)){
 
             // ユーザIDまたはパスワードが違うメッセージを返す
