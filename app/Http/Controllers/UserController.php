@@ -73,9 +73,6 @@ Class UserController{
         // セッションからCSRFトークンを削除
         Util::deleteToken();
 
-        // セッションにユーザIDをセット
-        Util::setSession($data['user_id']);
-
         // 登録成功を表す空文字列を返す
         return '';
     }
