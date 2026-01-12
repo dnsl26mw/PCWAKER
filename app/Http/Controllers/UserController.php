@@ -118,7 +118,7 @@ Class UserController{
             // 旧パスワード判定
             if(!$authModel->onlyPasswordCheckModel($data)){
 
-                // 旧パスワードが違うメッセージを返す
+                // 旧パスワード不一致のメッセージを返す
                 return CommonMessage::OLDPASSWORDNOTMATCHED;
             }
 

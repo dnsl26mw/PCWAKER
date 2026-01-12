@@ -26,7 +26,7 @@ class AuthController{
         $authModel = new AuthModel();
         if(!$authModel->loginModel($data)){
 
-            // ユーザIDまたはパスワードが違うメッセージを返す
+            // ユーザIDまたはパスワード不一致のメッセージを返す
             return CommonMessage::USERIDORPASSWORDUNMATCHED;
             exit;  
         }
