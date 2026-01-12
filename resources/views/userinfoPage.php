@@ -9,7 +9,7 @@ $user_name = $data['user_name'] ?? '';
 
 ?>
 
-<h2>ユーザー情報</h2>
+<h2 id="loginLabel"><?php echo Util::escape($pageTitle); ?></h2>
 <table>
     <tr>
         <th>ユーザーID</th>

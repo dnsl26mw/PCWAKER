@@ -18,7 +18,7 @@ $updateFailMsg = $data['updateFailMsg'] ?? '';
 
 ?>
 
-<h2>デバイス情報更新</h2>
+<h2 id="loginLabel"><?php echo Util::escape($pageTitle); ?></h2>
 <p>
     <?php echo Util::escape($updateFailMsg ?? '') ?>
 </p>

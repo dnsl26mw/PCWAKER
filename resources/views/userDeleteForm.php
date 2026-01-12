@@ -9,7 +9,7 @@ $token = $data['token'] ?? '';
 
 ?>
 
-<h2>ユーザー情報削除</h2>
+<h2 id="loginLabel"><?php echo Util::escape($pageTitle); ?></h2>
 <p>
     ユーザーIDが<?php echo Util::escape($userID ?? '') ?>のユーザー情報を削除します。よろしいですか？
 </p>

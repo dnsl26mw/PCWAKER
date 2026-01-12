@@ -15,7 +15,7 @@ $magickPacketSendFailMsg = $data['magickpacketsendfailmsg'] ?? '';
 
 ?>
 
-<h2>デバイス一覧</h2>
+<h2 id="loginLabel"><?php echo Util::escape($pageTitle); ?></h2>
 <?php if(!empty($deviceListInfo)): ?>
     <p>
         <?php echo Util::escape($magickPacketSendFailMsg ?? '') ?>

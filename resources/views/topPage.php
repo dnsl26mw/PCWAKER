@@ -5,7 +5,7 @@
 $token = $data['token'] ?? '';
 ?>
 
-<h2>トップ</h2>
+<h2 id="loginLabel"><?php echo Util::escape($pageTitle); ?></h2>
 <ul>
     <li><a href="/devicelist"><button>デバイス一覧</button></a></li>
     <li><a href="/userinfo"><button>ユーザー情報</button></a></li>

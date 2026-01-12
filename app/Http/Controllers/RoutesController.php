@@ -8,11 +8,23 @@ require_once __DIR__ . '/../../Http/Controllers/DeviceController.php';
 Class RoutesController{
 
     // 共通
-    private function render($title, $viewName, $data = []){
-        $title = Util::escape($title);
+    private function render($pageTitle, $viewName, $data = [], $errorPageFlg = false){
+
+        //ページタイトル
+        $pageTitle = Util::escape($pageTitle);
+
+        // エラーページの場合
+        if($errorPageFlg){
+            $viewName = 'errors/' . $viewName;
+        }
+
+        // 表示対象ビューを設定
         $contentView = __DIR__ . '/../../../resources/views/'.$viewName;
         extract($data);
+
+        // テンプレートビューの呼び出し
         include __DIR__ . '/../../../resources/views/layouts/layout.php';
+
         exit;
     }
 
@@ -21,6 +33,12 @@ Class RoutesController{
         
         //ログイン判定
         $this->forLoginForm();
+
+        // ページタイトル
+        $pageTitle = 'トップ';
+
+        // ビューのファイル名
+        $viewFileName = 'topPage.php';
 
         // POST時
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -41,7 +59,7 @@ Class RoutesController{
         // CSRFトークンをセット
         $data['token'] = Util::createToken();
 
-        $this->render('トップ', 'topPage.php', $data);
+        $this->render($pageTitle, $viewFileName, $data);
     }
 
     // ユーザ情報登録
@@ -51,6 +69,12 @@ Class RoutesController{
         if(Util::isLogin()){
             return;
         }
+
+        // ページタイトル
+        $pageTitle = 'ユーザー情報登録';
+
+        // ビューのファイル名
+        $viewFileName = 'userRegistForm.php';
 
         // POST時
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -75,7 +99,7 @@ Class RoutesController{
                     'registFailMsg' => $registFailMsg
                 ];
 
-                $this->render('ユーザー情報登録', 'userRegistForm.php', $data);
+                $this->render($pageTitle, $viewFileName, $data);
             }
 
             // トップページに遷移
@@ -86,7 +110,7 @@ Class RoutesController{
         // CSRFトークンをセット
         $data['token'] = Util::createToken();
 
-        $this->render('ユーザー情報登録', 'userRegistForm.php', $data);
+        $this->render($pageTitle, $viewFileName, $data);
     }
 
     // ユーザ情報確認
@@ -95,12 +119,17 @@ Class RoutesController{
         // ログイン判定
         $this->forLoginForm();
 
-        $userController = new UserController();
+        // ページタイトル
+        $pageTitle = 'ユーザー情報';
+
+        // ビューのファイル名
+        $viewFileName = 'userInfoPage.php';
 
         // ユーザ情報取得
+        $userController = new UserController();
         $data = $userController->getUserInfoController(['user_id' => $_SESSION['user_id']]);
 
-        $this->render('ユーザー情報', 'userInfoPage.php', $data);
+        $this->render($pageTitle, 'userInfoPage.php', $data);
     }
 
     // ユーザ情報更新
@@ -108,6 +137,12 @@ Class RoutesController{
 
         // ログイン判定
         $this->forLoginForm();
+
+        // ページタイトル
+        $pageTitle = 'ユーザー情報更新';
+
+        // ビューのファイル名
+        $viewFileName = 'updateUserInfoForm.php';
 
         $userController = new UserController();
 
@@ -137,7 +172,7 @@ Class RoutesController{
                     'updateFailMsg' => $updateFailMsg
                 ];
 
-                $this->render('ユーザー情報更新', 'UpdateUserInfoForm.php', $data);
+                $this->render($pageTitle, $viewFileName, $data);
             }
 
             // 更新成功
@@ -151,7 +186,7 @@ Class RoutesController{
         // CSRFトークンをセット
         $data['token'] = Util::createToken();
 
-        $this->render('ユーザー情報更新', 'UpdateUserInfoForm.php', $data);
+        $this->render($pageTitle, $viewFileName, $data);
     }
 
     // ユーザ情報削除
@@ -160,12 +195,14 @@ Class RoutesController{
         // ログイン判定
         $this->forLoginForm();
 
+        // ページタイトル
+        $pageTitle = 'ユーザー情報削除';
+
+        // ビューのファイル名
+        $viewFileName = 'userDeleteForm.php';
+
         // POST時
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
-
-            $deviceController = new DeviceController();
-
-            $userController = new UserController();
 
             $data = [
                 'user_id' => $_SESSION['user_id'],
@@ -173,17 +210,19 @@ Class RoutesController{
             ];
 
             // デバイス情報全削除処理の呼び出し
+            $deviceController = new DeviceController();
             if(!$deviceController->deleteDeviceInfoAllController($data)){
 
-                // 失敗した場合、削除確認画面にとどまる
-                $this->render('ユーザー情報削除', 'userDeleteForm.php', $data);
+                // 削除失敗
+                $this->render($pageTitle, $viewFileName, $data);
             }
 
             // ユーザ情報削除処理の呼び出し
+            $userController = new UserController();
             if(!$userController->deleteUserInfoController($data)){
 
-                // 失敗した場合、削除確認画面にとどまる
-                $this->render('ユーザー情報削除', 'userDeleteForm.php', $data);
+                // 削除失敗
+                $this->render($pageTitle, $viewFileName, $data);
             }
 
             // ログアウト
@@ -195,13 +234,13 @@ Class RoutesController{
             exit;
         }
 
-        // ユーザIDをセット
-        $data['user_id'] = $_SESSION['user_id'];
+        // ユーザIDおよびCSRFトークンをセット
+        $data = [
+            'user_id' => $_SESSION['user_id'],
+            'token' => Util::createToken()
+        ];
 
-        // CSRFトークンをセット
-        $data['token'] = Util::createToken();
-
-        $this->render('ユーザー情報削除', 'userDeleteForm.php', $data);
+        $this->render($pageTitle, $viewFileName, $data);
     }
 
     // デバイス情報一覧
@@ -209,6 +248,12 @@ Class RoutesController{
 
         // ログイン判定
         $this->forLoginForm();
+
+        // ページタイトル
+        $pageTitle = 'デバイス情報一覧';
+
+        // ビューのファイル名
+        $viewFileName = 'deviceListPage.php';
 
         $deviceController = new DeviceController();
 
@@ -230,12 +275,14 @@ Class RoutesController{
                 // デバイス一覧情報情報取得
                 $deviceListInfo = $deviceController->getDeviceInfoAllController(['user_id' => $_SESSION['user_id']]);
 
-                $this->render('デバイス一覧', 'deviceListPage.php', [
-                    'deviceListInfo' => $deviceListInfo, 
-                    'selectdevices' => $_POST['selectdevices'],
-                    'magickpacketsendfailmsg' => $magickPacketSendFailmsg, 
-                    'token' => $_POST['token']
-                ]);
+                $this->render($pageTitle, 
+                    $viewFileName, [
+                        'deviceListInfo' => $deviceListInfo, 
+                        'selectdevices' => $_POST['selectdevices'],
+                        'magickpacketsendfailmsg' => $magickPacketSendFailmsg, 
+                        'token' => $_POST['token']
+                    ]
+                );
             }
 
             // トップページURLに遷移
@@ -245,7 +292,13 @@ Class RoutesController{
         // デバイス一覧情報情報取得
         $deviceListInfo = $deviceController->getDeviceInfoAllController(['user_id' => $_SESSION['user_id']]);
 
-        $this->render('デバイス一覧', 'deviceListPage.php', ['deviceListInfo' => $deviceListInfo, 'token' => Util::createToken(), 'selectDeviceIds' => []]);
+        $this->render($pageTitle, 
+                $viewFileName, [
+                'deviceListInfo' => $deviceListInfo, 
+                'token' => Util::createToken(), 
+                'selectDeviceIds' => []
+            ]
+        );
     }
 
     // デバイス情報確認
@@ -253,6 +306,12 @@ Class RoutesController{
 
         // ログイン判定
         $this->forLoginForm();
+
+        // ページタイトル
+        $pageTitle = 'デバイス情報';
+
+        // ビューのファイル名
+        $viewFileName = 'deviceInfoPage.php';
 
         $deviceController = new DeviceController();
 
@@ -268,7 +327,7 @@ Class RoutesController{
         // URLパラメータにデバイスIDがセットされており、ログイン中ユーザに紐づく場合
         if(!empty($data)){
 
-            $this->render('デバイス情報', 'deviceInfoPage.php', $data);
+            $this->render($pageTitle, $viewFileName, $data);
         }
         // それ以外
         else{
@@ -284,6 +343,12 @@ Class RoutesController{
         // ログイン判定
         $this->forLoginForm();
 
+        // ページタイトル
+        $pageTitle = 'デバイス情報登録';
+
+        // ビューのファイル名
+        $viewFileName = 'deviceRegistForm.php';
+
         // POST時
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
@@ -295,6 +360,7 @@ Class RoutesController{
                     'token' => $_POST['token']
                 ];
 
+            // デバイス情報登録処理の呼び出し
             $deviceController = new DeviceController();
             $registFailMsg = $deviceController->registDeviceInfoController($data);
 
@@ -310,7 +376,7 @@ Class RoutesController{
                     'registFailMsg' => $registFailMsg
                 ];
 
-                $this->render('デバイス登録', 'deviceRegistForm.php', $data);
+                $this->render($pageTitle, $viewFileName, $data);
             }
 
             // デバイス一覧画面に遷移
@@ -321,7 +387,7 @@ Class RoutesController{
         // CSRFトークンをセット
         $data['token'] = Util::createToken();
 
-        $this->render('デバイス登録', 'deviceRegistForm.php', $data);
+        $this->render($pageTitle, $viewFileName, $data);
     }
 
     // デバイス情報更新
@@ -329,6 +395,12 @@ Class RoutesController{
 
         // ログイン判定
         $this->forLoginForm();
+
+        // ページタイトル
+        $pageTitle = 'デバイス情報更新';
+
+        // ビューのファイル名
+        $viewFileName = 'updateDeviceInfoForm.php';
 
         $deviceController = new DeviceController();
 
@@ -343,6 +415,7 @@ Class RoutesController{
                 'token' => $_POST['token']
             ];
 
+            // デバイス情報更新処理の呼び出し
             $updateFailMsg = $deviceController->updateDeviceInfoController($data);
 
             // 更新失敗
@@ -357,7 +430,7 @@ Class RoutesController{
                     'updateFailMsg' => $updateFailMsg
                 ];
 
-                $this->render('デバイス情報更新', 'updateDeviceInfoForm.php', $data);
+                $this->render($pageTitle, $viewFileName, $data);
             }
 
             // 更新成功
@@ -380,7 +453,7 @@ Class RoutesController{
             // CSRFトークンをセット
             $data['token'] = Util::createToken();
 
-            $this->render('デバイス情報更新', 'updateDeviceInfoForm.php', $data);
+            $this->render($pageTitle, $viewFileName, $data);
         }
         // それ以外
         else{
@@ -395,6 +468,12 @@ Class RoutesController{
 
         // ログイン判定
         $this->forLoginForm();
+
+        // ページタイトル
+        $pageTitle = 'デバイス情報削除';
+
+        // ビューのファイル名
+        $viewFileName = 'deviceDeleteForm.php';
 
         $deviceController = new DeviceController();
 
@@ -411,7 +490,7 @@ Class RoutesController{
             if(!$deviceController->deleteDeviceInfoController($data)){
 
                 // 失敗した場合、削除確認画面にとどまる
-                $this->render('デバイス情報削除', 'deviceDeleteForm.php', $data);
+                $this->render($pageTitle, $viewFileName, $data);
                 exit;
             }
 
@@ -435,7 +514,7 @@ Class RoutesController{
             // CSRFトークンをセット
             $data['token'] = Util::createToken();
 
-            $this->render('デバイス情報削除', 'deviceDeleteForm.php', $data);
+            $this->render($pageTitle, $viewFileName, $data);
         }
         // それ以外
         else{
@@ -447,14 +526,29 @@ Class RoutesController{
 
     // DB接続エラー
     public function routesDisConnect(){
-        $this->render('接続失敗', 'errors/dbConnectErrorPage.php');
+
+        // ページタイトル
+        $pageTitle = '接続失敗';
+
+        // ビューのファイル名
+        $viewFileName = 'dbConnectErrorPage.php';
+
+        http_response_code(404);
+        $this->render($pageTitle, $viewFileName, [], true);
         exit;
     }
 
     // 404
     public function routesNotFoundPage(){
+
+        // ページタイトル
+        $pageTitle = 'ページが見つかりません';
+
+        // ビューのファイル名
+        $viewFileName = '404Page.php';
+
         http_response_code(404);
-        $this->render('ページが見つかりません', 'errors/404Page.php');
+        $this->render($pageTitle, $viewFileName, [], true);
         exit;
     }
 
@@ -466,6 +560,12 @@ Class RoutesController{
             return;
         }
 
+        // ページタイトル
+        $pageTitle = 'ログイン';
+
+        // ビューのファイル名
+        $viewFileName = 'loginForm.php';
+
         // POST時
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
@@ -475,9 +575,8 @@ Class RoutesController{
                 'token' => $_POST['token']
             ];
 
-            $authController = new AuthController();
-
             // ログイン処理の呼び出し
+            $authController = new AuthController();
             $loginFailMsg = $authController->loginController($data);
 
             // ログイン失敗
@@ -486,7 +585,7 @@ Class RoutesController{
                 // ログイン失敗メッセージをセット
                 $data['loginFailMsg'] = $loginFailMsg;
 
-                $this->render('ログイン', 'loginForm.php', $data);
+                $this->render($pageTitle, $viewFileName, $data);
             }
 
             // リクエストされたURLに遷移
@@ -499,7 +598,7 @@ Class RoutesController{
         // CSRFトークンをセット
         $data['token'] = Util::createToken();
 
-        $this->render('ログイン', 'loginForm.php', $data);
+        $this->render($pageTitle, $viewFileName, $data);
     }
 
     // URLパラメータのセット有無を確認

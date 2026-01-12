@@ -9,7 +9,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>PCWAKER - <?php echo Util::escape($title); ?></title>
+        <title>PCWAKER - <?php echo Util::escape($pageTitle); ?></title>
     </head>
     <body>
         <header>

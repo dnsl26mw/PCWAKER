@@ -9,7 +9,7 @@ $token = $data['token'] ?? '';
 
 ?>
 
-<h2>デバイス情報削除</h2>
+<h2 id="loginLabel"><?php echo Util::escape($pageTitle); ?></h2>
 <p>
     デバイスIDが<?php echo Util::escape($deviceID ?? '') ?>のデバイス情報を削除します。よろしいですか？
 </p>

@@ -1,7 +1,7 @@
 <?php
 Class CommonMessage{
 
-    const USERIDANDPASSWORDNOTENTERD = 'ユーザIDおよびパスワードを入力してください。'; 
+    const USERIDANDPASSWORDNOTENTERD = 'ユーザーIDおよびパスワードを入力してください。'; 
 
     const USERIDORPASSWORDUNMATCHED = 'ユーザーIDまたはパスワードが違います。';
 
