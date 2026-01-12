@@ -7,9 +7,15 @@ $deviceID = $data['device_id'] ?? '';
 // CSRFトークン
 $token = $data['token'] ?? '';
 
+// 削除失敗メッセージ
+$deleteFailMsg = $data['deleteFailMsg'] ?? '';
+
 ?>
 
 <h2 id="loginLabel"><?php echo Util::escape($pageTitle); ?></h2>
+<p>
+    <?php echo Util::escape($deleteFailMsg ?? '') ?>
+</p>
 <p>
     デバイスIDが
     <a href="/deviceinfo?device_id=<?php echo urlencode(Util::escape($deviceID)) ?>">

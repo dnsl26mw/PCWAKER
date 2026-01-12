@@ -161,21 +161,30 @@ Class UserController{
 
         // ユーザIDまたはトークンが未セット
         if(empty($data['user_id']) || empty($data['token'])){
-            return false;
+
+            // 削除失敗メッセージを返す
+            return CommonMessage::DELETEFAILURE;
         }
 
         // CSRFトークン判定
         if(!Util::verificationToken($data)){
-            return false;
+
+            // 削除失敗メッセージを返す
+            return CommonMessage::DELETEFAILURE;
         }
 
         // ユーザ削除処理を呼び出す
         if(!$userModel->deleteUserInfoModel($data)){
-            return false;
+
+            // 削除失敗メッセージを返す
+            return CommonMessage::DELETEFAILURE;
         }
 
-        // ユーザ削除成功
-        return true;
+        // セッションからCSRFトークンを削除
+        Util::deleteToken();
+
+        // 削除成功を表す空文字列を返す
+        return '';
     }
 
     // パスワードバリデーション

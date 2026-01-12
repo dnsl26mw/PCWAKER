@@ -16,6 +16,7 @@
             <h1><a href="/">PCWAKER</a></h1>
             <p>
                 <?php if (!empty($_SESSION['user_id'])): ?>
+                    ユーザID:
                     <a href="/userinfo">
                         <?= Util::escape($_SESSION['user_id']) ?>
                     </a>でログイン中

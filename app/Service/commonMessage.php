@@ -25,6 +25,8 @@ Class CommonMessage{
 
     const USERIDUSED = 'このユーザーIDは既に使われています。';
 
+    const DELETEFAILURE = '削除に失敗しました。';
+
     const DEVICEIDANDDEVICENAMEANDMACADDRESSNOTENTERD = 'デバイスID、デバイス名、MACアドレスを入力してください。';
 
     const DEVICEIDNOTHALFSIZENUMBER = 'デバイスIDは記号無しの半角英数字で、20文字以内で入力してください。';

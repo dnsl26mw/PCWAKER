@@ -211,17 +211,31 @@ Class RoutesController{
 
             // デバイス情報全削除処理の呼び出し
             $deviceController = new DeviceController();
-            if(!$deviceController->deleteDeviceInfoAllController($data)){
+            $deleteFailMsg = $deviceController->deleteDeviceInfoAllController($data);
+            if(!empty($deleteFailMsg)){
 
                 // 削除失敗
+                $data = [
+                    'user_id' => $_SESSION['user_id'],
+                    'token' => $_POST['token'],
+                    'deleteFailMsg' => $deleteFailMsg
+                ];
+
                 $this->render($pageTitle, $viewFileName, $data);
             }
 
             // ユーザ情報削除処理の呼び出し
             $userController = new UserController();
-            if(!$userController->deleteUserInfoController($data)){
+            $deleteFailMsg = $userController->deleteUserInfoController($data);
+            if(!empty($deleteFailMsg)){
 
                 // 削除失敗
+                $data = [
+                    'user_id' => $_SESSION['user_id'],
+                    'token' => $_POST['token'],
+                    'deleteFailMsg' => $deleteFailMsg
+                ];
+
                 $this->render($pageTitle, $viewFileName, $data);
             }
 
@@ -234,7 +248,7 @@ Class RoutesController{
             exit;
         }
 
-        // ユーザIDおよびCSRFトークンをセット
+        // CSRFトークンをセット
         $data = [
             'user_id' => $_SESSION['user_id'],
             'token' => Util::createToken()
@@ -487,11 +501,18 @@ Class RoutesController{
             ];
 
             // デバイス情報全削除処理の呼び出し
-            if(!$deviceController->deleteDeviceInfoController($data)){
+            $deleteFailMsg = $deviceController->deleteDeviceInfoController($data);
+            if(!empty($deleteFailMsg)){
 
-                // 失敗した場合、削除確認画面にとどまる
+                // 削除失敗
+                $data = [
+                    'device_id' => $_POST['device_id'],
+                    'user_id' => $_SESSION['user_id'],
+                    'token' => $_POST['token'],
+                    'deleteFailMsg' => $deleteFailMsg
+                ];
+
                 $this->render($pageTitle, $viewFileName, $data);
-                exit;
             }
 
             // デバイス一覧画面に遷移

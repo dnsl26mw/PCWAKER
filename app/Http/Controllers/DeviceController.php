@@ -139,21 +139,27 @@ Class DeviceController{
 
         // デバイスIDまたはCSRFトークンが未セット
         if(empty($data['device_id']) || empty($data['token'])){
-            return false;
+
+            // 削除失敗メッセージを返す
+            return CommonMessage::DELETEFAILURE;
         }
 
         // CSRFトークン判定
         if(!Util::verificationToken($data)){
-            return false;
+            
+            // 削除失敗メッセージを返す
+            return CommonMessage::DELETEFAILURE;
         }
 
         // デバイス削除処理を呼び出す
         if(!$deviceModel->deleteDeviceInfoModel($data)){
-            return false;
+            
+            // 削除失敗メッセージを返す
+            return CommonMessage::DELETEFAILURE;
         }
 
-        // デバイス削除成功
-        return true;
+        // 削除成功を表す空文字列を返す
+        return '';
     }
 
     // デバイス情報全削除
@@ -163,21 +169,27 @@ Class DeviceController{
 
         // ユーザIDまたはCSRFトークンが未セット
         if(empty($data['user_id']) || empty($data['token'])){
-            return false;
+            
+            // 削除失敗メッセージを返す
+            return CommonMessage::DELETEFAILURE;
         }
 
         // CSRFトークン判定
         if(!Util::verificationToken($data)){
-            return false;
+            
+            // 削除失敗メッセージを返す
+            return CommonMessage::DELETEFAILURE;
         }
 
         // デバイス情報全削除処理を呼び出す
         if(!$deviceModel->deleteAllDeviceInfoModel($data)){
-            return false;
+            
+            // 削除失敗メッセージを返す
+            return CommonMessage::DELETEFAILURE;
         }
 
-        // デバイス情報全削除成功
-        return true;
+        // 削除成功を表す空文字列を返す
+        return '';
     }
 
     // MACアドレスのバリデーション

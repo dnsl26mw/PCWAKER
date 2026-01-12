@@ -7,9 +7,15 @@ $userID = $data['user_id'] ?? '';
 // CSRFトークン
 $token = $data['token'] ?? '';
 
+// 削除失敗メッセージ
+$deleteFailMsg = $data['deleteFailMsg'] ?? '';
+
 ?>
 
 <h2 id="loginLabel"><?php echo Util::escape($pageTitle); ?></h2>
+<p>
+    <?php echo Util::escape($deleteFailMsg ?? '') ?>
+</p>
 <p>
     ユーザーIDが<a href="/userinfo"><?php echo Util::escape($userID ?? '') ?></a>のユーザー情報を削除します。よろしいですか？
 </p>
