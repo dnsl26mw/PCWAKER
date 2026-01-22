@@ -139,7 +139,7 @@ Class RoutesController{
         $userController = new UserController();
         $data = $userController->getUserInfoController(['user_id' => $_SESSION['user_id']]);
 
-        $this->render($pageTitle, 'userInfoPage.php', $data);
+        $this->render($pageTitle, $viewFileName, $data);
     }
 
     // ユーザ情報更新
