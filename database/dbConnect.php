@@ -10,7 +10,7 @@ class DBConnect {
         if(!self::$pdo){
             try{
                 // ('mysql: DB名前; host = IPまたはホスト名; charset = 文字コード', 'DBユーザ名', 'パスワード')
-                self::$pdo = new PDO('mysql:dbname=pcwaker;host=127.0.0.1;charset=utf8','pcwaker','pcwaker');
+                self::$pdo = new PDO('mysql:dbname=pcwaker;host=localhost;charset=utf8','pcwaker','pcwaker');
             } catch(PDOException $e) {
                 // DB接続失敗
                 $routesController = new RoutesController();
