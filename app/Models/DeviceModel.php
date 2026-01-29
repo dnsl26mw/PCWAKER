@@ -85,6 +85,7 @@ Class DeviceModel{
         $retBool = true;
 
         try{
+            
             // ソケット
             $socket = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
 
@@ -96,17 +97,39 @@ Class DeviceModel{
                 // ブロードキャストIPアドレス
                 $bloadCastIpAddress = '255.255.255.255';
 
+                // MACアドレス変換フォーマット
+                $macAddressConvertFormat = 'H12';
+
                 // MACアドレス
-                $macAddress = pack('H12', (str_replace(['-'], '', $deviceInfo['macaddress'])));
+                $macAddress = $deviceInfo['macaddress'];
+                $macAddress = str_replace(['-'], '', $macAddress);
+                $macAddress = pack($macAddressConvertFormat, $macAddress);
+
+                // ブロードキャスト送信フラグ
+                $bloadCastFlag = 1;
+
+                // 送信オプションデフォルトフラグ
+                $sendOptionDefaultFlag = 0;
+
+                // 宛先ポート番号
+                $port = 9;
+
+                // マジックパケットヘッダ繰り返し回数
+                $magickPacketHeaderRepeatCount = 6;
+
+                // MACアドレス繰り返し回数
+                $macAddressRepeatCount = 16;
 
                 // マジックパケット
-                $magickPacket = str_repeat(chr(0xFF), 6) . str_repeat($macAddress, 16);
+                $magickPacket = str_repeat(chr(0xFF), $magickPacketHeaderRepeatCount) . str_repeat($macAddress, $macAddressRepeatCount);
 
                 // ブロードキャスト送信オプションを設定
-                socket_set_option($socket, SOL_SOCKET, SO_BROADCAST, 1);
+                socket_set_option($socket, SOL_SOCKET, SO_BROADCAST, $bloadCastFlag);
 
                 // マジックパケット送信
-                socket_sendto($socket, $magicPacket, strlen($magicPacket), 0, $bloadCastIpAddress, 9);
+                for($i = 0; i < 3; $i++){
+                    socket_sendto($socket, $magickPacket, strlen($magickPacket), $sendOptionDefaultFlag, $bloadCastIpAddress, $port);
+                }
             }
         }
         catch(Exception $e){

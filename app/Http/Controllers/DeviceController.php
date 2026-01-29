@@ -227,12 +227,12 @@ Class DeviceController{
         // デバイスIDが全てログイン中ユーザに紐づくことを確認
         foreach($data['selectdevices'] as $device){
 
-            $data = [
+            $checkData = [
                 'device_id' => $device,
                 'user_id' => $data['user_id']
             ];
             
-            if($deviceModel->isNotExsistDeviceID($data)){
+            if($deviceModel->isNotExsistDeviceID($checkData)){
 
                 // マジックパケット送信失敗メッセージを返す
                 return CommonMessage::SENDMAGICKPACKETFAILURE;
