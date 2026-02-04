@@ -89,10 +89,13 @@ Class DeviceModel{
             // ソケット
             $socket = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
 
-            foreach($data['selectdevices'] as $device){
+            foreach($data['selectdevices'] as $deviceId){
 
                 // デバイス情報
-                $deviceInfo = $this->getDeviceInfoModel($data);
+                $deviceInfo = $this->getDeviceInfoModel([
+                    'device_id' => $deviceId,
+                    'user_id'   => $data['user_id']
+                ]);
 
                 // ブロードキャストIPアドレス
                 $bloadCastIpAddress = '255.255.255.255';
@@ -126,8 +129,11 @@ Class DeviceModel{
                 // ブロードキャスト送信オプションを設定
                 socket_set_option($socket, SOL_SOCKET, SO_BROADCAST, $bloadCastFlag);
 
+                // 送信回数
+                $sendCount = 3;
+
                 // マジックパケット送信
-                for($i = 0; i < 3; $i++){
+                for($i = 0; $i < $sendCount; $i++){
                     socket_sendto($socket, $magickPacket, strlen($magickPacket), $sendOptionDefaultFlag, $bloadCastIpAddress, $port);
                 }
             }
