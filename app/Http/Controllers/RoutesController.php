@@ -574,7 +574,7 @@ Class RoutesController{
         // ビューのファイル名
         $viewFileName = 'dbConnectErrorPage.php';
 
-        http_response_code(404);
+        http_response_code(500);
         $this->render($pageTitle, $viewFileName, [], true);
         exit;
     }
