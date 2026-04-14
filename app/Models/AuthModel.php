@@ -1,9 +1,9 @@
 <?php
 
-require_once __DIR__ . '/../../database/dbConnect.php';
-require_once __DIR__ . '/../../database/userTable.php';
-require_once __DIR__ . '/../Service/util.php';
-require_once __DIR__ . '/../Service/commonMessage.php';
+require_once __DIR__ . '/../../database/DbConnect.php';
+require_once __DIR__ . '/../../database/UserTable.php';
+require_once __DIR__ . '/../Service/Util.php';
+require_once __DIR__ . '/../Service/CommonMessage.php';
 
 class AuthModel{
 

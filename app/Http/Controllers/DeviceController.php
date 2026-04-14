@@ -1,18 +1,18 @@
 <?php
 
 require_once __DIR__ . '/../../Models/DeviceModel.php';
-require_once __DIR__ . '/../../Service/commonMessage.php';
-require_once __DIR__ . '/../../Service/util.php';
+require_once __DIR__ . '/../../Service/CommonMessage.php';
+require_once __DIR__ . '/../../Service/Util.php';
 
 Class DeviceController{
 
-    // デバイス情報全取得
-    public function getDeviceInfoAllController(array $data){
+    // デバイス一覧情報取得
+    public function getDeviceListInfoController(array $data){
 
         $deviceModel = new DeviceModel();
 
         // 指定されたユーザIDに紐づくデバイス情報を取得し、返す
-        return $deviceModel->getDeviceInfoAllModel($data);
+        return $deviceModel->getDeviceListInfoModel($data);
     }
 
     // デバイス情報取得

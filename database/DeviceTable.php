@@ -1,16 +1,17 @@
 <?php
 
-require_once __DIR__ . '/../app/Service/util.php';
+require_once __DIR__ . '/../app/Service/Util.php';
 
 class DeviceTable {
-    
-    // デバイス情報全検索
-    public static function searchDeviceInfoAll(array $data, $db){
-        $stmt = $db->prepare('SELECT device_id, device_name, macaddress FROM devicetable WHERE user_id=?');
-        $stmt->execute(array($data['user_id']));
-        $dt = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $dt;
-    }
+
+    // テーブル名
+    public const DEVICETABLE_NAME = 'devicetable';
+
+    // カラム定数
+    public const DEVICE_ID_COLUMN = 'device_id';
+    public const DEVICE_NAME_COLUMN = 'device_name';
+    public const MACADDRESS_COLUMN = 'macaddress';
+    public const USER_ID_COLUMN = 'user_id';
 
     // デバイス情報検索
     public static function searchDeviceInfo(array $data, $db){

@@ -2,8 +2,8 @@
 
 require_once __DIR__ . '/../../Models/UserModel.php';
 require_once __DIR__ . '/../../Models/AuthModel.php';
-require_once __DIR__ . '/../../Service/commonMessage.php';
-require_once __DIR__ . '/../../Service/util.php';
+require_once __DIR__ . '/../../Service/CommonMessage.php';
+require_once __DIR__ . '/../../Service/Util.php';
 
 Class UserController{
 

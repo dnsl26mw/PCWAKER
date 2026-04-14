@@ -1,7 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../../database/dbConnect.php';
-require_once __DIR__ . '/../../database/deviceTable.php';
+require_once __DIR__ . '/../../database/DbConnect.php';
+require_once __DIR__ . '/../../database/DeviceTable.php';
+require_once __DIR__ . '/../../database/SqlGenelator.php';
 
 Class DeviceModel{
 
@@ -37,15 +38,31 @@ Class DeviceModel{
         return $retRow;
     }
 
-    // デバイス情報全取得
-    public function getDeviceInfoAllModel(array $data){
+    // デバイス一覧情報取得
+    public function getDeviceListInfoModel(array $data){
 
         // DBに接続
         $db = DBConnect::getDBConnect();
 
-        // 指定されたユーザに紐づくデバイス情報のレコードを取得
-        $retDt = deviceTable::searchDeviceInfoAll($data, $db);
+        // SELECT対象カラム名配列
+        $selectColumns = [deviceTable::DEVICE_ID_COLUMN, deviceTable::DEVICE_NAME_COLUMN];
 
+        // WHERE条件カラム名配列
+        $whereColumns = [deviceTable::USER_ID_COLUMN];
+
+        // ユーザーIDを条件にデバイス一覧を取得するSQLを生成
+        $sql = sqlGenelator::SelectQueryGenelator($selectColumns, deviceTable::DEVICETABLE_NAME, $whereColumns);
+
+        // SQL文をプリペアドステートメントとして準備
+        $stmt = $db->prepare($sql);
+
+        // WHERE句のプレースホルダに値をバインドして実行
+        $stmt->execute(array($data['user_id']));
+
+        // 実行結果を連想配列として全件取得
+        $retDt = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // デバイス一覧情報を返す
         return $retDt;
     }
 

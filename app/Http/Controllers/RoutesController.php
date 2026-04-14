@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../../Service/util.php';
+require_once __DIR__ . '/../../Service/Util.php';
 require_once __DIR__ . '/../../Http/Controllers/AuthController.php';
 require_once __DIR__ . '/../../Http/Controllers/UserController.php';
 require_once __DIR__ . '/../../Http/Controllers/DeviceController.php';
@@ -307,7 +307,7 @@ Class RoutesController{
             if(!empty($magickPacketSendFailmsg)){
 
                 // デバイス一覧情報情報取得
-                $deviceListInfo = $deviceController->getDeviceInfoAllController(['user_id' => $_SESSION['user_id']]);
+                $deviceListInfo = $deviceController->getDeviceListInfoController(['user_id' => $_SESSION['user_id']]);
 
                 $this->render($pageTitle, 
                     $viewFileName, [
@@ -324,7 +324,7 @@ Class RoutesController{
         }
 
         // デバイス一覧情報情報取得
-        $deviceListInfo = $deviceController->getDeviceInfoAllController(['user_id' => $_SESSION['user_id']]);
+        $deviceListInfo = $deviceController->getDeviceListInfoController(['user_id' => $_SESSION['user_id']]);
 
         $this->render($pageTitle, 
                 $viewFileName, [

@@ -1,8 +1,13 @@
 <?php
 
-require_once __DIR__ . '/../app/Service/util.php';
+require_once __DIR__ . '/../app/Service/Util.php';
 
 class UserTable {
+
+    public const USER_ID_COLUMN = 'user_id';
+    public const SALT_COLUMN = 'salt';
+    public const PASSWORD_COLUMN = 'password';
+    public const USER_NAME_COLUMN = 'user_name';
     
     // ユーザ情報検索
     public static function searchUserInfo(array $data, $db){

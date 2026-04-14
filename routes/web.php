@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../app/Service/util.php';
+require_once __DIR__ . '/../app/Service/Util.php';
 require_once __DIR__ . '/../app/Http/Controllers/RoutesController.php';
 
 // ルータ
