@@ -13,14 +13,6 @@ class DeviceTable {
     public const MACADDRESS_COLUMN = 'macaddress';
     public const USER_ID_COLUMN = 'user_id';
 
-    // デバイス情報検索
-    public static function searchDeviceInfo(array $data, $db){
-        $stmt = $db->prepare('SELECT device_id, device_name, macaddress FROM devicetable WHERE device_id=? AND user_id=?');
-        $stmt->execute(array($data['device_id'], $data['user_id']));
-        $dbRow = $stmt->fetch();
-        return $dbRow;
-    }
-
     // デバイス情報登録
     public static function registDeviceInfo(array $data, $db){
         try{

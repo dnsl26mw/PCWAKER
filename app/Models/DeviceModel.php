@@ -32,9 +32,28 @@ Class DeviceModel{
         // DBに接続
         $db = DBConnect::getDBConnect();
 
-        // 指定されたデバイス情報のレコードを取得
-        $retRow = deviceTable::searchDeviceInfo($data, $db);
+        // SELECT対象カラム名配列
+        $selectColumns = [deviceTable::DEVICE_ID_COLUMN, deviceTable::DEVICE_NAME_COLUMN, deviceTable::MACADDRESS_COLUMN];
 
+        // WHERE条件カラム名配列
+        $whereColumns = [deviceTable::DEVICE_ID_COLUMN, deviceTable::USER_ID_COLUMN];
+
+        // WHERE条件同士をANDで連結するための演算子
+        $signs = ['AND'];
+
+        // ユーザーIDを条件にデバイス情報を取得するSQLを生成
+        $sql = sqlGenelator::SelectQueryGenelator($selectColumns, deviceTable::DEVICETABLE_NAME, $whereColumns, $signs);
+
+        // SQL文をプリペアドステートメントとして準備
+        $stmt = $db->prepare($sql);
+
+        // WHERE句のプレースホルダに値をバインドして実行
+        $stmt->execute(array($data['device_id'], $data['user_id']));
+
+        // 指定されたデバイス情報のレコードを取得
+        $retRow = $stmt->fetch();
+
+        // デバイス情報を返す
         return $retRow;
     }
 
@@ -50,7 +69,7 @@ Class DeviceModel{
         // WHERE条件カラム名配列
         $whereColumns = [deviceTable::USER_ID_COLUMN];
 
-        // ユーザーIDを条件にデバイス一覧を取得するSQLを生成
+        // ユーザーIDを条件にデバイス一覧情報を取得するSQLを生成
         $sql = sqlGenelator::SelectQueryGenelator($selectColumns, deviceTable::DEVICETABLE_NAME, $whereColumns);
 
         // SQL文をプリペアドステートメントとして準備

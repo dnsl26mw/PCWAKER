@@ -82,9 +82,9 @@ class SqlGenelator{
 
             $retStr.=$whereColumns[$i] . '=?';
 
-            if(0 < count($signs) && $i < $count($whereColumns)-1){
+            if(0 < count($signs)){
 
-                $retStr.= ' ' . $signs[$i];
+                $retStr.= ' ' . $signs[$i] . ' ';
             }
 
         }
