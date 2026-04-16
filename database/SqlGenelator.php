@@ -46,12 +46,48 @@ class SqlGenelator{
     }
 
     // INSERT文の生成
-    public static function InsertQueryGenelator(){
+    public static function InsertQueryGenelator($tableName, array $insertColumns){
 
         $insertSql = 'INSERT INTO ';
 
-        // VALUES句の付加
+        // テーブル名、'('の連結
+        $insertSql .= $tableName . '(';
+
+        // カラム名の連結
+        for($i = 0; $i < count($insertColumns); $i++){
+
+            $insertSql .= $insertColumns[$i];
+
+            if($i < count($insertColumns)-1){
+
+                // ','の連結
+                $insertSql .= ', ';
+            }
+            else{
+
+                // ')'の連結
+                $insertSql .= ')';
+            }
+        }
+
+        // VALUES句の連結
         $insertSql .= ' VALUES(';
+
+        for($i = 0; $i < count($insertColumns); $i++){
+
+            $insertSql .= '?';
+
+            if($i < count($insertColumns)-1){
+
+                // ','の連結
+                $insertSql .= ', ';
+            }
+            else{
+
+                // ')'の連結
+                $insertSql .= ')';
+            }
+        }
 
         return $insertSql;
     }
@@ -82,7 +118,6 @@ class SqlGenelator{
             if($i < count($columns)-1){
 
                 $retStr = $retStr.=', ';
-
             }
         }
 

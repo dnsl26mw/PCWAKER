@@ -8,12 +8,12 @@ Class DeviceModel{
 
     // デバイスIDおよびユーザID重複チェック
     public function isNotExsistDeviceID(array $data){
-
-        // DBに接続
-        $db = DBConnect::getDBConnect();
         
-        // デバイスIDおよびユーザID重複の有無を返す
-        return !$dbRow = DeviceTable::searchDeviceInfo($data, $db);
+        // デバイス情報を検索して取得
+        $dbRow = $this->getDeviceInfoModel($data);
+
+        // 取得結果を返す
+        return ($dbRow === false);
     }
 
     // デバイス情報登録
@@ -22,8 +22,25 @@ Class DeviceModel{
         // DBに接続
         $db = DBConnect::getDBConnect();
 
-        // 登録処理を呼び出す
-        return deviceTable::registDeviceInfo($data, $db);
+        // INSERT対象カラム名配列
+        $insertColumns = [deviceTable::DEVICE_ID_COLUMN, deviceTable::DEVICE_NAME_COLUMN, deviceTable::MACADDRESS_COLUMN, deviceTable::USER_ID_COLUMN];
+
+        // デバイス情報を登録するSQL文を生成
+        $sql = sqlGenelator::InsertQueryGenelator(deviceTable::DEVICETABLE_NAME, $insertColumns);
+
+        // SQL文をプリペアドステートメントとして準備
+        $stmt = $db->prepare($sql);
+
+        try{
+
+            // プレースホルダに値をバインドして実行
+            $stmt->execute(array($data['device_id'],  $data['device_name'], $data['macaddress'], $data['user_id']));
+            return true;
+        }
+        catch(Exception $e){
+
+            return false;
+        }
     }
 
     // デバイス情報取得
@@ -41,7 +58,7 @@ Class DeviceModel{
         // WHERE条件同士をANDで連結するための演算子
         $signs = ['AND'];
 
-        // ユーザーIDを条件にデバイス情報を取得するSQLを生成
+        // ユーザーIDを条件にデバイス情報を取得するSQL文を生成
         $sql = sqlGenelator::SelectQueryGenelator($selectColumns, deviceTable::DEVICETABLE_NAME, $whereColumns, $signs);
 
         // SQL文をプリペアドステートメントとして準備
@@ -69,7 +86,7 @@ Class DeviceModel{
         // WHERE条件カラム名配列
         $whereColumns = [deviceTable::USER_ID_COLUMN];
 
-        // ユーザーIDを条件にデバイス一覧情報を取得するSQLを生成
+        // ユーザーIDを条件にデバイス一覧情報を取得するSQL文を生成
         $sql = sqlGenelator::SelectQueryGenelator($selectColumns, deviceTable::DEVICETABLE_NAME, $whereColumns);
 
         // SQL文をプリペアドステートメントとして準備
@@ -97,18 +114,20 @@ Class DeviceModel{
         // WHERE条件カラム名配列
         $whereColumns = [deviceTable::DEVICE_ID_COLUMN];
 
-        // デバイスIDを条件にデバイス情報を更新するSQLを生成
+        // デバイスIDを条件にデバイス情報を更新するSQL文を生成
         $sql = sqlGenelator::UpdateQueryGenelator(deviceTable::DEVICETABLE_NAME, $updateColumns, $whereColumns);
 
         // SQL文をプリペアドステートメントとして準備
         $stmt = $db->prepare($sql);
 
         try{
+
             // プレースホルダに値をバインドして実行
             $stmt->execute(array($data['device_name'], $data['macaddress'], $data['device_id']));
             return true;
         }
         catch(Exception $e){
+
             return false;
         }
     }
@@ -193,6 +212,7 @@ Class DeviceModel{
             }
         }
         catch(Exception $e){
+            
             $retBool = false;
         }
         finally{
