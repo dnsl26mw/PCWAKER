@@ -91,8 +91,26 @@ Class DeviceModel{
         // DBに接続
         $db = DBConnect::getDBConnect();
 
-        // 更新処理を呼び出す
-        return deviceTable::updateDeviceInfo($data, $db);
+        // UPDATE対象カラム名配列
+        $updateColumns = [deviceTable::DEVICE_NAME_COLUMN, deviceTable::MACADDRESS_COLUMN];
+
+        // WHERE条件カラム名配列
+        $whereColumns = [deviceTable::DEVICE_ID_COLUMN];
+
+        // デバイスIDを条件にデバイス情報を更新するSQLを生成
+        $sql = sqlGenelator::UpdateQueryGenelator(deviceTable::DEVICETABLE_NAME, $updateColumns, $whereColumns);
+
+        // SQL文をプリペアドステートメントとして準備
+        $stmt = $db->prepare($sql);
+
+        try{
+            // プレースホルダに値をバインドして実行
+            $stmt->execute(array($data['device_name'], $data['macaddress'], $data['device_id']));
+            return true;
+        }
+        catch(Exception $e){
+            return false;
+        }
     }
 
     // デバイス情報削除
