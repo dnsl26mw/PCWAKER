@@ -39,9 +39,10 @@ class SqlGenelator{
         if(0 < count($whereColumns)){
 
             // WHERE条件の連結
-            $updateSql .= self::joinWhereCondition($whereColumns);
+            $updateSql .= self::joinWhereCondition($whereColumns, $signs);
         }
 
+        // UPDATE文を返す
         return $updateSql;
     }
 
@@ -54,21 +55,10 @@ class SqlGenelator{
         $insertSql .= $tableName . '(';
 
         // カラム名の連結
-        for($i = 0; $i < count($insertColumns); $i++){
+        $insertSql .= self::joinColumnName($insertColumns);
 
-            $insertSql .= $insertColumns[$i];
-
-            if($i < count($insertColumns)-1){
-
-                // ','の連結
-                $insertSql .= ', ';
-            }
-            else{
-
-                // ')'の連結
-                $insertSql .= ')';
-            }
-        }
+        // ')'の連結
+        $insertSql .= ')';
 
         // VALUES句の連結
         $insertSql .= ' VALUES(';
@@ -89,14 +79,26 @@ class SqlGenelator{
             }
         }
 
+        // INSERT文を返す
         return $insertSql;
     }
 
     // DELETE文の生成
-    public static function DeleteQueryGenelator(){
+    public static function DeleteQueryGenelator($tableName, array $whereColumns = [], array $signs = []){
 
         $deleteSql = 'DELETE FROM ';
 
+        // テーブル名の連結
+        $deleteSql .= $tableName . ' ';
+
+        // WHERE条件の指定がある場合
+        if(0 < count($whereColumns)){
+
+            // WHERE条件の連結
+            $deleteSql .= self::joinWhereCondition($whereColumns, $signs);
+        }
+
+        // DELETE文を返す
         return $deleteSql;
     }
 
@@ -125,7 +127,7 @@ class SqlGenelator{
     }
 
     // WHERE条件の連結
-    private static function joinWhereCondition(array $whereColumns, array $signs = []){
+    private static function joinWhereCondition(array $whereColumns, array $signs){
 
         $retStr = ' WHERE ';
 

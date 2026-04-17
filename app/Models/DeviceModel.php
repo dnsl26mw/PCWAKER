@@ -138,8 +138,25 @@ Class DeviceModel{
         // DBに接続
         $db = DBConnect::getDBConnect();
 
-        // 削除処理を呼び出す
-        return deviceTable::deleteDeviceInfo($data, $db);
+        // WHERE条件カラム名配列
+        $whereColumns = [deviceTable::DEVICE_ID_COLUMN];
+
+        // デバイスIDを条件にデバイス情報を削除するSQL文を生成
+        $sql = sqlGenelator::DeleteQueryGenelator(deviceTable::DEVICETABLE_NAME, $whereColumns);
+
+        // SQL文をプリペアドステートメントとして準備
+        $stmt = $db->prepare($sql);
+
+        try{
+
+            // プレースホルダに値をバインドして実行
+            $stmt->execute(array($data['device_id']));
+            return true;
+        }
+        catch(Exception $e){
+
+            return false;
+        }
     }
 
     // デバイス情報全削除
