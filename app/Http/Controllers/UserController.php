@@ -2,8 +2,11 @@
 
 require_once __DIR__ . '/../../Models/UserModel.php';
 require_once __DIR__ . '/../../Models/AuthModel.php';
-require_once __DIR__ . '/../../Service/CommonMessage.php';
-require_once __DIR__ . '/../../Service/Util.php';
+require_once __DIR__ . '/../../Support/CommonMessage.php';
+require_once __DIR__ . '/../../Support/Util.php';
+require_once __DIR__ . '/../../Support/RequestKey.php';
+require_once __DIR__ . '/../../Service/UserService.php';
+
 
 Class UserController{
 
@@ -22,7 +25,7 @@ Class UserController{
         $userModel = new UserModel();
 
         // ユーザ情報入力判定
-        if(empty($data['user_id']) || empty($data['password']) || empty($data['user_name']) || empty($data['token'])){
+        if(empty($data[RequestKey::USER_ID]) || empty($data[RequestKey::PASSWORD]) || empty($data[RequestKey::USER_NAME]) || empty($data[RequestKey::TOKEN])){
 
             // ユーザID、パスワード、ユーザ名未入力メッセージを返す
             return CommonMessage::USERIDANDPASSWORDANDUSERNAMENOTENTERD;
@@ -36,7 +39,7 @@ Class UserController{
         }
 
         // ユーザID半角英数字バリデーション
-        if(!Util::validateID($data['user_id'])){
+        if(!Util::validateID($data[RequestKey::USER_ID])){
 
             // ユーザIDが20文字以内の記号なし半角英数字ではないメッセージを返す
             return CommonMessage::USERIDNOTHALFSIZENUMBER;
@@ -50,7 +53,7 @@ Class UserController{
         }
 
         // パスワードバリデーション
-        if(!$this->validatePassword($data['password'])){
+        if(!$this->validatePassword($data[RequestKey::PASSWORD])){
 
             // 文字数不足または超過メッセージを返す
             return CommonMessage::PASSWORDCOUNTUNDEROROVER;
@@ -83,7 +86,7 @@ Class UserController{
         $userModel = new UserModel();
 
         // ユーザ情報入力判定
-        if(empty($data['user_id']) || empty($data['user_name']) || empty($data['token'])){
+        if(empty($data[RequestKey::USER_ID]) || empty($data[RequestKey::USER_NAME]) || empty($data[RequestKey::TOKEN])){
 
             // ユーザ名未入力メッセージを返す
             return CommonMessage::USERNAMENOTENTERD;
@@ -123,7 +126,7 @@ Class UserController{
             }
 
             // 新パスワードバリデーション
-            if(!$this->validatePassword($data['newPassword'])){
+            if(!$this->validatePassword($data[RequestKey::NEWPASSWORD])){
 
                 // 文字数不足または超過メッセージを返す
                 return '新しい'.CommonMessage::PASSWORDCOUNTUNDEROROVER;
@@ -155,7 +158,7 @@ Class UserController{
     public function deleteUserInfoController(array $data){
 
         // ユーザIDまたはトークンが未セット
-        if(empty($data['user_id']) || empty($data['token'])){
+        if(empty($data[RequestKey::USER_ID]) || empty($data[RequestKey::TOKEN])){
 
             // 削除失敗メッセージを返す
             return CommonMessage::DELETEFAILURE;
@@ -169,8 +172,8 @@ Class UserController{
         }
 
         // ユーザ情報削除処理を呼び出す
-        $userModel = new UserModel();
-        if(!$userModel->deleteUserInfoModel($data)){
+        $userService = new UserService();
+        if(!$userService->deleteUserInfoService($data)){
 
             // 削除失敗メッセージを返す
             return CommonMessage::DELETEFAILURE;

@@ -1,33 +1,17 @@
 <?php
 
-require_once __DIR__ . '/../app/Service/Util.php';
+require_once __DIR__ . '/../app/Support/Util.php';
 
 class UserTable {
 
+    // テーブル名
+    public const USERTABLE_NAME = 'usertable';
+
+    // カラム名定数
     public const USER_ID_COLUMN = 'user_id';
     public const SALT_COLUMN = 'salt';
-    public const PASSWORD_COLUMN = 'password';
+    public const PASSWORD_COLUMN = 'user_password';
     public const USER_NAME_COLUMN = 'user_name';
-    
-    // ユーザ情報検索
-    public static function searchUserInfo(array $data, $db){
-        $stmt = $db->prepare('SELECT user_id, salt, password, user_name FROM usertable WHERE user_id=?');
-        $stmt->execute(array($data['user_id']));
-        $dbRow = $stmt->fetch();
-        return $dbRow;
-    }
-
-    // ユーザ情報登録
-    public static function registUserInfo(array $data, $db){
-        try{
-            $registStmt = $db->prepare('INSERT INTO usertable(user_id, salt, password, user_name) VALUES(?, ?, ?, ?)');
-            $registStmt->execute(array($data['user_id'],  $data['salt'], $data['password'], $data['user_name']));
-            return true;
-        }
-        catch(Exception $e){
-            return false;
-        }
-    }
 
     // パスワード以外のユーザ情報更新
     public static function updateUserInfo(array $data, $db){
@@ -46,18 +30,6 @@ class UserTable {
         try{
             $registStmt = $db->prepare('UPDATE usertable SET password = ?, salt = ? WHERE user_id = ?');
             $registStmt->execute(array($data['password'], $data['salt'], $data['user_id']));
-            return true;
-        }
-        catch(Exception $e){
-            return false;
-        }
-    }
-
-    // ユーザ情報削除
-    public static function deleteUserInfo(array $data, $db){
-        try{
-            $stmt = $db->prepare('DELETE FROM usertable WHERE user_id=?');
-            $stmt->execute(array($data['user_id']));
             return true;
         }
         catch(Exception $e){

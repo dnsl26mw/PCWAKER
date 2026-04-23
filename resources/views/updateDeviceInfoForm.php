@@ -2,19 +2,19 @@
 // デバイス情報更新画面
 
 // デバイスID
-$deviceID = $data['device_id'] ?? '';
+$deviceID = $data[RequestKey::DEVICE_ID] ?? '';
 
 // デバイス名
-$deviceName = $data['device_name'] ?? '';
+$deviceName = $data[RequestKey::DEVICE_NAME] ?? '';
 
 // MACアドレス
-$macAddress = $data['macaddress'] ?? '';
+$macAddress = $data[RequestKey::MACADDRESS] ?? '';
 
 // CSRFトークン
-$token = $data['token'] ?? '';
+$token = $data[RequestKey::TOKEN] ?? '';
 
 // 更新失敗メッセージ
-$updateFailMsg = $data['updateFailMsg'] ?? '';
+$updateFailMsg = $data[RequestKey::MESSAGE] ?? '';
 
 ?>
 
@@ -37,8 +37,8 @@ $updateFailMsg = $data['updateFailMsg'] ?? '';
             <td><input type="text" value = "<?php echo Util::escape($macAddress) ?>" name="macaddress" placeholder="MACアドレス"><br></td>
         <tr>
     </table>
-    <input type="hidden" name="device_id" value = "<?php echo $deviceID; ?>"/>
-    <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
+    <input type="hidden" name=<?php echo RequestKey::DEVICE_ID ?> value = "<?php echo $deviceID; ?>"/>
+    <input type="hidden" name=<?php echo RequestKey::TOKEN ?> value = "<?php echo $token; ?>"/>
     <button type="submit" name="updateBtn" id="updateBtn">デバイス情報更新</button>
 </form>
 <a href="/deviceinfo/delete?device_id=<?php echo urlencode(Util::escape($deviceID)) ?>"><button>デバイス情報削除</button></a><br>

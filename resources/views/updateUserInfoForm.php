@@ -2,19 +2,19 @@
 // ユーザ情報更新画面
 
 // ユーザID
-$userID = $data['user_id'] ?? '';
+$userID = $data[RequestKey::USER_ID] ?? '';
 
 // ユーザ名
-$userName = $data['user_name'] ?? '';
+$userName = $data[RequestKey::USER_NAME] ?? '';
 
 // パスワード更新ラジオボタンの選択
 $isUpdatePassword = $_POST['updatepass'] ?? 'notupdatepassword';
 
 // CSRFトークン
-$token = $data['token'] ?? '';
+$token = $data[RequestKey::TOKEN] ?? '';
 
 // 更新失敗メッセージ
-$updateFailMsg = $data['updateFailMsg'] ?? '';
+$updateFailMsg = $data[RequestKey::MESSAGE] ?? '';
 
 ?>
 
@@ -49,7 +49,7 @@ $updateFailMsg = $data['updateFailMsg'] ?? '';
             </td>
         <tr>
     </table>
-    <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
+    <input type="hidden" name=<?php echo RequestKey::TOKEN; ?> value = "<?php echo $token; ?>"/>
     <button type="submit" name="updateBtn" id="updateBtn">ユーザー情報更新</button>
 </form>
 <a href="/deleteuser"><button>ユーザー情報削除</button></a><br>

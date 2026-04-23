@@ -2,10 +2,10 @@
 // トップページ
 
 // CSRFトークン
-$token = $data['token'] ?? '';
+$token = $data[RequestKey::TOKEN] ?? '';
 
 // ログアウト失敗メッセージ
-$logoutFailMsg = $data['logoutFailMsg'] ?? '';
+$logoutFailMsg = $data[RequestKey::MESSAGE] ?? '';
 ?>
 
 <h2 id="loginLabel"><?php echo Util::escape($pageTitle) ?? ''; ?></h2>
@@ -18,5 +18,5 @@ $logoutFailMsg = $data['logoutFailMsg'] ?? '';
 </ul>
 <form action="" method="POST">
     <button type="submit" name="logoutBtn" id="logoutBtn">ログアウト</button>
-    <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
+    <input type="hidden" name=<?php echo RequestKey::TOKEN; ?> value = "<?php echo $token; ?>"/>
 </form>

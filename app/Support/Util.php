@@ -1,5 +1,6 @@
 <?php
-Class Util {
+
+class Util {
 
     // 文字列のハッシュ変換を行う
     public static function hashConvert($paramStr){
@@ -33,18 +34,18 @@ Class Util {
     // CSRFトークンの生成
     public static function createToken(){
         $token = self::createSaltOrTokenCommon();
-        $_SESSION['token'] = $token;
+        $_SESSION[RequestKey::TOKEN] = $token;
         return $token;
     }
 
     // CSRFトークンの照合
     public static function verificationToken(array $data){
-        return $data['token'] === $_SESSION['token'];
+        return $data[RequestKey::TOKEN] === $_SESSION[RequestKey::TOKEN];
     }
 
     // CSRFトークンの削除
     public static function deleteToken(){
-        unset($_SESSION['token']);
+        unset($_SESSION[RequestKey::TOKEN]);
     }
 
     // ソルト付きハッシュ化済みパスワードを取得
@@ -62,17 +63,7 @@ Class Util {
 
     // セッション情報にユーザIDおよびユーザ名をセット
     public static function setSession($user_id){
-        $_SESSION['user_id'] = $user_id;
-    }
-
-    // 共通メッセージ画面に表示するメッセージをセット
-    public static function setCommonMessage($message){
-        $_SESSION['message'] = $message;
-    }
-
-    // 共通メッセージ画面に表示するメッセージを削除
-    public static function unSetCommonMessage($message){
-        unset($_SESSION['message']);
+        $_SESSION[Session::USER_ID] = $user_id;
     }
 
     // ログイン済みかどうかを判定する
@@ -110,4 +101,5 @@ Class Util {
         return mb_strlen($str) <= $maxCount;
     }
 }
+
 ?>

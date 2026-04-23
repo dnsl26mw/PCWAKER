@@ -2,13 +2,13 @@
 // ログイン画面
 
 // ユーザID
-$user_id = $data['user_id'] ?? '';
+$user_id = $data[RequestKey::USER_ID] ?? '';
 
 // CSRFトークン
-$token = $data['token'] ?? '';
+$token = $data[RequestKey::TOKEN] ?? '';
 
 // ログイン失敗メッセージ
-$loginFailMsg = $data['loginFailMsg'] ?? '';
+$loginFailMsg = $data[RequestKey::MESSAGE] ?? '';
 
 ?>
 
@@ -17,9 +17,9 @@ $loginFailMsg = $data['loginFailMsg'] ?? '';
     <p>
         <?php echo Util::escape($loginFailMsg ?? '') ?>
     </p>
-    <input type="text" value = "<?php echo Util::escape($user_id) ?>" name="user_id" placeholder="ユーザーID"><br>
-    <input type="password" name="userPw" placeholder="パスワード"><br>
-    <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
+    <input type="text" value = "<?php echo Util::escape($user_id) ?>" name=<?php echo RequestKey::USER_ID ?> placeholder="ユーザーID"><br>
+    <input type="password" name=<?php echo RequestKey::PASSWORD ?> placeholder="パスワード"><br>
+    <input type="hidden" name=<?php echo RequestKey::TOKEN ?> value = "<?php echo $token; ?>"/>
     <button type="submit" name="loginBtn">ログイン</button><br>
     <a href="/registuser">ユーザー登録はこちら</a>
 </form>

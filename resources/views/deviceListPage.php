@@ -2,13 +2,13 @@
 // デバイス一覧画面
 
 // デバイス一覧情報
-$deviceListInfo = $data['deviceListInfo'] ?? [];
+$deviceListInfo = $data[RequestKey::DEVICE_LIST_INFO] ?? [];
 
 // デバイス選択リスト
-$selectDevices = $data['selectdevices'] ?? [];
+$selectDevices = $data[RequestKey::SELECTED_DEVICES] ?? [];
 
 // CSRFトークン
-$token = $data['token'] ?? '';
+$token = $data[RequestKey::TOKEN] ?? '';
 
 // マジックパケット送信失敗メッセージ
 $magickPacketSendFailMsg = $data['magickpacketsendfailmsg'] ?? '';
@@ -37,17 +37,17 @@ $magickPacketSendFailMsg = $data['magickpacketsendfailmsg'] ?? '';
                                 <input type="checkbox" 
                                 class="selectcheckboxes" 
                                 name="selectdevices[]" 
-                                value="<?php echo Util::escape($device['device_id']) ?>"
-                                <?php echo in_array($device['device_id'], $selectDevices, true) ? 'checked' : ''?>
+                                value="<?php echo Util::escape($device[RequestKey::DEVICE_ID]) ?>"
+                                <?php echo in_array($device[RequestKey::DEVICE_ID], $selectDevices, true) ? 'checked' : ''?>
                             </td>
                             <td>
-                                <a href="/deviceinfo?device_id=<?php echo urlencode(Util::escape($device['device_id'])) ?>">
-                                    <?php echo Util::escape($device['device_id']) ?>
+                                <a href="/deviceinfo?device_id=<?php echo urlencode(Util::escape($device[RequestKey::DEVICE_ID])) ?>">
+                                    <?php echo Util::escape($device[RequestKey::DEVICE_ID]) ?>
                                 </a>
                             </td>
                             <td>
-                                <a href="/deviceinfo?device_id=<?php echo urlencode(Util::escape($device['device_id'])) ?>">
-                                    <?php echo Util::escape($device['device_name']) ?>
+                                <a href="/deviceinfo?device_id=<?php echo urlencode(Util::escape($device[RequestKey::DEVICE_ID])) ?>">
+                                    <?php echo Util::escape($device[RequestKey::DEVICE_NAME]) ?>
                                 </a>
                             </td>
                         </tr>
@@ -56,7 +56,7 @@ $magickPacketSendFailMsg = $data['magickpacketsendfailmsg'] ?? '';
             </table>
         </div>
         <button type="submit" name="wakeBtn" id="wakebutton" disabled>起動</button><br>
-        <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
+        <input type="hidden" name=<?php echo RequestKey::TOKEN ?> value = "<?php echo $token; ?>"/>
     </form>
 <?php else: ?>
     <p>登録されているデバイスはありません。</p>

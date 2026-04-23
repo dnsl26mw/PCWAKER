@@ -2,36 +2,10 @@
 
 require_once __DIR__ . '/../../database/DbConnect.php';
 require_once __DIR__ . '/../../database/UserTable.php';
-require_once __DIR__ . '/../Service/Util.php';
-require_once __DIR__ . '/../Service/CommonMessage.php';
+require_once __DIR__ . '/../Support/Util.php';
+require_once __DIR__ . '/../Support/CommonMessage.php';
 
 class AuthModel{
-
-    // ログイン処理
-    public function loginModel(array $data){
-
-        // DBに接続
-        $db = DBConnect::getDBConnect();
-
-        // ユーザを検索
-        $dbRow = UserTable::searchUserInfo(['user_id' => $data['user_id']], $db);
-
-        // ユーザが存在しない場合
-        if(!$dbRow){
-            return false;
-        }
-
-        // 入力されたパスワードをハッシュ化
-        $password = Util::getHashPassword($dbRow['salt'], $data['password']);
-
-        // ソルト + 入力されたパスワードが登録されたパスワードと不一致の場合
-        if($password !== $dbRow['password']){
-            return false;
-        }
-
-        // ログイン成功
-        return true;
-    }
     
     // パスワードのみの照合
     public function onlyPasswordCheckModel(array $data){

@@ -1,7 +1,11 @@
 <?php
 
 require_once __DIR__ . '/../../Models/AuthModel.php';
-require_once __DIR__ . '/../../Service/CommonMessage.php';
+require_once __DIR__ . '/../../Support/CommonMessage.php';
+require_once __DIR__ . '/../../Support/RequestKey.php';
+require_once __DIR__ . '/../../Support/Session.php';
+require_once __DIR__ . '/../../Service/AuthService.php';
+require_once __DIR__ . '/../../Support/RequestKey.php';
 
 class AuthController{
 
@@ -9,7 +13,7 @@ class AuthController{
     public function loginController(array $data){
 
         // ユーザ情報入力判定
-        if(empty($data['user_id']) || empty($data['password']) || empty($data['token'])){
+        if(empty($data[RequestKey::USER_ID]) || empty($data[RequestKey::PASSWORD]) || empty($data[RequestKey::TOKEN])){
 
             // ユーザIDおよびパスワード未入力メッセージを返す
             return CommonMessage::USERIDANDPASSWORDNOTENTERD;
@@ -22,21 +26,21 @@ class AuthController{
             return CommonMessage::USERIDANDPASSWORDNOTENTERD;
         }
 
-        // ログイン処理の呼び出し
-        $authModel = new AuthModel();
-        if(!$authModel->loginModel($data)){
+        // ログイン処理呼び出し
+        $authService = new AuthService();
+        if(!$authService->loginService($data)){
 
             // ユーザIDまたはパスワード不一致のメッセージを返す
             return CommonMessage::USERIDORPASSWORDUNMATCHED;
-            exit;  
+            exit;
         }
 
         // セッションからCSRFトークンを削除
         Util::deleteToken();
-
+    
         // セッションにユーザIDをセット
-        Util::setSession($data['user_id']);
-
+        Util::setSession($data[RequestKey::USER_ID]);
+    
         // ログイン成功を表す空文字列を返す
         return '';
     }
@@ -45,7 +49,7 @@ class AuthController{
     public function logoutController(array $data){
 
         // CSRFトークンが未セット
-        if(empty($data['token'])){
+        if(empty($data[RequestKey::TOKEN])){
 
             // ログアウト失敗メッセージを返す
             return CommonMessage::DELETEFAILURE;

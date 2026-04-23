@@ -1,5 +1,6 @@
 <?php
-Class CommonMessage{
+
+class CommonMessage {
 
     const USERIDANDPASSWORDNOTENTERD = 'ユーザーIDおよびパスワードを入力してください。'; 
 
@@ -11,7 +12,7 @@ Class CommonMessage{
     
     const OLDPASSWORDNOTMATCHED = '現在のパスワードが違います。';
 
-    const USERIDANDPASSWORDANDUSERNAMENOTENTERD = 'ユーザーID、パスワード、ユーザ名を入力してください。';
+    const USERIDANDPASSWORDANDUSERNAMENOTENTERD = 'ユーザーID、パスワード、ユーザー名を入力してください。';
 
     const USERIDNOTHALFSIZENUMBER = 'ユーザーIDは記号無しの半角英数字で、20文字以内で入力してください。';
 
@@ -45,4 +46,5 @@ Class CommonMessage{
 
     const SENDMAGICKPACKETFAILURE = 'マジックパケットの送信に失敗しました。';
 }
+
 ?>

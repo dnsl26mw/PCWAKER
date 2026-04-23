@@ -1,6 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../../Service/Util.php';
+require_once __DIR__ . '/../../Support/Util.php';
+require_once __DIR__ . '/../../Support/RequestKey.php';
 require_once __DIR__ . '/../../Http/Controllers/AuthController.php';
 require_once __DIR__ . '/../../Http/Controllers/UserController.php';
 require_once __DIR__ . '/../../Http/Controllers/DeviceController.php';
@@ -44,7 +45,7 @@ Class RoutesController{
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             $data = [
-                'token' => $_POST['token']
+                RequestKey::TOKEN => $_POST[RequestKey::TOKEN]
             ];
 
             // ログアウト処理の呼び出し
@@ -54,8 +55,8 @@ Class RoutesController{
 
                 // ログアウト失敗
                 $data = [
-                    'token' => $_POST['token'],
-                    'logoutFailMsg' => $logoutFailMsg
+                    RequestKey => $_POST[RequestKey::TOKEN],
+                    RequestKey::MESSAGE => $logoutFailMsg
                 ];
 
                 $this->render($pageTitle, $viewFileName, $data);
@@ -67,7 +68,7 @@ Class RoutesController{
         }
 
         // CSRFトークンをセット
-        $data['token'] = Util::createToken();
+        $data[RequestKey::TOKEN] = Util::createToken();
 
         $this->render($pageTitle, $viewFileName, $data);
     }
@@ -90,10 +91,10 @@ Class RoutesController{
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             $data = [
-                'user_id' => $_POST['user_id'],
-                'password' => $_POST['userPw'],
-                'user_name' => $_POST['user_name'],
-                'token' => $_POST['token']
+                RequestKey::USER_ID => $_POST[RequestKey::USER_ID],
+                RequestKey::PASSWORD => $_POST[RequestKey::PASSWORD],
+                RequestKey::USER_NAME => $_POST[RequestKey::USER_NAME],
+                RequestKey::TOKEN => $_POST[RequestKey::TOKEN]
             ];
 
             $userController = new UserController();
@@ -103,10 +104,10 @@ Class RoutesController{
             if(!empty($registFailMsg)){
 
                 $data = [
-                    'user_id' => $_POST['user_id'],
-                    'user_name' => $_POST['user_name'],
-                    'token' => $_POST['token'],
-                    'registFailMsg' => $registFailMsg
+                    RequestKey::USER_ID => $_POST[RequestKey::USER_ID],
+                    RequestKey::USER_NAME => $_POST[RequestKey::USER_NAME],
+                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
+                    RequestKey::MESSAGE => $registFailMsg
                 ];
 
                 $this->render($pageTitle, $viewFileName, $data);
@@ -118,7 +119,7 @@ Class RoutesController{
         }
 
         // CSRFトークンをセット
-        $data['token'] = Util::createToken();
+        $data[RequestKey::TOKEN] = Util::createToken();
 
         $this->render($pageTitle, $viewFileName, $data);
     }
@@ -137,7 +138,7 @@ Class RoutesController{
 
         // ユーザ情報取得
         $userController = new UserController();
-        $data = $userController->getUserInfoController(['user_id' => $_SESSION['user_id']]);
+        $data = $userController->getUserInfoController([RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID]]);
 
         $this->render($pageTitle, $viewFileName, $data);
     }
@@ -160,12 +161,12 @@ Class RoutesController{
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             $data = [
-                'user_id' => $_SESSION['user_id'],
-                'user_name' => $_POST['user_name'],
-                'isUpdatePassword' => $_POST['updatepass'] ?? 'notupdatepassword',
-                'oldPassword' => $_POST['oldpass'] ?? '',
-                'newPassword' => $_POST['newpass'] ?? '',
-                'token' => $_POST['token']
+                RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
+                RequestKey::USER_NAME => $_POST[RequestKey::USER_NAME],
+                RequestKey::ISUPDATEPASSWORD => $_POST['updatepass'] ?? 'notupdatepassword',
+                RequestKey::OLDPASSWORD => $_POST[RequestKey::OLDPASSWORD ] ?? '',
+                RequestKey::NEWPASSWORD => $_POST[RequestKey::NEWPASSWORD] ?? '',
+                RequestKey::TOKEN => $_POST[RequestKey::TOKEN]
             ];
 
             // ユーザ情報更新処理の呼び出し
@@ -175,11 +176,11 @@ Class RoutesController{
             if(!empty($updateFailMsg)){
 
                 $data = [
-                    'user_id' => $_SESSION['user_id'],
-                    'user_name' => $data['user_name'],
-                    'isUpdatePassword' => $data['isUpdatePassword'],
-                    'token' => $_POST['token'],
-                    'updateFailMsg' => $updateFailMsg
+                    RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
+                    RequestKey::USER_NAME => $data[RequestKey::USER_NAME],
+                    RequestKey::ISUPDATEPASSWORD => $data[RequestKey::ISUPDATEPASSWORD],
+                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
+                    RequestKey::MESSAGE => $updateFailMsg
                 ];
 
                 $this->render($pageTitle, $viewFileName, $data);
@@ -191,10 +192,10 @@ Class RoutesController{
         }
 
         // ユーザ情報取得
-        $data = $userController->getUserInfoController(['user_id' => $_SESSION['user_id']]);
+        $data = $userController->getUserInfoController([RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID]]);
 
         // CSRFトークンをセット
-        $data['token'] = Util::createToken();
+        $data[RequestKey::TOKEN] = Util::createToken();
 
         $this->render($pageTitle, $viewFileName, $data);
     }
@@ -215,24 +216,9 @@ Class RoutesController{
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             $data = [
-                'user_id' => $_SESSION['user_id'],
-                'token' => $_POST['token']
+                RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
+                RequestKey::TOKEN => $_POST[RequestKey::TOKEN]
             ];
-
-            // デバイス情報全削除処理の呼び出し
-            $deviceController = new DeviceController();
-            $deleteFailMsg = $deviceController->deleteDeviceInfoAllController($data);
-            if(!empty($deleteFailMsg)){
-
-                // 削除失敗
-                $data = [
-                    'user_id' => $_SESSION['user_id'],
-                    'token' => $_POST['token'],
-                    'deleteFailMsg' => $deleteFailMsg
-                ];
-
-                $this->render($pageTitle, $viewFileName, $data);
-            }
 
             // ユーザ情報削除処理の呼び出し
             $userController = new UserController();
@@ -241,9 +227,9 @@ Class RoutesController{
 
                 // 削除失敗
                 $data = [
-                    'user_id' => $_SESSION['user_id'],
-                    'token' => $_POST['token'],
-                    'deleteFailMsg' => $deleteFailMsg
+                    RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
+                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
+                    RequestKey::MESSAGE => $deleteFailMsg
                 ];
 
                 $this->render($pageTitle, $viewFileName, $data);
@@ -256,8 +242,8 @@ Class RoutesController{
 
                 // ログアウト失敗
                 $data = [
-                    'token' => $_POST['token'],
-                    'deleteFailMsg' => $logoutFailMsg
+                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
+                    RequestKey::MESSAGE => $logoutFailMsg
                 ];
 
                 $this->render($pageTitle, $viewFileName, $data);
@@ -270,8 +256,8 @@ Class RoutesController{
 
         // ユーザIDおよびCSRFトークンをセット
         $data = [
-            'user_id' => $_SESSION['user_id'],
-            'token' => Util::createToken()
+            RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
+            RequestKey::TOKEN => Util::createToken()
         ];
 
         $this->render($pageTitle, $viewFileName, $data);
@@ -295,9 +281,9 @@ Class RoutesController{
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             $data = [
-                'selectdevices' => $_POST['selectdevices'],
-                'user_id' => $_SESSION['user_id'],
-                'token' => $_POST['token']     
+                RequestKey::SELECTED_DEVICES => $_POST[RequestKey::SELECTED_DEVICES],
+                RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
+                RequestKey::TOKEN => $_POST[RequestKey::TOKEN]     
             ];
 
             // マジックパケット送信処理の呼び出し
@@ -307,14 +293,14 @@ Class RoutesController{
             if(!empty($magickPacketSendFailmsg)){
 
                 // デバイス一覧情報情報取得
-                $deviceListInfo = $deviceController->getDeviceListInfoController(['user_id' => $_SESSION['user_id']]);
+                $deviceListInfo = $deviceController->getDeviceListInfoController([RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID]]);
 
                 $this->render($pageTitle, 
                     $viewFileName, [
-                        'deviceListInfo' => $deviceListInfo, 
-                        'selectdevices' => $_POST['selectdevices'],
-                        'magickpacketsendfailmsg' => $magickPacketSendFailmsg, 
-                        'token' => $_POST['token']
+                        RequestKey::DEVICE_LIST_INFO => $deviceListInfo, 
+                        RequestKey::SELECTED_DEVICES=> $_POST[RequestKey::SELECTED_DEVICES],
+                        RequestKey::MESSAGE => $magickPacketSendFailmsg, 
+                        RequestKey::TOKEN => $_POST[RequestKey::TOKEN]
                     ]
                 );
             }
@@ -324,13 +310,13 @@ Class RoutesController{
         }
 
         // デバイス一覧情報情報取得
-        $deviceListInfo = $deviceController->getDeviceListInfoController(['user_id' => $_SESSION['user_id']]);
+        $deviceListInfo = $deviceController->getDeviceListInfoController([RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID]]);
 
         $this->render($pageTitle, 
                 $viewFileName, [
-                'deviceListInfo' => $deviceListInfo, 
-                'token' => Util::createToken(), 
-                'selectDeviceIds' => []
+                RequestKey::DEVICE_LIST_INFO => $deviceListInfo, 
+                RequestKey::TOKEN => Util::createToken(), 
+                RequestKey::SELECTED_DEVICES => []
             ]
         );
     }
@@ -354,8 +340,8 @@ Class RoutesController{
 
         // デバイス情報取得
         $data = $deviceController->getDeviceInfoController([
-            'device_id' => $_GET['device_id'],
-            'user_id' => $_SESSION['user_id']
+            RequestKey::DEVICE_ID => $_GET[RequestKey::DEVICE_ID],
+            RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID]
         ]);
 
         // URLパラメータにデバイスIDがセットされており、ログイン中ユーザに紐づく場合
@@ -387,11 +373,11 @@ Class RoutesController{
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
                 $data = [
-                    'device_id' => $_POST['device_id'],
-                    'device_name' => $_POST['device_name'],
-                    'macaddress' => $_POST['macaddress'],
-                    'user_id' => $_SESSION['user_id'],
-                    'token' => $_POST['token']
+                    RequestKey::DEVICE_ID => $_POST[RequestKey::DEVICE_ID],
+                    RequestKey::DEVICE_NAME => $_POST[RequestKey::DEVICE_NAME],
+                    RequestKey::MACADDRESS => $_POST[RequestKey::MACADDRESS],
+                    RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
+                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN]
                 ];
 
             // デバイス情報登録処理の呼び出し
@@ -402,12 +388,12 @@ Class RoutesController{
             if($registFailMsg !== ''){
 
                 $data = [
-                    'device_id' => $_POST['device_id'],
-                    'device_name' => $_POST['device_name'],
-                    'macaddress' => $_POST['macaddress'],
-                    'user_id' => $_SESSION['user_id'],
-                    'token' => $_POST['token'],
-                    'registFailMsg' => $registFailMsg
+                    RequestKey::DEVICE_ID => $_POST[RequestKey::DEVICE_ID],
+                    RequestKey::DEVICE_NAME => $_POST[RequestKey::DEVICE_NAME],
+                    RequestKey::MACADDRESS => $_POST[RequestKey::MACADDRESS],
+                    RequestKey::USER_ID => $_POST[RequestKey::USER_ID],
+                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
+                    RequestKey::MESSAGE => $registFailMsg
                 ];
 
                 $this->render($pageTitle, $viewFileName, $data);
@@ -419,7 +405,7 @@ Class RoutesController{
         }
 
         // CSRFトークンをセット
-        $data['token'] = Util::createToken();
+        $data[RequestKey::TOKEN] = Util::createToken();
 
         $this->render($pageTitle, $viewFileName, $data);
     }
@@ -442,11 +428,11 @@ Class RoutesController{
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             $data = [
-                'device_id' => $_POST['device_id'],
-                'device_name' => $_POST['device_name'],
-                'macaddress' => $_POST['macaddress'],
-                'user_id' => $_SESSION['user_id'],
-                'token' => $_POST['token']
+                RequestKey::DEVICE_ID => $_POST[RequestKey::DEVICE_ID],
+                RequestKey::DEVICE_NAME => $_POST[RequestKey::DEVICE_NAME],
+                RequestKey::MACADDRESS => $_POST[RequestKey::MACADDRESS],
+                RequestKey::USER_ID => $_POST[RequestKey::USER_ID],
+                RequestKey::TOKEN => $_POST[RequestKey::TOKEN]
             ];
 
             // デバイス情報更新処理の呼び出し
@@ -456,12 +442,12 @@ Class RoutesController{
             if(!empty($updateFailMsg)){
 
                 $data = [
-                    'device_id' => $data['device_id'],
-                    'device_name' => $data['device_name'],
-                    'macaddress' => $data['macaddress'],
-                    'user_id' => $_SESSION['user_id'],
-                    'token' => $_POST['token'],
-                    'updateFailMsg' => $updateFailMsg
+                    RequestKey::DEVICE_ID => $data[RequestKey::DEVICE_ID],
+                    RequestKey::DEVICE_NAME => $data[RequestKey::DEVICE_NAME],
+                    RequestKey::MACADDRESS => $data[RequestKey::MACADDRESS],
+                    RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
+                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
+                    RequestKey::MESSAGE => $updateFailMsg
                 ];
 
                 $this->render($pageTitle, $viewFileName, $data);
@@ -473,19 +459,19 @@ Class RoutesController{
         }
 
         // URLパラメータが未セットの場合は404ページに遷移
-        $this->isSetUrlParameter($_GET['device_id']);
+        $this->isSetUrlParameter($_GET[RequestKey::DEVICE_ID]);
 
         // 表示用デバイス情報取得
         $data = $deviceController->getDeviceInfoController([
-            'device_id' => $_GET['device_id'],
-            'user_id' => $_SESSION['user_id']
+            RequestKey::DEVICE_ID => $_GET[RequestKey::DEVICE_ID],
+            RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID]
         ]);
 
         // ログイン中ユーザに紐づくデバイス情報が存在
         if(!empty($data)){
 
             // CSRFトークンをセット
-            $data['token'] = Util::createToken();
+            $data[RequestKey::TOKEN] = Util::createToken();
 
             $this->render($pageTitle, $viewFileName, $data);
         }
@@ -515,9 +501,9 @@ Class RoutesController{
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             $data = [
-                'device_id' => $_POST['device_id'],
-                'user_id' => $_SESSION['user_id'],
-                'token' => $_POST['token']
+                RequestKey::DEVICE_ID => $_POST[RequestKey::DEVICE_ID],
+                RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
+                RequestKey::TOKEN => $_POST[RequestKey::TOKEN]
             ];
 
             // デバイス情報全削除処理の呼び出し
@@ -526,10 +512,10 @@ Class RoutesController{
 
                 // 削除失敗
                 $data = [
-                    'device_id' => $_POST['device_id'],
-                    'user_id' => $_SESSION['user_id'],
-                    'token' => $_POST['token'],
-                    'deleteFailMsg' => $deleteFailMsg
+                    RequestKey::DEVICE_ID => $_POST[RequestKey::DEVICE_ID],
+                    RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
+                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
+                    RequestKey::MESSAGE => $deleteFailMsg
                 ];
 
                 $this->render($pageTitle, $viewFileName, $data);
@@ -545,15 +531,15 @@ Class RoutesController{
 
         // デバイス情報を取得
         $data = $deviceController->getDeviceInfoController([
-            'device_id' => $_GET['device_id'],
-            'user_id' => $_SESSION['user_id']
+            RequestKey::DEVICE_ID => $_GET[RequestKey::DEVICE_ID],
+            RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID]
         ]);
 
         // URLパラメータにデバイスIDがセットされており、ログイン中ユーザに紐づく場合
         if(!empty($data)){
 
             // CSRFトークンをセット
-            $data['token'] = Util::createToken();
+            $data[RequestKey::TOKEN] = Util::createToken();
 
             $this->render($pageTitle, $viewFileName, $data);
         }
@@ -611,9 +597,9 @@ Class RoutesController{
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             $data = [
-                'user_id' => $_POST['user_id'],
-                'password' => $_POST['userPw'],
-                'token' => $_POST['token']
+                RequestKey::USER_ID => $_POST[RequestKey::USER_ID],
+                RequestKey::PASSWORD => $_POST[RequestKey::PASSWORD],
+                RequestKey::TOKEN => $_POST[RequestKey::TOKEN]
             ];
 
             // ログイン処理の呼び出し
@@ -622,7 +608,7 @@ Class RoutesController{
             if(!empty($loginFailMsg)){
 
                 // ログイン失敗
-                $data['loginFailMsg'] = $loginFailMsg;
+                $data[RequestKey::MESSAGE] = $loginFailMsg;
 
                 $this->render($pageTitle, $viewFileName, $data);
             }
@@ -635,7 +621,7 @@ Class RoutesController{
         }
 
         // CSRFトークンをセット
-        $data['token'] = Util::createToken();
+        $data[RequestKey::TOKEN] = Util::createToken();
 
         $this->render($pageTitle, $viewFileName, $data);
     }

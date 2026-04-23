@@ -2,13 +2,13 @@
 // デバイス情報確認画面
 
 // デバイスID
-$deviceID = $data['device_id'] ?? '';
+$deviceID = $data[RequestKey::DEVICE_ID] ?? '';
 
 // デバイス名
-$deviceName = $data['device_name'] ?? '';
+$deviceName = $data[RequestKey::DEVICE_NAME] ?? '';
 
 // MACアドレス
-$macAddress = $data['macaddress'] ?? '';
+$macAddress = $data[RequestKey::MACADDRESS] ?? '';
 
 ?>
 

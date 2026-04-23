@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../../database/DbConnect.php';
 require_once __DIR__ . '/../../database/DeviceTable.php';
 require_once __DIR__ . '/../../database/SqlGenelator.php';
+require_once __DIR__ . '/../Support/RequestKey.php';
 
 Class DeviceModel{
 
@@ -23,10 +24,10 @@ Class DeviceModel{
         $db = DBConnect::getDBConnect();
 
         // INSERT対象カラム名配列
-        $insertColumns = [deviceTable::DEVICE_ID_COLUMN, deviceTable::DEVICE_NAME_COLUMN, deviceTable::MACADDRESS_COLUMN, deviceTable::USER_ID_COLUMN];
+        $insertColumns = [DeviceTable::DEVICE_ID_COLUMN, DeviceTable::DEVICE_NAME_COLUMN, DeviceTable::MACADDRESS_COLUMN, DeviceTable::USER_ID_COLUMN];
 
         // デバイス情報を登録するSQL文を生成
-        $sql = sqlGenelator::InsertQueryGenelator(deviceTable::DEVICETABLE_NAME, $insertColumns);
+        $sql = SqlGenelator::InsertQueryGenelator(DeviceTable::DEVICETABLE_NAME, $insertColumns);
 
         // SQL文をプリペアドステートメントとして準備
         $stmt = $db->prepare($sql);
@@ -34,7 +35,7 @@ Class DeviceModel{
         try{
 
             // プレースホルダに値をバインドして実行
-            $stmt->execute(array($data['device_id'],  $data['device_name'], $data['macaddress'], $data['user_id']));
+            $stmt->execute(array($data[RequestKey::DEVICE_ID],  $data[RequestKey::DEVICE_NAME], $data[RequestKey::MACADDRESS], $data[RequestKey::USER_ID]));
             return true;
         }
         catch(Exception $e){
@@ -50,22 +51,22 @@ Class DeviceModel{
         $db = DBConnect::getDBConnect();
 
         // SELECT対象カラム名配列
-        $selectColumns = [deviceTable::DEVICE_ID_COLUMN, deviceTable::DEVICE_NAME_COLUMN, deviceTable::MACADDRESS_COLUMN];
+        $selectColumns = [DeviceTable::DEVICE_ID_COLUMN, DeviceTable::DEVICE_NAME_COLUMN, DeviceTable::MACADDRESS_COLUMN];
 
         // WHERE条件カラム名配列
-        $whereColumns = [deviceTable::DEVICE_ID_COLUMN, deviceTable::USER_ID_COLUMN];
+        $whereColumns = [DeviceTable::DEVICE_ID_COLUMN, DeviceTable::USER_ID_COLUMN];
 
         // WHERE条件同士をANDで連結するための演算子
         $signs = ['AND'];
 
-        // ユーザーIDを条件にデバイス情報を取得するSQL文を生成
-        $sql = sqlGenelator::SelectQueryGenelator($selectColumns, deviceTable::DEVICETABLE_NAME, $whereColumns, $signs);
+        // ユーザーIDおよびデバイスIDを条件にデバイス情報を取得するSQL文を生成
+        $sql = SqlGenelator::SelectQueryGenelator($selectColumns, DeviceTable::DEVICETABLE_NAME, $whereColumns, $signs);
 
         // SQL文をプリペアドステートメントとして準備
         $stmt = $db->prepare($sql);
 
-        // WHERE句のプレースホルダに値をバインドして実行
-        $stmt->execute(array($data['device_id'], $data['user_id']));
+        // プレースホルダに値をバインドして実行
+        $stmt->execute(array($data['device_id'], $data[RequestKey::USER_ID]));
 
         // 指定されたデバイス情報のレコードを取得
         $retRow = $stmt->fetch();
@@ -81,19 +82,19 @@ Class DeviceModel{
         $db = DBConnect::getDBConnect();
 
         // SELECT対象カラム名配列
-        $selectColumns = [deviceTable::DEVICE_ID_COLUMN, deviceTable::DEVICE_NAME_COLUMN];
+        $selectColumns = [DeviceTable::DEVICE_ID_COLUMN, DeviceTable::DEVICE_NAME_COLUMN];
 
         // WHERE条件カラム名配列
-        $whereColumns = [deviceTable::USER_ID_COLUMN];
+        $whereColumns = [DeviceTable::USER_ID_COLUMN];
 
         // ユーザーIDを条件にデバイス一覧情報を取得するSQL文を生成
-        $sql = sqlGenelator::SelectQueryGenelator($selectColumns, deviceTable::DEVICETABLE_NAME, $whereColumns);
+        $sql = SqlGenelator::SelectQueryGenelator($selectColumns, DeviceTable::DEVICETABLE_NAME, $whereColumns);
 
         // SQL文をプリペアドステートメントとして準備
         $stmt = $db->prepare($sql);
 
         // WHERE句のプレースホルダに値をバインドして実行
-        $stmt->execute(array($data['user_id']));
+        $stmt->execute(array($data[RequestKey::USER_ID]));
 
         // 実行結果を連想配列として全件取得
         $retDt = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -109,13 +110,13 @@ Class DeviceModel{
         $db = DBConnect::getDBConnect();
 
         // UPDATE対象カラム名配列
-        $updateColumns = [deviceTable::DEVICE_NAME_COLUMN, deviceTable::MACADDRESS_COLUMN];
+        $updateColumns = [DeviceTable::DEVICE_NAME_COLUMN, DeviceTable::MACADDRESS_COLUMN];
 
         // WHERE条件カラム名配列
-        $whereColumns = [deviceTable::DEVICE_ID_COLUMN];
+        $whereColumns = [DeviceTable::DEVICE_ID_COLUMN];
 
         // デバイスIDを条件にデバイス情報を更新するSQL文を生成
-        $sql = sqlGenelator::UpdateQueryGenelator(deviceTable::DEVICETABLE_NAME, $updateColumns, $whereColumns);
+        $sql = SqlGenelator::UpdateQueryGenelator(DeviceTable::DEVICETABLE_NAME, $updateColumns, $whereColumns);
 
         // SQL文をプリペアドステートメントとして準備
         $stmt = $db->prepare($sql);
@@ -123,7 +124,7 @@ Class DeviceModel{
         try{
 
             // プレースホルダに値をバインドして実行
-            $stmt->execute(array($data['device_name'], $data['macaddress'], $data['device_id']));
+            $stmt->execute(array($data[RequestKey::DEVICE_NAME], $data[RequestKey::MACADDRESS], $data[RequestKey::DEVICE_ID]));
             return true;
         }
         catch(Exception $e){
@@ -139,10 +140,10 @@ Class DeviceModel{
         $db = DBConnect::getDBConnect();
 
         // WHERE条件カラム名配列
-        $whereColumns = [deviceTable::DEVICE_ID_COLUMN];
+        $whereColumns = [DeviceTable::DEVICE_ID_COLUMN];
 
         // デバイスIDを条件にデバイス情報を削除するSQL文を生成
-        $sql = sqlGenelator::DeleteQueryGenelator(deviceTable::DEVICETABLE_NAME, $whereColumns);
+        $sql = SqlGenelator::DeleteQueryGenelator(DeviceTable::DEVICETABLE_NAME, $whereColumns);
 
         // SQL文をプリペアドステートメントとして準備
         $stmt = $db->prepare($sql);
@@ -160,13 +161,21 @@ Class DeviceModel{
     }
 
     // デバイス情報全削除
-    public function deleteAllDeviceInfoModel(array $data){
+    public function deleteAllDeviceInfoModel(array $data, $db){
 
-        // DBに接続
-        $db = DBConnect::getDBConnect();
+        // WHERE条件カラム名配列
+        $whereColumns = [DeviceTable::USER_ID_COLUMN];
 
-        // 全削除処理を呼び出す
-        return deviceTable::deleteDeviceInfoAll($data, $db);
+        // ユーザIDを条件にデバイス情報を削除するSQL文を生成
+        $sql = SqlGenelator::DeleteQueryGenelator(DeviceTable::DEVICETABLE_NAME, $whereColumns);
+
+        // SQL文をプリペアドステートメントとして準備
+        $stmt = $db->prepare($sql);
+
+        // プレースホルダに値をバインドして実行
+        $stmt->execute(array($data[RequestKey::USER_ID]));
+
+        return true;
     }
 
     // マジックパケット送信
@@ -179,52 +188,29 @@ Class DeviceModel{
             // ソケット
             $socket = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
 
-            foreach($data['selectdevices'] as $deviceId){
+            foreach($data[RequestKey::SELECTED_DEVICES] as $deviceId){
 
                 // デバイス情報
                 $deviceInfo = $this->getDeviceInfoModel([
-                    'device_id' => $deviceId,
-                    'user_id'   => $data['user_id']
+                    RequestKey::DEVICE_ID => $deviceId,
+                    RequestKey::USER_ID   => $data[RequestKey::USER_ID]
                 ]);
-
-                // ブロードキャストIPアドレス
-                $bloadCastIpAddress = '255.255.255.255';
-
-                // MACアドレス変換フォーマット
-                $macAddressConvertFormat = 'H12';
 
                 // MACアドレス
                 $macAddress = $deviceInfo['macaddress'];
                 $macAddress = str_replace(['-'], '', $macAddress);
-                $macAddress = pack($macAddressConvertFormat, $macAddress);
-
-                // ブロードキャスト送信フラグ
-                $bloadCastFlag = 1;
-
-                // 送信オプションデフォルトフラグ
-                $sendOptionDefaultFlag = 0;
-
-                // 宛先ポート番号
-                $port = 9;
-
-                // マジックパケットヘッダ繰り返し回数
-                $magickPacketHeaderRepeatCount = 6;
-
-                // MACアドレス繰り返し回数
-                $macAddressRepeatCount = 16;
+                $macAddress = pack('H12', $macAddress);
 
                 // マジックパケット
-                $magickPacket = str_repeat(chr(0xFF), $magickPacketHeaderRepeatCount) . str_repeat($macAddress, $macAddressRepeatCount);
+                $magickPacket = str_repeat(chr(0xFF), 6) . str_repeat($macAddress, 16);
 
                 // ブロードキャスト送信オプションを設定
-                socket_set_option($socket, SOL_SOCKET, SO_BROADCAST, $bloadCastFlag);
-
-                // 送信回数
-                $sendCount = 3;
+                socket_set_option($socket, SOL_SOCKET, SO_BROADCAST, 1);
 
                 // マジックパケット送信
-                for($i = 0; $i < $sendCount; $i++){
-                    socket_sendto($socket, $magickPacket, strlen($magickPacket), $sendOptionDefaultFlag, $bloadCastIpAddress, $port);
+                for($i = 0; $i < 3; $i++){
+
+                    socket_sendto($socket, $magickPacket, strlen($magickPacket), 0, '255.255.255.255', 9);
                 }
             }
         }

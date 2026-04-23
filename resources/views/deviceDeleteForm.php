@@ -2,13 +2,13 @@
 // デバイス情報削除画面
 
 // デバイスID
-$deviceID = $data['device_id'] ?? '';
+$deviceID = $data[RequestKey::DEVICE_ID] ?? '';
 
 // CSRFトークン
-$token = $data['token'] ?? '';
+$token = $data[RequestKey::TOKEN] ?? '';
 
 // 削除失敗メッセージ
-$deleteFailMsg = $data['deleteFailMsg'] ?? '';
+$deleteFailMsg = $data[RequestKey::MESSAGE] ?? '';
 
 ?>
 
@@ -22,8 +22,8 @@ $deleteFailMsg = $data['deleteFailMsg'] ?? '';
     <?php echo Util::escape($deviceID ?? '') ?></a>のデバイス情報を削除します。よろしいですか？
 </p>
 <form action="" method="POST">
-    <input type="hidden" name="device_id" value = "<?php echo $deviceID; ?>"/>
-    <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
+    <input type="hidden" name=<?php echo RequestKey::DEVICE_ID ?> value = "<?php echo $deviceID; ?>"/>
+    <input type="hidden" name=<?php echo RequestKey::TOKEN ?> value = "<?php echo $token; ?>"/>
     <button type="submit" name="deleteBtn" id="deleteBtn">削除</button><br>
 </form>
 <a href="/deviceinfo?device_id=<?php echo Util::escape($deviceID) ?>">デバイス情報画面に戻る</a>

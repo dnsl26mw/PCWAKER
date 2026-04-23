@@ -1,8 +1,9 @@
 <?php
 
 require_once __DIR__ . '/../../Models/DeviceModel.php';
-require_once __DIR__ . '/../../Service/CommonMessage.php';
-require_once __DIR__ . '/../../Service/Util.php';
+require_once __DIR__ . '/../../Support/CommonMessage.php';
+require_once __DIR__ . '/../../Support/RequestKey.php';
+require_once __DIR__ . '/../../Support/Util.php';
 
 Class DeviceController{
 
@@ -30,7 +31,7 @@ Class DeviceController{
         $deviceModel = new DeviceModel();
 
         //  デバイスID、デバイス名、MACアドレスの未入力チェック
-        if(empty($data['device_id']) || empty($data['device_name']) || empty($data['macaddress']) || empty($data['token'])){
+        if(empty($data[RequestKey::DEVICE_ID]) || empty($data[RequestKey::DEVICE_NAME]) || empty($data[RequestKey::MACADDRESS]) || empty($data[RequestKey::TOKEN])){
 
             // デバイスID、デバイス名、MACアドレス未入力メッセージを返す
             return CommonMessage::DEVICEIDANDDEVICENAMEANDMACADDRESSNOTENTERD;
@@ -91,7 +92,7 @@ Class DeviceController{
         $deviceModel = new DeviceModel();
 
         // デバイス情報入力判定
-        if(empty($data['device_name']) || empty($data['macaddress']) || empty($data['token'])){
+        if(empty($data[RequestKey::DEVICE_ID]) || empty($data[RequestKey::DEVICE_NAME]) || empty($data[RequestKey::TOKEN])){
 
             // デバイス名、MACアドレス名未入力メッセージを返す
             return CommonMessage::DEVICENAMEANDMACADDRESSNOTENTERD;
@@ -138,7 +139,7 @@ Class DeviceController{
         $deviceModel = new DeviceModel();
 
         // デバイスIDまたはCSRFトークンが未セット
-        if(empty($data['device_id']) || empty($data['token'])){
+        if(empty($data[RequestKey::DEVICE_ID]) || empty($data[RequestKey::TOKEN])){
 
             // 削除失敗メッセージを返す
             return CommonMessage::DELETEFAILURE;
@@ -153,36 +154,6 @@ Class DeviceController{
 
         // デバイス削除処理を呼び出す
         if(!$deviceModel->deleteDeviceInfoModel($data)){
-            
-            // 削除失敗メッセージを返す
-            return CommonMessage::DELETEFAILURE;
-        }
-
-        // 削除成功を表す空文字列を返す
-        return '';
-    }
-
-    // デバイス情報全削除
-    public function deleteDeviceInfoAllController(array $data){
-
-        $deviceModel = new DeviceModel();
-
-        // ユーザIDまたはCSRFトークンが未セット
-        if(empty($data['user_id']) || empty($data['token'])){
-            
-            // 削除失敗メッセージを返す
-            return CommonMessage::DELETEFAILURE;
-        }
-
-        // CSRFトークン判定
-        if(!Util::verificationToken($data)){
-            
-            // 削除失敗メッセージを返す
-            return CommonMessage::DELETEFAILURE;
-        }
-
-        // デバイス情報全削除処理を呼び出す
-        if(!$deviceModel->deleteAllDeviceInfoModel($data)){
             
             // 削除失敗メッセージを返す
             return CommonMessage::DELETEFAILURE;
@@ -228,8 +199,8 @@ Class DeviceController{
         foreach($data['selectdevices'] as $device){
 
             $checkData = [
-                'device_id' => $device,
-                'user_id' => $data['user_id']
+                RequestKey::DEVICE_ID => $device,
+                RequestKey::USER_ID => $data[RequestKey::USER_ID]
             ];
             
             if($deviceModel->isNotExsistDeviceID($checkData)){

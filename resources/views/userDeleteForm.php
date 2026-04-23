@@ -2,13 +2,13 @@
 // ユーザ情報削除画面
 
 // ユーザID
-$userID = $data['user_id'] ?? '';
+$userID = $data[RequestKey::USER_ID] ?? '';
 
 // CSRFトークン
-$token = $data['token'] ?? '';
+$token = $data[RequestKey::TOKEN] ?? '';
 
 // 削除失敗メッセージ
-$deleteFailMsg = $data['deleteFailMsg'] ?? '';
+$deleteFailMsg = $data[RequestKey::MESSAGE] ?? '';
 
 ?>
 
@@ -20,7 +20,7 @@ $deleteFailMsg = $data['deleteFailMsg'] ?? '';
     ユーザーIDが<a href="/userinfo"><?php echo Util::escape($userID ?? '') ?></a>のユーザー情報を削除します。よろしいですか？
 </p>
 <form action="" method="POST">
-    <input type="hidden" name="token" value = "<?php echo $token; ?>"/>
+    <input type="hidden" name=<?php echo RequestKey::TOKEN?> value = "<?php echo $token; ?>"/>
     <button type="submit" name="deleteBtn" id="deleteBtn">削除</button><br>
 </form>
 <a href="/userinfo">ユーザー情報画面に戻る</a>

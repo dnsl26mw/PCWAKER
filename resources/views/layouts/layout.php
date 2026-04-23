@@ -15,10 +15,10 @@
         <header>
             <h1><a href="/">PCWAKER</a></h1>
             <p>
-                <?php if (!empty($_SESSION['user_id'])): ?>
+                <?php if (!empty($_SESSION[Session::USER_ID])): ?>
                     ユーザーID:
                     <a href="/userinfo">
-                        <?= Util::escape($_SESSION['user_id']) ?>
+                        <?= Util::escape($_SESSION[Session::USER_ID]) ?>
                     </a>でログイン中
                 <?php endif; ?>
             </p>

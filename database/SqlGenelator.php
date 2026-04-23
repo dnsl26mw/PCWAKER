@@ -109,17 +109,17 @@ class SqlGenelator{
 
         for($i = 0; $i < count($columns); $i++){
 
-            $retStr = $retStr.=$columns[$i];
+            $retStr .= $columns[$i];
 
             // UPDATE文生成の場合
             if($updateFlg){
 
-                $retStr = $retStr.='=?';
+                $retStr.='=?';
             }
 
             if($i < count($columns)-1){
 
-                $retStr = $retStr.=', ';
+                $retStr.=', ';
             }
         }
 
@@ -127,7 +127,7 @@ class SqlGenelator{
     }
 
     // WHERE条件の連結
-    private static function joinWhereCondition(array $whereColumns, array $signs){
+    private static function joinWhereCondition(array $whereColumns, array $signs = []){
 
         $retStr = ' WHERE ';
 
