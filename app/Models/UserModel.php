@@ -80,33 +80,51 @@ Class UserModel{
     }
 
     // パスワード以外のユーザ情報更新
-    public function updateUserInfoModel(array $data){
+    public function updateUserInfoModel(array $data, $db){
 
-        // DBに接続
-        $db = DBConnect::getDBConnect();
+        // UPDATE対象カラム名配列
+        $updateColumns = [UserTable::USER_NAME_COLUMN];
 
-        // 更新処理を呼び出す
-        return UserTable::updateUserInfo($data, $db);
+        // WHERE条件カラム名配列
+        $whereColumns = [UserTable::USER_ID_COLUMN];
+
+        // ユーザIDを条件にパスワード以外のユーザ情報を更新するSQL文を生成
+        $sql = SqlGenelator::UpdateQueryGenelator(UserTable::USERTABLE_NAME, $updateColumns, $whereColumns);
+
+        // SQL文をプリペアドステートメントとして準備
+        $stmt = $db->prepare($sql);
+
+        // プレースホルタに値をバインドして実行
+        $stmt->execute(array($data[RequestKey::USER_NAME], $data[RequestKey::USER_ID]));
+
+        return true;
     }
 
     // パスワードの更新
-    public function updatePasswordModel(array $data){
-
-        // DBに接続
-        $db = DBConnect::getDBConnect();
+    public function updatePasswordModel(array $data, $db){
 
         // ソルト用文字列を取得
         $salt = Util::hashConvert(Util::retRandomStr());
 
         // DB登録用パスワードを取得
-        $password = Util::getHashPassword($salt, $data['newPassword']);
+        $password = Util::getHashPassword($salt, $data[RequestKey::NEWPASSWORD]);
 
-        // 更新処理を呼び出す
-        return UserTable::updateUserInfoPassword([
-            RequestKey::PASSWORD => $password,
-            RequestKey::SALT    => $salt,
-            RequestKey::USER_ID => $data[RequestKey::USER_ID]
-        ], $db);
+        // UPDATE対象カラム名配列
+        $updateColumns = [UserTable::SALT_COLUMN, UserTable::PASSWORD_COLUMN];
+
+        // WHERE条件カラム名配列
+        $whereColumns = [UserTable::USER_ID_COLUMN];
+
+        // ユーザIDを条件にパスワードを更新するSQL文を生成
+        $sql = SqlGenelator::UpdateQueryGenelator(UserTable::USERTABLE_NAME, $updateColumns, $whereColumns);
+
+        // SQL文をプリペアドステートメントとして準備
+        $stmt = $db->prepare($sql);
+
+        // プレースホルダに値をバインドして実行
+        $stmt->execute(array($salt, $password, $data[RequestKey::USER_ID]));
+
+        return true;
     }
 
     // ユーザ情報削除

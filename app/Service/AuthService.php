@@ -33,6 +33,20 @@ class AuthService{
         // ログイン成功
         return true;
     }
+
+    // パスワードのみの照合
+    public function onlyPasswordCheckService(array $data){
+
+        // 現在のユーザ情報を取得
+        $userModel = new UserModel();
+        $dbRow = $userModel->getUserInfoModel($data);
+
+        // 入力されたパスワードをハッシュ化
+        $password = Util::getHashPassword($dbRow[RequestKey::SALT], $data[RequestKey::OLDPASSWORD]);
+
+        // パスワード照合結果を返す
+        return $dbRow[UserTable::PASSWORD_COLUMN] === $password;
+    }
 }
 
 ?>

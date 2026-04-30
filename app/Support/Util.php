@@ -63,7 +63,7 @@ class Util {
 
     // セッション情報にユーザIDおよびユーザ名をセット
     public static function setSession($user_id){
-        $_SESSION[Session::USER_ID] = $user_id;
+        $_SESSION[Requestkey::USER_ID] = $user_id;
     }
 
     // ログイン済みかどうかを判定する

@@ -44,8 +44,8 @@ $updateFailMsg = $data[RequestKey::MESSAGE] ?? '';
         <tr>
             <th></th>
             <td>
-                <input type="password" name="oldpass" id="oldpasstextbox" placeholder="現在のパスワード"><br>
-                <input type="password" name="newpass" id="newpasstextbox" placeholder="新しいパスワード"><br>
+                <input type="password" name=<?php echo RequestKey::OLDPASSWORD; ?> id="oldpasstextbox" placeholder="現在のパスワード"><br>
+                <input type="password" name=<?php echo RequestKey::NEWPASSWORD; ?> id="newpasstextbox" placeholder="新しいパスワード"><br>
             </td>
         <tr>
     </table>

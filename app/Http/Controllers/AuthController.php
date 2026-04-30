@@ -1,9 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../../Models/AuthModel.php';
 require_once __DIR__ . '/../../Support/CommonMessage.php';
 require_once __DIR__ . '/../../Support/RequestKey.php';
-require_once __DIR__ . '/../../Support/Session.php';
 require_once __DIR__ . '/../../Service/AuthService.php';
 require_once __DIR__ . '/../../Support/RequestKey.php';
 

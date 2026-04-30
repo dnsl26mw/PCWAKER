@@ -1,7 +1,6 @@
 <?php
 
 require_once __DIR__ . '/../../Models/UserModel.php';
-require_once __DIR__ . '/../../Models/AuthModel.php';
 require_once __DIR__ . '/../../Support/CommonMessage.php';
 require_once __DIR__ . '/../../Support/Util.php';
 require_once __DIR__ . '/../../Support/RequestKey.php';
@@ -83,13 +82,18 @@ Class UserController{
     // ユーザ情報更新
     public function updateUserInfoController(array $data){
 
-        $userModel = new UserModel();
-
         // ユーザ情報入力判定
         if(empty($data[RequestKey::USER_ID]) || empty($data[RequestKey::USER_NAME]) || empty($data[RequestKey::TOKEN])){
 
             // ユーザ名未入力メッセージを返す
             return CommonMessage::USERNAMENOTENTERD;
+        }
+
+        // パスワード入力判定
+        if($data[RequestKey::ISUPDATEPASSWORD] === 'updatepassword' && (empty($data[RequestKey::OLDPASSWORD]) || empty($data[RequestKey::NEWPASSWORD]))){
+
+            // 現在のパスワードおよび新しいパスワードが未入力メッセージを返す
+            return CommonMessage::OLDPASSWORDANDNEWPASSWORDNOTENTERD;
         }
 
         // CSRFトークン判定
@@ -99,59 +103,14 @@ Class UserController{
             return CommonMessage::USERNAMENOTENTERD;
         }
 
-        // ユーザ名バリデーション
-        if(!Util::validateName($data['user_name'])){
-
-            // 文字数超過メッセージを返す
-            return CommonMessage::USERNAMECOUNTOVER;
-        }
-
-        // パスワード更新を行う場合
-        if($data['isUpdatePassword'] === 'updatepassword'){
-
-            // 新旧パスワード入力判定
-            if(empty($data['oldPassword']) || empty($data['newPassword'])){
-
-                // 現在のパスワードおよび新しいパスワードが未入力メッセージを返す
-                return CommonMessage::OLDPASSWORDANDNEWPASSWORDNOTENTERD;
-            }
-
-            $authModel = new AuthModel();
-
-            // 旧パスワード判定
-            if(!$authModel->onlyPasswordCheckModel($data)){
-
-                // 旧パスワード不一致のメッセージを返す
-                return CommonMessage::OLDPASSWORDNOTMATCHED;
-            }
-
-            // 新パスワードバリデーション
-            if(!$this->validatePassword($data[RequestKey::NEWPASSWORD])){
-
-                // 文字数不足または超過メッセージを返す
-                return '新しい'.CommonMessage::PASSWORDCOUNTUNDEROROVER;
-            }
-
-            // パスワード更新
-            if(!$userModel->updatePasswordModel($data)){
-
-                // 更新失敗メッセージを返す
-                return CommonMessage::UPDATEFAILURE;
-            }
-        }
-
-        // パスワード以外のユーザ情報の更新
-        if(!$userModel->updateUserInfoModel($data)){
-
-            // 更新失敗メッセージを返す
-            return CommonMessage::UPDATEFAILURE;
-        }
+        // ユーザ情報更新処理を呼び出す
+        $userService = new UserService();
+        $retStr = $userService->updateUserInfoService($data, $data[RequestKey::ISUPDATEPASSWORD] === 'updatepassword');
 
         // セッションからCSRFトークンを削除
         Util::deleteToken();
 
-        // 更新成功を表す空文字列を返す
-        return '';
+        return $retStr;
     }
 
     // ユーザ情報削除
@@ -181,15 +140,5 @@ Class UserController{
 
         // 削除成功を表す空文字列を返す
         return '';
-    }
-
-    // パスワードバリデーション
-    private static function validatePassword($str){
-
-        // 最小文字数
-        $minCount = 8;
-
-        // 最小文字数以上かを返す
-        return mb_strlen($str) >= $minCount;
     }
 }
