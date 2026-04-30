@@ -55,7 +55,7 @@ Class RoutesController{
 
                 // ログアウト失敗
                 $data = [
-                    RequestKey => $_POST[RequestKey::TOKEN],
+                    RequestKey::TOKEN => Util::createToken(),
                     RequestKey::MESSAGE => $logoutFailMsg
                 ];
 
@@ -106,7 +106,7 @@ Class RoutesController{
                 $data = [
                     RequestKey::USER_ID => $_POST[RequestKey::USER_ID],
                     RequestKey::USER_NAME => $_POST[RequestKey::USER_NAME],
-                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
+                    RequestKey::TOKEN => Util::createToken(),
                     RequestKey::MESSAGE => $registFailMsg
                 ];
 
@@ -179,7 +179,7 @@ Class RoutesController{
                     RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
                     RequestKey::USER_NAME => $data[RequestKey::USER_NAME],
                     RequestKey::ISUPDATEPASSWORD => $data[RequestKey::ISUPDATEPASSWORD],
-                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
+                    RequestKey::TOKEN => Util::createToken(),
                     RequestKey::MESSAGE => $updateFailMsg
                 ];
 
@@ -228,7 +228,7 @@ Class RoutesController{
                 // 削除失敗
                 $data = [
                     RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
-                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
+                    RequestKey::TOKEN => Util::createToken(),
                     RequestKey::MESSAGE => $deleteFailMsg
                 ];
 
@@ -242,7 +242,7 @@ Class RoutesController{
 
                 // ログアウト失敗
                 $data = [
-                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
+                    RequestKey::TOKEN => Util::createToken(),
                     RequestKey::MESSAGE => $logoutFailMsg
                 ];
 
@@ -300,7 +300,7 @@ Class RoutesController{
                         RequestKey::DEVICE_LIST_INFO => $deviceListInfo, 
                         RequestKey::SELECTED_DEVICES=> $_POST[RequestKey::SELECTED_DEVICES],
                         RequestKey::MESSAGE => $magickPacketSendFailmsg, 
-                        RequestKey::TOKEN => $_POST[RequestKey::TOKEN]
+                        RequestKey::TOKEN => Util::createToken()
                     ]
                 );
             }
@@ -392,7 +392,7 @@ Class RoutesController{
                     RequestKey::DEVICE_NAME => $_POST[RequestKey::DEVICE_NAME],
                     RequestKey::MACADDRESS => $_POST[RequestKey::MACADDRESS],
                     RequestKey::USER_ID => $_POST[RequestKey::USER_ID],
-                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
+                    RequestKey::TOKEN => Util::createToken(),
                     RequestKey::MESSAGE => $registFailMsg
                 ];
 
@@ -446,7 +446,7 @@ Class RoutesController{
                     RequestKey::DEVICE_NAME => $data[RequestKey::DEVICE_NAME],
                     RequestKey::MACADDRESS => $data[RequestKey::MACADDRESS],
                     RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
-                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
+                    RequestKey::TOKEN => Util::createToken(),
                     RequestKey::MESSAGE => $updateFailMsg
                 ];
 
@@ -514,7 +514,7 @@ Class RoutesController{
                 $data = [
                     RequestKey::DEVICE_ID => $_POST[RequestKey::DEVICE_ID],
                     RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
-                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
+                    RequestKey::TOKEN => Util::createToken(),
                     RequestKey::MESSAGE => $deleteFailMsg
                 ];
 
@@ -608,7 +608,11 @@ Class RoutesController{
             if(!empty($loginFailMsg)){
 
                 // ログイン失敗
-                $data[RequestKey::MESSAGE] = $loginFailMsg;
+                $data = [
+                    RequestKey::MESSAGE => $loginFailMsg,
+                    RequestKey::USER_ID => $_POST[RequestKey::USER_ID],
+                    RequestKey::TOKEN => Util::createToken()
+                ];
 
                 $this->render($pageTitle, $viewFileName, $data);
             }
