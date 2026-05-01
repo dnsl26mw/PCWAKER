@@ -80,6 +80,37 @@ class DeviceService{
         return '';
     }
 
+    // マジックパケット送信
+    public function sendMagicPacketService(array $data){
+
+        $deviceModel = new DeviceModel();
+
+        // デバイスIDが全てログイン中ユーザに紐づくことを確認
+        foreach($data['selectdevices'] as $device){
+
+            $checkData = [
+                RequestKey::DEVICE_ID => $device,
+                RequestKey::USER_ID => $data[RequestKey::USER_ID]
+            ];
+            
+            if($deviceModel->isNotExsistDeviceID($checkData)){
+
+                // マジックパケット送信失敗メッセージを返す
+                return CommonMessage::SENDMAGICKPACKETFAILURE;
+            }
+        }
+
+        // マジックパケット送信処理を呼び出す
+        if(!$deviceModel->sendMagickPacketModel($data)){
+
+            // マジックパケット送信失敗メッセージを返す
+            return CommonMessage::SENDMAGICKPACKETFAILURE;
+        }
+
+        // 送信成功を表す空文字列を返す
+        return '';
+    }
+
     // MACアドレスのバリデーション
     private function validatemacaddress($data){
 

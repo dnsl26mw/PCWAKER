@@ -124,31 +124,13 @@ Class DeviceController{
             return CommonMessage::OPERATIONTIMEOUT;
         }
 
-        $deviceModel = new DeviceModel();
-
-        // デバイスIDが全てログイン中ユーザに紐づくことを確認
-        foreach($data['selectdevices'] as $device){
-
-            $checkData = [
-                RequestKey::DEVICE_ID => $device,
-                RequestKey::USER_ID => $data[RequestKey::USER_ID]
-            ];
-            
-            if($deviceModel->isNotExsistDeviceID($checkData)){
-
-                // マジックパケット送信失敗メッセージを返す
-                return CommonMessage::SENDMAGICKPACKETFAILURE;
-            }
-        }
-
         // マジックパケット送信処理を呼び出す
-        if(!$deviceModel->sendMagickPacketModel($data)){
+        $deviceService = new DeviceService();
+        $retStr = $deviceService->sendMagicPacketService($data);
 
-            // マジックパケット送信失敗メッセージを返す
-            return CommonMessage::SENDMAGICKPACKETFAILURE;
-        }
+        // セッションからCSRFトークンを削除
+        Util::deleteToken();
 
-        // 送信成功を表す空文字列を返す
-        return '';
+        return $retStr;
     }
 }
