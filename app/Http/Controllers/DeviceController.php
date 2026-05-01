@@ -40,8 +40,8 @@ Class DeviceController{
         // CSRFトークン判定
         if(!Util::verificationToken($data)){
 
-            // デバイスID、デバイス名、MACアドレス未入力メッセージを返す
-            return CommonMessage::DEVICEIDANDDEVICENAMEANDMACADDRESSNOTENTERD;
+            // 操作の有効期限切れメッセージを返す
+            return CommonMessage::OPERATIONTIMEOUT;
         }
 
         // デバイスIDバリデーション
@@ -101,8 +101,8 @@ Class DeviceController{
         // CSRFトークン判定
         if(!Util::verificationToken($data)){
             
-            // デバイス名、MACアドレス名未入力メッセージを返す
-            return CommonMessage::DEVICENAMEANDMACADDRESSNOTENTERD;
+            // 操作の有効期限切れメッセージを返す
+            return CommonMessage::OPERATIONTIMEOUT;
         }
 
         // デバイス名バリデーション
@@ -148,8 +148,8 @@ Class DeviceController{
         // CSRFトークン判定
         if(!Util::verificationToken($data)){
             
-            // 削除失敗メッセージを返す
-            return CommonMessage::DELETEFAILURE;
+            // 操作の有効期限切れメッセージを返す
+            return CommonMessage::OPERATIONTIMEOUT;
         }
 
         // デバイス削除処理を呼び出す
@@ -189,8 +189,8 @@ Class DeviceController{
         // CSRFトークン判定
         if(!Util::verificationToken($data)){
 
-            // マジックパケット送信失敗メッセージを返す
-            return CommonMessage::SENDMAGICKPACKETFAILURE;
+            // 操作の有効期限切れメッセージを返す
+            return CommonMessage::OPERATIONTIMEOUT;
         }
 
         $deviceModel = new DeviceModel();

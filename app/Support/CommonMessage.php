@@ -45,6 +45,8 @@ class CommonMessage {
     const DEVICENOTSELECTED = 'デバイスを選択してください。';
 
     const SENDMAGICKPACKETFAILURE = 'マジックパケットの送信に失敗しました。';
+
+    const OPERATIONTIMEOUT = '操作の有効期限が切れました。再度入力してください。';
 }
 
 ?>

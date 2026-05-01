@@ -20,8 +20,8 @@ class AuthController{
         // CSRFトークン判定
         if(!Util::verificationToken($data)){
             
-            // ユーザIDおよびパスワード未入力メッセージを返す
-            return CommonMessage::USERIDANDPASSWORDNOTENTERD;
+            // 操作の有効期限切れメッセージを返す
+            return CommonMessage::OPERATIONTIMEOUT;
         }
 
         // ログイン処理呼び出し
@@ -56,8 +56,8 @@ class AuthController{
         // CSRFトークン判定
         if(!Util::verificationToken($data)){
 
-            // ログアウト失敗メッセージを返す
-            return CommonMessage::LOGOUTFAILURE;
+            // 操作の有効期限切れメッセージを返す
+            return CommonMessage::OPERATIONTIMEOUT;
         }
 
         // セッション情報の削除

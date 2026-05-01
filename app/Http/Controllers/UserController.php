@@ -33,8 +33,8 @@ Class UserController{
         // CSRFトークン判定
         if(!Util::verificationToken($data)){
 
-            // ユーザID、パスワード、ユーザ名未入力メッセージを返す
-            return CommonMessage::USERIDANDPASSWORDANDUSERNAMENOTENTERD;
+            // 操作の有効期限切れメッセージを返す
+            return CommonMessage::OPERATIONTIMEOUT;
         }
 
         // ユーザID半角英数字バリデーション
@@ -99,8 +99,8 @@ Class UserController{
         // CSRFトークン判定
         if(!Util::verificationToken($data)){
             
-            // ユーザ名未入力メッセージを返す
-            return CommonMessage::USERNAMENOTENTERD;
+            // 操作の有効期限切れメッセージを返す
+            return CommonMessage::OPERATIONTIMEOUT;
         }
 
         // ユーザ情報更新処理を呼び出す
@@ -119,15 +119,15 @@ Class UserController{
         // ユーザIDまたはトークンが未セット
         if(empty($data[RequestKey::USER_ID]) || empty($data[RequestKey::TOKEN])){
 
-            // 削除失敗メッセージを返す
-            return CommonMessage::DELETEFAILURE;
+            // 操作の有効期限切れメッセージを返す
+            return CommonMessage::OPERATIONTIMEOUT;
         }
 
         // CSRFトークン判定
         if(!Util::verificationToken($data)){
 
-            // 削除失敗メッセージを返す
-            return CommonMessage::DELETEFAILURE;
+            // 操作の有効期限切れメッセージを返す
+            return CommonMessage::OPERATIONTIMEOUT;
         }
 
         // ユーザ情報削除処理を呼び出す
