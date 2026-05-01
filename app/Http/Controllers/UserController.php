@@ -37,46 +37,14 @@ Class UserController{
             return CommonMessage::OPERATIONTIMEOUT;
         }
 
-        // ユーザID半角英数字バリデーション
-        if(!Util::validateID($data[RequestKey::USER_ID])){
-
-            // ユーザIDが20文字以内の記号なし半角英数字ではないメッセージを返す
-            return CommonMessage::USERIDNOTHALFSIZENUMBER;
-        }
-
-        // ユーザID重複チェック
-        if(!$userModel->isNotExsistUserID($data)){
-
-            // ユーザID重複メッセージを返す
-            return CommonMessage::USERIDUSED;
-        }
-
-        // パスワードバリデーション
-        if(!$this->validatePassword($data[RequestKey::PASSWORD])){
-
-            // 文字数不足または超過メッセージを返す
-            return CommonMessage::PASSWORDCOUNTUNDEROROVER;
-        }
-
-        // ユーザ名バリデーション
-        if(!Util::validateName($data['user_name'])){
-
-            // 文字数超過メッセージを返す
-            return CommonMessage::USERNAMECOUNTOVER;
-        }
-
-        // ユーザ登録処理を呼び出す
-        if(!$userModel->registUserInfoModel($data)){
-
-            // 登録失敗メッセージを返す
-            return CommonMessage::REGISTFAILURE;
-        }
+        // ユーザ情報登録処理を呼び出す
+        $userService = new UserService();
+        $retStr = $userService->registUserInfoService($data);
 
         // セッションからCSRFトークンを削除
         Util::deleteToken();
 
-        // 登録成功を表す空文字列を返す
-        return '';
+        return $retStr;
     }
 
     // ユーザ情報更新
