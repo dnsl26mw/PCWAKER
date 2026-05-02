@@ -391,7 +391,7 @@ Class RoutesController{
                     RequestKey::DEVICE_ID => $_POST[RequestKey::DEVICE_ID],
                     RequestKey::DEVICE_NAME => $_POST[RequestKey::DEVICE_NAME],
                     RequestKey::MACADDRESS => $_POST[RequestKey::MACADDRESS],
-                    RequestKey::USER_ID => $_POST[RequestKey::USER_ID],
+                    RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
                     RequestKey::TOKEN => Util::createToken(),
                     RequestKey::MESSAGE => $registFailMsg
                 ];
@@ -431,7 +431,7 @@ Class RoutesController{
                 RequestKey::DEVICE_ID => $_POST[RequestKey::DEVICE_ID],
                 RequestKey::DEVICE_NAME => $_POST[RequestKey::DEVICE_NAME],
                 RequestKey::MACADDRESS => $_POST[RequestKey::MACADDRESS],
-                RequestKey::USER_ID => $_POST[RequestKey::USER_ID],
+                RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
                 RequestKey::TOKEN => $_POST[RequestKey::TOKEN]
             ];
 

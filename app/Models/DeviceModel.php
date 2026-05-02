@@ -113,10 +113,13 @@ Class DeviceModel{
         $updateColumns = [DeviceTable::DEVICE_NAME_COLUMN, DeviceTable::MACADDRESS_COLUMN];
 
         // WHERE条件カラム名配列
-        $whereColumns = [DeviceTable::DEVICE_ID_COLUMN];
+        $whereColumns = [DeviceTable::DEVICE_ID_COLUMN, UserTable::USER_ID_COLUMN];
+
+        // WHERE条件同士をANDで連結するための演算子
+        $signs = ['AND'];
 
         // デバイスIDを条件にデバイス情報を更新するSQL文を生成
-        $sql = SqlGenelator::UpdateQueryGenelator(DeviceTable::DEVICETABLE_NAME, $updateColumns, $whereColumns);
+        $sql = SqlGenelator::UpdateQueryGenelator(DeviceTable::DEVICETABLE_NAME, $updateColumns, $whereColumns, $signs);
 
         // SQL文をプリペアドステートメントとして準備
         $stmt = $db->prepare($sql);
@@ -124,7 +127,7 @@ Class DeviceModel{
         try{
 
             // プレースホルダに値をバインドして実行
-            $stmt->execute(array($data[RequestKey::DEVICE_NAME], $data[RequestKey::MACADDRESS], $data[RequestKey::DEVICE_ID]));
+            $stmt->execute(array($data[RequestKey::DEVICE_NAME], $data[RequestKey::MACADDRESS], $data[RequestKey::DEVICE_ID], $data[RequestKey::USER_ID]));
             return true;
         }
         catch(Exception $e){
@@ -140,10 +143,13 @@ Class DeviceModel{
         $db = DBConnect::getDBConnect();
 
         // WHERE条件カラム名配列
-        $whereColumns = [DeviceTable::DEVICE_ID_COLUMN];
+        $whereColumns = [DeviceTable::DEVICE_ID_COLUMN, UserTable::USER_ID_COLUMN];
+
+        // WHERE条件同士をANDで連結するための演算子
+        $signs = ['AND'];
 
         // デバイスIDを条件にデバイス情報を削除するSQL文を生成
-        $sql = SqlGenelator::DeleteQueryGenelator(DeviceTable::DEVICETABLE_NAME, $whereColumns);
+        $sql = SqlGenelator::DeleteQueryGenelator(DeviceTable::DEVICETABLE_NAME, $whereColumns, $signs);
 
         // SQL文をプリペアドステートメントとして準備
         $stmt = $db->prepare($sql);
@@ -151,7 +157,7 @@ Class DeviceModel{
         try{
 
             // プレースホルダに値をバインドして実行
-            $stmt->execute(array($data['device_id']));
+            $stmt->execute(array($data[RequestKey::DEVICE_ID], $data[RequestKey::USER_ID]));
             return true;
         }
         catch(Exception $e){
