@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../../database/DbConnect.php';
-require_once __DIR__ . '/../../database/DeviceTable.php';
-require_once __DIR__ . '/../../database/SqlGenelator.php';
+require_once __DIR__ . '/../../database/Infrastructure/DbConnect.php';
+require_once __DIR__ . '/../../database/Tables/DeviceTable.php';
+require_once __DIR__ . '/../Support/SqlGenelator.php';
 require_once __DIR__ . '/../Support/RequestKey.php';
 
 Class DeviceModel{
@@ -21,7 +21,7 @@ Class DeviceModel{
     public function registDeviceInfoModel(array $data){
 
         // DBに接続
-        $db = DBConnect::getDBConnect();
+        $db = DbConnect::getDbConnect();
 
         // INSERT対象カラム名配列
         $insertColumns = [DeviceTable::DEVICE_ID_COLUMN, DeviceTable::DEVICE_NAME_COLUMN, DeviceTable::MACADDRESS_COLUMN, DeviceTable::USER_ID_COLUMN];
@@ -48,7 +48,7 @@ Class DeviceModel{
     public function getDeviceInfoModel(array $data){
 
         // DBに接続
-        $db = DBConnect::getDBConnect();
+        $db = DbConnect::getDbConnect();
 
         // SELECT対象カラム名配列
         $selectColumns = [DeviceTable::DEVICE_ID_COLUMN, DeviceTable::DEVICE_NAME_COLUMN, DeviceTable::MACADDRESS_COLUMN];
@@ -79,7 +79,7 @@ Class DeviceModel{
     public function getDeviceListInfoModel(array $data){
 
         // DBに接続
-        $db = DBConnect::getDBConnect();
+        $db = DbConnect::getDbConnect();
 
         // SELECT対象カラム名配列
         $selectColumns = [DeviceTable::DEVICE_ID_COLUMN, DeviceTable::DEVICE_NAME_COLUMN];
@@ -107,7 +107,7 @@ Class DeviceModel{
     public function updateDeviceInfoModel(array $data){
 
         // DBに接続
-        $db = DBConnect::getDBConnect();
+        $db = DbConnect::getDbConnect();
 
         // UPDATE対象カラム名配列
         $updateColumns = [DeviceTable::DEVICE_NAME_COLUMN, DeviceTable::MACADDRESS_COLUMN];
@@ -140,7 +140,7 @@ Class DeviceModel{
     public function deleteDeviceInfoModel(array $data){
 
         // DBに接続
-        $db = DBConnect::getDBConnect();
+        $db = DbConnect::getDbConnect();
 
         // WHERE条件カラム名配列
         $whereColumns = [DeviceTable::DEVICE_ID_COLUMN, UserTable::USER_ID_COLUMN];

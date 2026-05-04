@@ -1,13 +1,13 @@
 <?php
 
-require_once __DIR__ . '/../app/Http/Controllers/RoutesController.php';
+require_once __DIR__ . '/../../app/Http/Controllers/RoutesController.php';
 
-class DBConnect {
+class DbConnect {
 
-    // DBへの接続
+    // DBに接続
     private static $pdo;
 
-    public static function getDBConnect(){
+    public static function getDbConnect(){
 
         if(!self::$pdo){
 

@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../app/Support/Util.php';
+require_once __DIR__ . '/../../app/Support/Util.php';
 
 class UserTable {
 

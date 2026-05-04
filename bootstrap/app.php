@@ -1,7 +1,7 @@
 <?php
 
-// DBへの接続
-require_once __DIR__ . '/../database/DbConnect.php';
+// DBに接続
+require_once __DIR__ . '/../database/Infrastructure/DbConnect.php';
 
 // ルータの読み込み
 require_once __DIR__.'/../routes/web.php';

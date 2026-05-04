@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../../database/DbConnect.php';
-require_once __DIR__ . '/../../database/UserTable.php';
+require_once __DIR__ . '/../../database/Infrastructure/DbConnect.php';
+require_once __DIR__ . '/../../database/Tables/UserTable.php';
 require_once __DIR__ . '/../Models/UserModel.php';
 require_once __DIR__ . '/../Support/Util.php';
 require_once __DIR__ . '/../Support/RequestKey.php';

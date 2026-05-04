@@ -55,7 +55,7 @@ class UserService{
     public function deleteUserInfoService(array $data){
 
         // DBに接続
-        $db = DBConnect::getDBConnect();
+        $db = DbConnect::getDbConnect();
 
         // トランザクションの開始
         $db->beginTransaction();
@@ -114,7 +114,7 @@ class UserService{
         }
 
         // DBに接続
-        $db = DBConnect::getDBConnect();
+        $db = DbConnect::getDbConnect();
 
         // トランザクションの開始
         $db->beginTransaction();

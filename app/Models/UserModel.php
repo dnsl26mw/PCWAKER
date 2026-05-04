@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../../database/DbConnect.php';
-require_once __DIR__ . '/../../database/UserTable.php';
-require_once __DIR__ . '/../../database/SqlGenelator.php';
+require_once __DIR__ . '/../../database/Infrastructure/DbConnect.php';
+require_once __DIR__ . '/../../database/Tables/UserTable.php';
+require_once __DIR__ . '/../Support/SqlGenelator.php';
 require_once __DIR__ . '/../Support/Util.php';
 require_once __DIR__ . '/../Support/RequestKey.php';
 
@@ -22,7 +22,7 @@ Class UserModel{
     public function registUserInfoModel(array $data){
 
         // DBに接続
-        $db = DBConnect::getDBConnect();
+        $db = DbConnect::getDbConnect();
 
         // ソルト用文字列を取得
         $salt = Util::hashConvert(Util::retRandomStr());
@@ -55,7 +55,7 @@ Class UserModel{
     public function getUserInfoModel(array $data){
 
         // DBに接続
-        $db = DBConnect::getDBConnect();
+        $db = DbConnect::getDbConnect();
 
         // SELECT対象カラム名配列
         $selectColumns = [UserTable::USER_ID_COLUMN, UserTable::SALT_COLUMN, UserTable::PASSWORD_COLUMN, UserTable::USER_NAME_COLUMN];
