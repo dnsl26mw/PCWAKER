@@ -10,7 +10,7 @@ class Env{
     public const DB_PASSWORD = '';
 
     // .envの読み込み
-    public function loadEnv(){
+    public static function loadEnv(){
 
     }
 }
