@@ -7,9 +7,17 @@ $user_id = $data[RequestKey::USER_ID] ?? '';
 // ユーザ名
 $user_name = $data[RequestKey::USER_NAME] ?? '';
 
+// エラーメッセージ
+$errorMsg = $data[RequestKey::MESSAGE] ?? '';
+
 ?>
 
-<h2 id="loginLabel"><?php echo Util::escape($pageTitle) ?? ''; ?></h2>
+<h2 class="page-title"><?php echo Util::escape($pageTitle) ?? ''; ?></h2>
+<?php if (!empty($errorMsg)): ?>
+    <p class="error-msg">
+        <?php echo Util::escape($errorMsg) ?>
+    </p>
+<?php endif; ?>
 <table>
     <tr>
         <th>ユーザーID</th>

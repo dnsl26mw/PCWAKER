@@ -17,6 +17,9 @@ class RequestKey{
     // CSRFトークン
     public const TOKEN = 'token';
 
+    // ログアウト用CSRFトークン
+    public const LOGOUT_TOKEN = 'logout_token';
+
     // デバイスID
     public const DEVICE_ID = 'device_id';
 

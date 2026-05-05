@@ -23,23 +23,41 @@ class Util {
 
     // ランダムな文字列を生成する
     public static function retRandomStr(){
+        
         return bin2hex(random_bytes(16));
     }
 
     // ソルトまたはトークンの生成時の共通処理
     public static function createSaltOrTokenCommon(){
+
         return self::hashConvert(self::retRandomStr());
     }
 
     // CSRFトークンの生成
-    public static function createToken(){
+    public static function createToken($forLogoutFlg = false){
+
         $token = self::createSaltOrTokenCommon();
+
+        // ログアウト用
+        if($forLogoutFlg){
+
+            $_SESSION[RequestKey::LOGOUT_TOKEN] = $token;
+            return $token;
+        }
+
         $_SESSION[RequestKey::TOKEN] = $token;
         return $token;
     }
 
     // CSRFトークンの照合
-    public static function verificationToken(array $data){
+    public static function verificationToken(array $data, $forLogoutFlg = false){
+
+        // ログアウト時
+        if($forLogoutFlg){
+
+            return $data[RequestKey::LOGOUT_TOKEN] === $_SESSION[RequestKey::LOGOUT_TOKEN];
+        }
+
         return $data[RequestKey::TOKEN] === $_SESSION[RequestKey::TOKEN];
     }
 
@@ -59,11 +77,6 @@ class Util {
 
         // ソルト付きハッシュ化済みパスワードを返す
         return $password;
-    }
-
-    // セッション情報にユーザIDおよびユーザ名をセット
-    public static function setSession($user_id){
-        $_SESSION[Requestkey::USER_ID] = $user_id;
     }
 
     // ログイン済みかどうかを判定する

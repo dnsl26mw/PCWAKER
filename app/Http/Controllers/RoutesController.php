@@ -9,18 +9,43 @@ require_once __DIR__ . '/../../Http/Controllers/DeviceController.php';
 Class RoutesController{
 
     // 共通
-    private function render($pageTitle, $viewName, $data = [], $errorPageFlg = false){
+    private function render($pageTitle, $viewFileName, $data = [], $errorPageFlg = false, $templateViewFlg = false){
 
         //ページタイトル
         $pageTitle = Util::escape($pageTitle);
 
         // エラーページの場合
         if($errorPageFlg){
-            $viewName = 'errors/' . $viewName;
+            $viewFileName = 'errors/' . $viewFileName;
         }
 
         // 表示対象ビューを設定
-        $contentView = __DIR__ . '/../../../resources/views/'.$viewName;
+        $contentView = __DIR__ . '/../../../resources/views/'.$viewFileName;
+
+        // ログイン済みかつログアウト用CSRFトークンが未セットの場合
+        if(Util::isLogin()){
+
+            if(empty($_SESSION[RequestKey::LOGOUT_TOKEN])){
+
+                // ログアウト用CSRFトークンを生成
+                $data[RequestKey::LOGOUT_TOKEN] = Util::createToken(true);
+            }
+
+            // ログアウト用CSRFトークンをセット
+            $data[RequestKey::LOGOUT_TOKEN] = $_SESSION[RequestKey::LOGOUT_TOKEN];
+        }
+
+        // セッションにメッセージがセットされている場合
+        if(!empty($_SESSION[RequestKey::MESSAGE])){
+
+            // メッセージをセット
+            $data[RequestKey::MESSAGE] = $_SESSION[RequestKey::MESSAGE];
+
+            // セッションからメッセージを削除
+            unset($_SESSION[RequestKey::MESSAGE]);
+        }
+
+        // 表示対象ビューにデータを渡す
         extract($data);
 
         // テンプレートビューの呼び出し
@@ -40,35 +65,6 @@ Class RoutesController{
 
         // ビューのファイル名
         $viewFileName = 'topPage.php';
-
-        // POST時
-        if($_SERVER['REQUEST_METHOD'] === 'POST'){
-
-            $data = [
-                RequestKey::TOKEN => $_POST[RequestKey::TOKEN]
-            ];
-
-            // ログアウト処理の呼び出し
-            $autController = new AuthController();
-            $logoutFailMsg = $autController->logoutController($data);
-            if(!empty($logoutFailMsg)){
-
-                // ログアウト失敗
-                $data = [
-                    RequestKey::TOKEN => Util::createToken(),
-                    RequestKey::MESSAGE => $logoutFailMsg
-                ];
-
-                $this->render($pageTitle, $viewFileName, $data);
-            }
-
-            // トップページURLに遷移
-            header("Location: /");
-            exit;
-        }
-
-        // CSRFトークンをセット
-        $data[RequestKey::TOKEN] = Util::createToken();
 
         $this->render($pageTitle, $viewFileName, $data);
     }
@@ -315,7 +311,7 @@ Class RoutesController{
         $this->render($pageTitle, 
                 $viewFileName, [
                 RequestKey::DEVICE_LIST_INFO => $deviceListInfo, 
-                RequestKey::TOKEN => Util::createToken(), 
+                RequestKey::TOKEN => Util::createToken(),
                 RequestKey::SELECTED_DEVICES => []
             ]
         );
@@ -628,6 +624,39 @@ Class RoutesController{
         $data[RequestKey::TOKEN] = Util::createToken();
 
         $this->render($pageTitle, $viewFileName, $data);
+    }
+
+    // ログアウト
+    public function routesLogout(){
+
+        // POST時
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+            $data = [
+                RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
+                RequestKey::LOGOUT_TOKEN => $_POST[RequestKey::LOGOUT_TOKEN]
+            ];
+
+            // ログアウト処理の呼び出し
+            $autController = new AuthController();
+            $logoutFailMsg = $autController->logoutController($data);
+
+            // ログアウト失敗
+            if(!empty($logoutFailMsg)){
+
+                $data = [
+                    RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
+                    RequestKey::LOGOUT_TOKEN => Util::createToken(true),
+                ];
+
+                // セッションにログアウト失敗メッセージをセット
+                $_SESSION[RequestKey::MESSAGE] = $logoutFailMsg;
+            }
+
+            // トップページURLに遷移
+            header("Location: /");
+            exit;
+        }
     }
 
     // URLパラメータのセット有無を確認

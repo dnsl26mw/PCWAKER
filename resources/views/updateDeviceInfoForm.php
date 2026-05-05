@@ -13,15 +13,15 @@ $macAddress = $data[RequestKey::MACADDRESS] ?? '';
 // CSRFトークン
 $token = $data[RequestKey::TOKEN] ?? '';
 
-// 更新失敗メッセージ
-$updateFailMsg = $data[RequestKey::MESSAGE] ?? '';
+// エラーメッセージ
+$errorMsg = $data[RequestKey::MESSAGE] ?? '';
 
 ?>
 
-<h2 id="loginLabel"><?php echo Util::escape($pageTitle) ?? ''; ?></h2>
-<?php if (!empty($updateFailMsg)): ?>
+<h2 class="page-title"><?php echo Util::escape($pageTitle) ?? ''; ?></h2>
+<?php if (!empty($errorMsg)): ?>
     <p class="error-msg">
-        <?php echo Util::escape($updateFailMsg) ?>
+        <?php echo Util::escape($errorMsg) ?>
     </p>
 <?php endif; ?>
 <form action="" method="POST">

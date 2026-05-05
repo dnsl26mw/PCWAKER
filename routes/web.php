@@ -9,6 +9,7 @@ function router($url){
     $routesController = new RoutesController;
 
     $routes = [
+
         // トップ
         '/' => 'routesTop',
 
@@ -37,7 +38,10 @@ function router($url){
         '/deviceinfo/update' => 'routesUpdateDeviceInfo',
 
         // デバイス情報削除
-        '/deviceinfo/delete' => 'routesDeleteDeviceInfo'
+        '/deviceinfo/delete' => 'routesDeleteDeviceInfo',
+
+        // ログアウト
+        '/logout' => 'routesLogout'
     ];
 
     // 定義済みURLの場合

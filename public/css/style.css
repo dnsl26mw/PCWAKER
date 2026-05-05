@@ -1,4 +1,3 @@
-/* Reset or basic base styles */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
@@ -59,7 +58,6 @@ footer {
     margin-top: 3rem;
 }
 
-/* Typography */
 h2 {
     color: #2c3e50;
     border-bottom: 2px solid #3498db;
@@ -67,7 +65,6 @@ h2 {
     margin-top: 0;
 }
 
-/* Forms */
 form {
     margin-bottom: 1.5rem;
 }
@@ -83,7 +80,7 @@ textarea {
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-sizing: border-box; /* Important for width: 100% */
+    box-sizing: border-box;
 }
 
 input:focus {
@@ -115,7 +112,6 @@ button:disabled {
     cursor: not-allowed;
 }
 
-/* Tables */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -132,13 +128,9 @@ th {
     background-color: #f8f9fa;
     color: #2c3e50;
     font-weight: bold;
+    width: 35%;
 }
 
-tr:hover {
-    background-color: #f1f1f1;
-}
-
-/* Links */
 a {
     color: #3498db;
     text-decoration: none;
@@ -157,10 +149,45 @@ a:hover {
     margin-bottom: 1rem;
 }
 
-.success-msg {
-    color: #27ae60;
-    background: #f2faf5;
-    padding: 10px;
-    border-radius: 4px;
-    margin-bottom: 1rem;
+.menu-button-list {
+    justify-content: left;
+    gap: 20px;
+    display: flex;
+    list-style: none;
+    padding: 0;;
+}
+
+.logoutBtn {
+    width: 100px;
+    height: 30px;
+    font-size: 12px;
+    padding: 6px 12px;
+}
+
+header {
+    background: #2c3e50;
+    color: #fff;
+    padding: 0 2rem;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 100%;
+}
+
+.header-right form {
+    margin: 0;
 }

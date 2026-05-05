@@ -2,6 +2,9 @@
 
 // テンプレート
 
+// ログアウト用CSRFトークン
+$logoutToken = $data[RequestKey::LOGOUT_TOKEN] ?? '';
+
 ?>
 
 <!DOCTYPE html>
@@ -15,14 +18,21 @@
     <body>
         <header>
             <h1><a href="/">PCWAKER</a></h1>
-            <p>
-                <?php if (!empty($_SESSION[RequestKey::USER_ID])): ?>
-                    ユーザーID:
-                    <a href="/userinfo">
-                        <?= Util::escape($_SESSION[RequestKey::USER_ID]) ?>
-                    </a>でログイン中
-                <?php endif; ?>
-            </p>
+            <?php if (!empty($_SESSION[RequestKey::USER_ID])): ?>
+                <div class="header-right">
+                    <span class="user-info">
+                        ユーザーID:
+                        <a href="/userinfo">
+                            <?= Util::escape($_SESSION[RequestKey::USER_ID]) ?>
+                        </a>
+                        でログイン中
+                    </span>
+                    <form action="logout" method="POST">
+                        <button type="submit" name="logoutBtn" class="logoutBtn">ログアウト</button>
+                        <input type="hidden" name="<?php echo RequestKey::LOGOUT_TOKEN; ?>" value = "<?php echo $logoutToken; ?>"/>
+                    </form>
+                </div>
+            <?php endif; ?>
         </header>
         <main>
             <?php include $contentView; ?>

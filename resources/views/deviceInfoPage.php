@@ -10,9 +10,17 @@ $deviceName = $data[RequestKey::DEVICE_NAME] ?? '';
 // MACアドレス
 $macAddress = $data[RequestKey::MACADDRESS] ?? '';
 
+// エラーメッセージ
+$errorMsg = $data[RequestKey::MESSAGE] ?? '';
+
 ?>
 
-<h2 id="loginLabel"><?php echo Util::escape($pageTitle) ?? ''; ?></h2>
+<h2 class="page-title"><?php echo Util::escape($pageTitle) ?? ''; ?></h2>
+<?php if (!empty($errorMsg)): ?>
+    <p class="error-msg">
+        <?php echo Util::escape($errorMsg) ?>
+    </p>
+<?php endif; ?>
 <table>
     <tr>
         <th>デバイスID</th>

@@ -10,16 +10,16 @@ $selectDevices = $data[RequestKey::SELECTED_DEVICES] ?? [];
 // CSRFトークン
 $token = $data[RequestKey::TOKEN] ?? '';
 
-// マジックパケット送信失敗メッセージ
-$magickPacketSendFailMsg = $data[RequestKey::MESSAGE] ?? '';
+// エラーメッセージ
+$errorMsg = $data[RequestKey::MESSAGE] ?? '';
 
 ?>
 
-<h2 id="loginLabel"><?php echo Util::escape($pageTitle) ?? ''; ?></h2>
+<h2 class="page-title"><?php echo Util::escape($pageTitle) ?? ''; ?></h2>
 <?php if(!empty($deviceListInfo)): ?>
-    <?php if (!empty($magickPacketSendFailMsg)): ?>
+    <?php if (!empty($errorMsg)): ?>
         <p class="error-msg">
-            <?php echo Util::escape($magickPacketSendFailMsg) ?>
+            <?php echo Util::escape($errorMsg) ?>
         </p>
     <?php endif; ?>
     <form action="" method="POST">

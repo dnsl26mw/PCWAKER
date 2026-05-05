@@ -37,7 +37,10 @@ class AuthController{
         Util::deleteToken();
     
         // セッションにユーザIDをセット
-        Util::setSession($data[RequestKey::USER_ID]);
+        $_SESSION[RequestKey::USER_ID] = $data[RequestKey::USER_ID];
+
+        // セッションにログアウト用CSRFトークンをセット
+        Util::createToken(true);
     
         // ログイン成功を表す空文字列を返す
         return '';
@@ -46,15 +49,15 @@ class AuthController{
     // ログアウト
     public function logoutController(array $data){
 
-        // CSRFトークンが未セット
-        if(empty($data[RequestKey::TOKEN])){
+        // ユーザIDおよびログアウト用CSRFトークンが未セット
+        if(empty($data[RequestKey::USER_ID]) || empty($data[RequestKey::LOGOUT_TOKEN])){
 
             // ログアウト失敗メッセージを返す
-            return CommonMessage::DELETEFAILURE;
+            return CommonMessage::LOGOUTFAILURE;
         }
 
         // CSRFトークン判定
-        if(!Util::verificationToken($data)){
+        if(!Util::verificationToken($data, true)){
 
             // 操作の有効期限切れメッセージを返す
             return CommonMessage::OPERATIONTIMEOUT;

@@ -7,15 +7,15 @@ $deviceID = $data[RequestKey::DEVICE_ID] ?? '';
 // CSRFトークン
 $token = $data[RequestKey::TOKEN] ?? '';
 
-// 削除失敗メッセージ
-$deleteFailMsg = $data[RequestKey::MESSAGE] ?? '';
+// エラーメッセージ
+$errorMsg = $data[RequestKey::MESSAGE] ?? '';
 
 ?>
 
-<h2 id="loginLabel"><?php echo Util::escape($pageTitle) ?? ''; ?></h2>
-<?php if (!empty($deleteFailMsg)): ?>
+<h2 class="page-title"><?php echo Util::escape($pageTitle) ?? ''; ?></h2>
+<?php if (!empty($errorMsg)): ?>
     <p class="error-msg">
-        <?php echo Util::escape($deleteFailMsg) ?>
+        <?php echo Util::escape($errorMsg) ?>
     </p>
 <?php endif; ?>
 <p>
