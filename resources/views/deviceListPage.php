@@ -11,15 +11,17 @@ $selectDevices = $data[RequestKey::SELECTED_DEVICES] ?? [];
 $token = $data[RequestKey::TOKEN] ?? '';
 
 // マジックパケット送信失敗メッセージ
-$magickPacketSendFailMsg = $data['magickpacketsendfailmsg'] ?? '';
+$magickPacketSendFailMsg = $data[RequestKey::MESSAGE] ?? '';
 
 ?>
 
 <h2 id="loginLabel"><?php echo Util::escape($pageTitle) ?? ''; ?></h2>
 <?php if(!empty($deviceListInfo)): ?>
-    <p>
-        <?php echo Util::escape($magickPacketSendFailMsg ?? '') ?>
-    </p>
+    <?php if (!empty($magickPacketSendFailMsg)): ?>
+        <p class="error-msg">
+            <?php echo Util::escape($magickPacketSendFailMsg) ?>
+        </p>
+    <?php endif; ?>
     <form action="" method="POST">
         <div class="devicetablediv">
             <table>

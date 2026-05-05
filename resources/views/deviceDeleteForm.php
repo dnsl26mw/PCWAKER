@@ -13,9 +13,11 @@ $deleteFailMsg = $data[RequestKey::MESSAGE] ?? '';
 ?>
 
 <h2 id="loginLabel"><?php echo Util::escape($pageTitle) ?? ''; ?></h2>
-<p>
-    <?php echo Util::escape($deleteFailMsg ?? '') ?>
-</p>
+<?php if (!empty($deleteFailMsg)): ?>
+    <p class="error-msg">
+        <?php echo Util::escape($deleteFailMsg) ?>
+    </p>
+<?php endif; ?>
 <p>
     デバイスIDが
     <a href="/deviceinfo?device_id=<?php echo urlencode(Util::escape($deviceID)) ?>">

@@ -20,9 +20,11 @@ $registFailMsg = $data[RequestKey::MESSAGE] ?? '';
 
 <form action="" method="POST">
     <h2 id="loginLabel"><?php echo Util::escape($pageTitle) ?? ''; ?></h2>
-    <p>
-        <?php echo Util::escape($registFailMsg ?? '') ?>
-    </p>
+    <?php if (!empty($registFailMsg)): ?>
+        <p class="error-msg">
+            <?php echo Util::escape($registFailMsg) ?>
+        </p>
+    <?php endif; ?>
     <input type="text" value = "<?php echo Util::escape($device_id) ?>" name="device_id" placeholder="デバイスID"><br>
     <input type="text" value = "<?php echo Util::escape($device_name) ?>" name="device_name" placeholder="デバイス名"><br>
     <input type="text" value = "<?php echo Util::escape($macaddress) ?>" name="macaddress" placeholder="MACアドレス"><br>

@@ -9,9 +9,11 @@ $logoutFailMsg = $data[RequestKey::MESSAGE] ?? '';
 ?>
 
 <h2 id="loginLabel"><?php echo Util::escape($pageTitle) ?? ''; ?></h2>
-<p>
-    <?php echo Util::escape($logoutFailMsg ?? '') ?>
-</p>
+<?php if (!empty($logoutFailMsg)): ?>
+    <p class="error-msg">
+        <?php echo Util::escape($logoutFailMsg) ?>
+    </p>
+<?php endif; ?>
 <ul>
     <li><a href="/devicelist"><button>デバイス一覧</button></a></li>
     <li><a href="/userinfo"><button>ユーザー情報</button></a></li>

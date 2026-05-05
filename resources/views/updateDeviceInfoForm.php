@@ -19,9 +19,11 @@ $updateFailMsg = $data[RequestKey::MESSAGE] ?? '';
 ?>
 
 <h2 id="loginLabel"><?php echo Util::escape($pageTitle) ?? ''; ?></h2>
-<p>
-    <?php echo Util::escape($updateFailMsg ?? '') ?>
-</p>
+<?php if (!empty($updateFailMsg)): ?>
+    <p class="error-msg">
+        <?php echo Util::escape($updateFailMsg) ?>
+    </p>
+<?php endif; ?>
 <form action="" method="POST">
     <table>
         <tr>

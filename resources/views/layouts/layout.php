@@ -10,6 +10,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>PCWAKER - <?php echo Util::escape($pageTitle); ?></title>
+        <link rel="stylesheet" href="/css/style.css">
     </head>
     <body>
         <header>
@@ -23,7 +24,9 @@
                 <?php endif; ?>
             </p>
         </header>
+        <main>
             <?php include $contentView; ?>
+        </main>
         <footer>
             Copyright©
         </footer>
