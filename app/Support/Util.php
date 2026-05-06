@@ -48,7 +48,19 @@ class Util {
     // CSRFトークンの照合
     public static function verificationToken(array $data){
 
-        return $data[RequestKey::TOKEN] === $_SESSION[RequestKey::TOKEN];
+        // CSRFトークン不一致
+        if($data[RequestKey::TOKEN] !== $_SESSION[RequestKey::TOKEN]){
+
+            return false;
+        }
+
+        // 古いCSRFトークンを削除
+        unset($_SESSION[RequestKey::TOKEN]);
+
+        // 新しいCSRFトークンをセット
+        $_SESSION[RequestKey::TOKEN] = Util::createToken();
+
+        return true;
     }
 
     // ソルト付きハッシュ化済みパスワードを取得
