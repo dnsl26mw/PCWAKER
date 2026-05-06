@@ -28,5 +28,7 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
         <td><?php echo Util::escape($data[RequestKey::USER_NAME]) ?></td>
     </tr>
 </table>
-<a href="/userinfo/update">ユーザー情報の更新および削除はこちら</a><br>
-<a href="/">トップに戻る</a>
+<div class="action-area">
+    <a href="/userinfo/update">ユーザー情報の更新および削除はこちら</a><br>
+    <a href="/">トップに戻る</a>
+</div>

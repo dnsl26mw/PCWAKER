@@ -140,7 +140,6 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Utility */
 .error-msg {
     color: #e74c3c;
     background: #fdf2f2;
@@ -190,4 +189,37 @@ header h1 {
 
 .header-right form {
     margin: 0;
+}
+
+.action-area {
+    margin-top: 20px;
+}
+
+.delete-link {
+    color: #e74c3c;
+    margin-top: 8px;
+}
+
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        padding: 10px;
+    }
+
+    .header-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .user-info {
+        font-size: 0.9rem;
+    }
+
+    .menu-button-list {
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
 }

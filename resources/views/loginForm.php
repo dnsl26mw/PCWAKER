@@ -22,6 +22,8 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
     <input type="text" value = "<?php echo Util::escape($user_id) ?>" name=<?php echo RequestKey::USER_ID ?> placeholder="ユーザーID"><br>
     <input type="password" name=<?php echo RequestKey::PASSWORD ?> placeholder="パスワード"><br>
     <input type="hidden" name=<?php echo RequestKey::TOKEN ?> value = "<?php echo $token; ?>"/>
-    <button type="submit" name="loginBtn">ログイン</button><br>
-    <a href="/registuser">ユーザー登録はこちら</a>
+    <button type="submit" name="loginBtn">ログイン</button><br> 
 </form>
+<div class="action-area">
+    <a href="/registuser">ユーザー登録はこちら</a>        
+</div>

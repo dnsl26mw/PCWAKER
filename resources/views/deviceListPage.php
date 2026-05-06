@@ -64,8 +64,10 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
     <p>登録されているデバイスはありません。</p>
 <?php endif; ?>
 
-<a href="/registdevice">デバイス情報の登録はこちら</a><br>
-<a href="/">トップに戻る</a>
+<div class="action-area">
+    <a href="/registdevice">デバイス情報の登録はこちら</a><br>
+    <a href="/">トップに戻る</a>
+</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){

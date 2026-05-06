@@ -28,4 +28,6 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
     <input type="hidden" name=<?php echo RequestKey::TOKEN ?> value = "<?php echo $token; ?>"/>
     <button type="submit" name="deleteBtn" id="deleteBtn">削除</button><br>
 </form>
-<a href="/deviceinfo?device_id=<?php echo Util::escape($deviceID) ?>">デバイス情報画面に戻る</a>
+<div class="action-area">
+    <a href="/deviceinfo?device_id=<?php echo Util::escape($deviceID) ?>">デバイス情報画面に戻る</a>
+</div>

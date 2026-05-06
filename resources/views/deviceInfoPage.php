@@ -35,5 +35,7 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
         <td><?php echo Util::escape($macAddress) ?></td>
     </tr>
 </table>
-<a href="/deviceinfo/update?device_id=<?php echo urlencode(Util::escape($deviceID)) ?>">デバイス情報の更新および削除はこちら</a><br>
-<a href="/devicelist">デバイス一覧画面に戻る</a>
+<div class="action-area">
+    <a href="/deviceinfo/update?device_id=<?php echo urlencode(Util::escape($deviceID)) ?>">デバイス情報の更新および削除はこちら</a><br>
+    <a href="/devicelist">デバイス一覧画面に戻る</a>
+</div>
