@@ -660,6 +660,13 @@ Class RoutesController{
 
                 // セッションにログアウト失敗メッセージをセット
                 $_SESSION[RequestKey::MESSAGE] = $logoutFailMsg;
+
+                // 元のページのURLを取得
+                $url = $_SERVER['HTTP_REFERER'];
+
+                // 遷移
+                header("Location: $url");
+                exit;
             }
 
             // トップページURLに遷移
