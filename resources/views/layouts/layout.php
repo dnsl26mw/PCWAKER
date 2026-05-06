@@ -2,8 +2,8 @@
 
 // テンプレート
 
-// ログアウト用CSRFトークン
-$logoutToken = $data[RequestKey::LOGOUT_TOKEN] ?? '';
+// CSRFトークン
+$token = $token ?? '';
 
 ?>
 
@@ -27,9 +27,9 @@ $logoutToken = $data[RequestKey::LOGOUT_TOKEN] ?? '';
                         </a>
                         でログイン中
                     </span>
-                    <form action="logout" method="POST">
+                    <form action="/logout" method="POST">
                         <button type="submit" name="logoutBtn" class="logoutBtn">ログアウト</button>
-                        <input type="hidden" name="<?php echo RequestKey::LOGOUT_TOKEN; ?>" value = "<?php echo $logoutToken; ?>"/>
+                        <input type="hidden" name="<?php echo RequestKey::TOKEN; ?>" value = "<?php echo $token; ?>"/>
                     </form>
                 </div>
             <?php endif; ?>

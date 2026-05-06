@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../Http/Controllers/DeviceController.php';
 Class RoutesController{
 
     // 共通
-    private function render($pageTitle, $viewFileName, $data = [], $errorPageFlg = false, $templateViewFlg = false){
+    private function render($pageTitle, $viewFileName, $data = [], $errorPageFlg = false){
 
         //ページタイトル
         $pageTitle = Util::escape($pageTitle);
@@ -22,18 +22,9 @@ Class RoutesController{
         // 表示対象ビューを設定
         $contentView = __DIR__ . '/../../../resources/views/'.$viewFileName;
 
-        // ログイン済みかつログアウト用CSRFトークンが未セットの場合
-        if(Util::isLogin()){
-
-            if(empty($_SESSION[RequestKey::LOGOUT_TOKEN])){
-
-                // ログアウト用CSRFトークンを生成
-                $data[RequestKey::LOGOUT_TOKEN] = Util::createToken(true);
-            }
-
-            // ログアウト用CSRFトークンをセット
-            $data[RequestKey::LOGOUT_TOKEN] = $_SESSION[RequestKey::LOGOUT_TOKEN];
-        }
+        // CSRFトークンをセット
+        Util::createToken();
+        $data[RequestKey::TOKEN] = $_SESSION[RequestKey::TOKEN];
 
         // セッションにメッセージがセットされている場合
         if(!empty($_SESSION[RequestKey::MESSAGE])){
@@ -66,6 +57,7 @@ Class RoutesController{
         // ビューのファイル名
         $viewFileName = 'topPage.php';
 
+        // トップページに遷移
         $this->render($pageTitle, $viewFileName, $data);
     }
 
@@ -102,10 +94,11 @@ Class RoutesController{
                 $data = [
                     RequestKey::USER_ID => $_POST[RequestKey::USER_ID],
                     RequestKey::USER_NAME => $_POST[RequestKey::USER_NAME],
-                    RequestKey::TOKEN => Util::createToken(),
+                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
                     RequestKey::MESSAGE => $registFailMsg
                 ];
 
+                // ユーザ情報登録画面に遷移
                 $this->render($pageTitle, $viewFileName, $data);
             }
 
@@ -114,9 +107,7 @@ Class RoutesController{
             exit;
         }
 
-        // CSRFトークンをセット
-        $data[RequestKey::TOKEN] = Util::createToken();
-
+        // ユーザ情報登録画面に遷移
         $this->render($pageTitle, $viewFileName, $data);
     }
 
@@ -136,6 +127,7 @@ Class RoutesController{
         $userController = new UserController();
         $data = $userController->getUserInfoController([RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID]]);
 
+        // ユーザ情報確認画面に遷移
         $this->render($pageTitle, $viewFileName, $data);
     }
 
@@ -175,10 +167,11 @@ Class RoutesController{
                     RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
                     RequestKey::USER_NAME => $data[RequestKey::USER_NAME],
                     RequestKey::ISUPDATEPASSWORD => $data[RequestKey::ISUPDATEPASSWORD],
-                    RequestKey::TOKEN => Util::createToken(),
+                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
                     RequestKey::MESSAGE => $updateFailMsg
                 ];
 
+                // ユーザ情報更新画面に遷移
                 $this->render($pageTitle, $viewFileName, $data);
             }
 
@@ -190,9 +183,7 @@ Class RoutesController{
         // ユーザ情報取得
         $data = $userController->getUserInfoController([RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID]]);
 
-        // CSRFトークンをセット
-        $data[RequestKey::TOKEN] = Util::createToken();
-
+        // ユーザ情報更新画面に遷移
         $this->render($pageTitle, $viewFileName, $data);
     }
 
@@ -224,10 +215,11 @@ Class RoutesController{
                 // 削除失敗
                 $data = [
                     RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
-                    RequestKey::TOKEN => Util::createToken(),
+                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
                     RequestKey::MESSAGE => $deleteFailMsg
                 ];
 
+                // ユーザ情報削除画面に遷移
                 $this->render($pageTitle, $viewFileName, $data);
             }
 
@@ -242,6 +234,7 @@ Class RoutesController{
                     RequestKey::MESSAGE => $logoutFailMsg
                 ];
 
+                // ユーザ情報削除画面に遷移
                 $this->render($pageTitle, $viewFileName, $data);
             }
 
@@ -256,11 +249,38 @@ Class RoutesController{
             RequestKey::TOKEN => Util::createToken()
         ];
 
+        // ユーザ情報削除画面に遷移
         $this->render($pageTitle, $viewFileName, $data);
     }
 
     // デバイス情報一覧
     public function routesDeviceList(){
+
+        // ログイン判定
+        $this->forLoginForm();
+
+        // ページタイトル
+        $pageTitle = 'デバイス情報一覧';
+
+        // ビューのファイル名
+        $viewFileName = 'deviceListPage.php';
+
+        // デバイス一覧情報情報取得
+        $deviceController = new DeviceController();
+        $deviceListInfo = $deviceController->getDeviceListInfoController([RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID]]);
+
+        // デバイス情報一覧画面に遷移
+        $this->render($pageTitle, 
+                $viewFileName, [
+                RequestKey::DEVICE_LIST_INFO => $deviceListInfo, 
+                RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
+                RequestKey::SELECTED_DEVICES => []
+            ]
+        );
+    }
+
+    // デバイス起動
+    public function routesWake(){
 
         // ログイン判定
         $this->forLoginForm();
@@ -291,12 +311,13 @@ Class RoutesController{
                 // デバイス一覧情報情報取得
                 $deviceListInfo = $deviceController->getDeviceListInfoController([RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID]]);
 
+                // デバイス情報一覧画面に遷移
                 $this->render($pageTitle, 
                     $viewFileName, [
                         RequestKey::DEVICE_LIST_INFO => $deviceListInfo, 
                         RequestKey::SELECTED_DEVICES=> $_POST[RequestKey::SELECTED_DEVICES],
+                        RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
                         RequestKey::MESSAGE => $magickPacketSendFailmsg, 
-                        RequestKey::TOKEN => Util::createToken()
                     ]
                 );
             }
@@ -304,17 +325,6 @@ Class RoutesController{
             // トップページURLに遷移
             header("Location: /");
         }
-
-        // デバイス一覧情報情報取得
-        $deviceListInfo = $deviceController->getDeviceListInfoController([RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID]]);
-
-        $this->render($pageTitle, 
-                $viewFileName, [
-                RequestKey::DEVICE_LIST_INFO => $deviceListInfo, 
-                RequestKey::TOKEN => Util::createToken(),
-                RequestKey::SELECTED_DEVICES => []
-            ]
-        );
     }
 
     // デバイス情報確認
@@ -343,6 +353,7 @@ Class RoutesController{
         // URLパラメータにデバイスIDがセットされており、ログイン中ユーザに紐づく場合
         if(!empty($data)){
 
+            // デバイス情報確認画面に遷移
             $this->render($pageTitle, $viewFileName, $data);
         }
         // それ以外
@@ -388,10 +399,11 @@ Class RoutesController{
                     RequestKey::DEVICE_NAME => $_POST[RequestKey::DEVICE_NAME],
                     RequestKey::MACADDRESS => $_POST[RequestKey::MACADDRESS],
                     RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
-                    RequestKey::TOKEN => Util::createToken(),
+                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
                     RequestKey::MESSAGE => $registFailMsg
                 ];
 
+                // デバイス情報登録画面に遷移
                 $this->render($pageTitle, $viewFileName, $data);
             }
 
@@ -400,9 +412,7 @@ Class RoutesController{
             exit;
         }
 
-        // CSRFトークンをセット
-        $data[RequestKey::TOKEN] = Util::createToken();
-
+        // デバイス情報登録画面に遷移
         $this->render($pageTitle, $viewFileName, $data);
     }
 
@@ -442,10 +452,11 @@ Class RoutesController{
                     RequestKey::DEVICE_NAME => $data[RequestKey::DEVICE_NAME],
                     RequestKey::MACADDRESS => $data[RequestKey::MACADDRESS],
                     RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
-                    RequestKey::TOKEN => Util::createToken(),
+                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
                     RequestKey::MESSAGE => $updateFailMsg
                 ];
 
+                // デバイス情報更新画面に遷移
                 $this->render($pageTitle, $viewFileName, $data);
             }
 
@@ -466,9 +477,7 @@ Class RoutesController{
         // ログイン中ユーザに紐づくデバイス情報が存在
         if(!empty($data)){
 
-            // CSRFトークンをセット
-            $data[RequestKey::TOKEN] = Util::createToken();
-
+            // デバイス情報更新画面に遷移
             $this->render($pageTitle, $viewFileName, $data);
         }
         // それ以外
@@ -510,10 +519,11 @@ Class RoutesController{
                 $data = [
                     RequestKey::DEVICE_ID => $_POST[RequestKey::DEVICE_ID],
                     RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
-                    RequestKey::TOKEN => Util::createToken(),
+                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
                     RequestKey::MESSAGE => $deleteFailMsg
                 ];
 
+                // デバイス情報削除画面に遷移
                 $this->render($pageTitle, $viewFileName, $data);
             }
 
@@ -534,9 +544,7 @@ Class RoutesController{
         // URLパラメータにデバイスIDがセットされており、ログイン中ユーザに紐づく場合
         if(!empty($data)){
 
-            // CSRFトークンをセット
-            $data[RequestKey::TOKEN] = Util::createToken();
-
+            // デバイス情報削除画面に遷移
             $this->render($pageTitle, $viewFileName, $data);
         }
         // それ以外
@@ -589,6 +597,8 @@ Class RoutesController{
         // ビューのファイル名
         $viewFileName = 'loginForm.php';
 
+        $data = [];
+
         // POST時
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
@@ -607,9 +617,10 @@ Class RoutesController{
                 $data = [
                     RequestKey::MESSAGE => $loginFailMsg,
                     RequestKey::USER_ID => $_POST[RequestKey::USER_ID],
-                    RequestKey::TOKEN => Util::createToken()
+                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN]
                 ];
 
+                // ログイン画面に遷移
                 $this->render($pageTitle, $viewFileName, $data);
             }
 
@@ -620,9 +631,7 @@ Class RoutesController{
 
         }
 
-        // CSRFトークンをセット
-        $data[RequestKey::TOKEN] = Util::createToken();
-
+        // ログイン画面に遷移
         $this->render($pageTitle, $viewFileName, $data);
     }
 
@@ -634,7 +643,7 @@ Class RoutesController{
 
             $data = [
                 RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
-                RequestKey::LOGOUT_TOKEN => $_POST[RequestKey::LOGOUT_TOKEN]
+                RequestKey::TOKEN => $_POST[RequestKey::TOKEN]
             ];
 
             // ログアウト処理の呼び出し
@@ -646,7 +655,7 @@ Class RoutesController{
 
                 $data = [
                     RequestKey::USER_ID => $_SESSION[RequestKey::USER_ID],
-                    RequestKey::LOGOUT_TOKEN => Util::createToken(true),
+                    RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
                 ];
 
                 // セッションにログアウト失敗メッセージをセット

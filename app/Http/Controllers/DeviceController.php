@@ -44,9 +44,6 @@ Class DeviceController{
         $deviceService = new DeviceService();
         $retStr = $deviceService->registDeviceInfoService($data);
 
-        // セッションからCSRFトークンを削除
-        Util::deleteToken();
-
         return $retStr;
     }
 
@@ -70,9 +67,6 @@ Class DeviceController{
         // デバイス情報の更新処理を呼び出す
         $deviceService = new DeviceService();
         $retStr = $deviceService->updateDeviceInfoService($data);
-
-        // セッションからCSRFトークンを削除
-        Util::deleteToken();
 
         return $retStr;
     }
@@ -127,9 +121,6 @@ Class DeviceController{
         // マジックパケット送信処理を呼び出す
         $deviceService = new DeviceService();
         $retStr = $deviceService->sendMagicPacketService($data);
-
-        // セッションからCSRFトークンを削除
-        Util::deleteToken();
 
         return $retStr;
     }

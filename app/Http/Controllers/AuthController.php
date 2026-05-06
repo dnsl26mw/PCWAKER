@@ -32,9 +32,6 @@ class AuthController{
             return CommonMessage::USERIDORPASSWORDUNMATCHED;
             exit;
         }
-
-        // セッションからCSRFトークンを削除
-        Util::deleteToken();
     
         // セッションにユーザIDをセット
         $_SESSION[RequestKey::USER_ID] = $data[RequestKey::USER_ID];
@@ -49,15 +46,15 @@ class AuthController{
     // ログアウト
     public function logoutController(array $data){
 
-        // ユーザIDおよびログアウト用CSRFトークンが未セット
-        if(empty($data[RequestKey::USER_ID]) || empty($data[RequestKey::LOGOUT_TOKEN])){
+        // ユーザIDおよびCSRFトークンが未セット
+        if(empty($data[RequestKey::USER_ID]) || empty($data[RequestKey::TOKEN])){
 
             // ログアウト失敗メッセージを返す
             return CommonMessage::LOGOUTFAILURE;
         }
 
         // CSRFトークン判定
-        if(!Util::verificationToken($data, true)){
+        if(!Util::verificationToken($data)){
 
             // 操作の有効期限切れメッセージを返す
             return CommonMessage::OPERATIONTIMEOUT;

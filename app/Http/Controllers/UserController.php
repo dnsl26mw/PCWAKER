@@ -41,9 +41,6 @@ Class UserController{
         $userService = new UserService();
         $retStr = $userService->registUserInfoService($data);
 
-        // セッションからCSRFトークンを削除
-        Util::deleteToken();
-
         return $retStr;
     }
 
@@ -74,9 +71,6 @@ Class UserController{
         // ユーザ情報更新処理を呼び出す
         $userService = new UserService();
         $retStr = $userService->updateUserInfoService($data, $data[RequestKey::ISUPDATEPASSWORD] === 'updatepassword');
-
-        // セッションからCSRFトークンを削除
-        Util::deleteToken();
 
         return $retStr;
     }

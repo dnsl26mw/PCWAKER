@@ -15,6 +15,7 @@ class Util {
         $retStr = $paramStr;
 
         for($i = 0; $i <= $streachingCount; $i++){
+            
             $retStr = hash($hashFunction, $retStr);
         }
         
@@ -34,36 +35,20 @@ class Util {
     }
 
     // CSRFトークンの生成
-    public static function createToken($forLogoutFlg = false){
+    public static function createToken(){
 
-        $token = self::createSaltOrTokenCommon();
+        if(empty($_SESSION[RequestKey::TOKEN])){
 
-        // ログアウト用
-        if($forLogoutFlg){
+            $token = self::createSaltOrTokenCommon();
 
-            $_SESSION[RequestKey::LOGOUT_TOKEN] = $token;
-            return $token;
+            $_SESSION[RequestKey::TOKEN] = $token;
         }
-
-        $_SESSION[RequestKey::TOKEN] = $token;
-        return $token;
     }
 
     // CSRFトークンの照合
-    public static function verificationToken(array $data, $forLogoutFlg = false){
-
-        // ログアウト時
-        if($forLogoutFlg){
-
-            return $data[RequestKey::LOGOUT_TOKEN] === $_SESSION[RequestKey::LOGOUT_TOKEN];
-        }
+    public static function verificationToken(array $data){
 
         return $data[RequestKey::TOKEN] === $_SESSION[RequestKey::TOKEN];
-    }
-
-    // CSRFトークンの削除
-    public static function deleteToken(){
-        unset($_SESSION[RequestKey::TOKEN]);
     }
 
     // ソルト付きハッシュ化済みパスワードを取得

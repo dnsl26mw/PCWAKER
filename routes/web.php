@@ -28,6 +28,9 @@ function router($url){
         // デバイス一覧
         '/devicelist' => 'routesDeviceList',
 
+        // デバイス起動
+        '/device/wake' => 'routesWake',
+
         // デバイス情報
         '/deviceinfo' => 'routesDeviceInfo',
 

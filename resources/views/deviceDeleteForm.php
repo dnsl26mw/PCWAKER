@@ -5,7 +5,7 @@
 $deviceID = $data[RequestKey::DEVICE_ID] ?? '';
 
 // CSRFトークン
-$token = $data[RequestKey::TOKEN] ?? '';
+$token = $_SESSION[RequestKey::TOKEN] ?? '';
 
 // エラーメッセージ
 $errorMsg = $data[RequestKey::MESSAGE] ?? '';

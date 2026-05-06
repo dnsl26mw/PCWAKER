@@ -8,7 +8,7 @@ require_once __DIR__ . '/../Support/RequestKey.php';
 
 class AuthService{
 
-    // ログイン処理
+    // ログイン
     public function loginService(array $data){
 
         // ユーザを検索
