@@ -8,7 +8,7 @@ $token = $token ?? '';
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="ja">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,7 +28,7 @@ $token = $token ?? '';
                         でログイン中
                     </span>
                     <form action="/logout" method="POST">
-                        <button type="submit" name="logoutBtn" class="logoutBtn">ログアウト</button>
+                        <button class="logout-button" type="submit" name="logoutBtn" class="logoutBtn">ログアウト</button>
                         <input type="hidden" name="<?php echo RequestKey::TOKEN; ?>" value = "<?php echo $token; ?>"/>
                     </form>
                 </div>

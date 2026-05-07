@@ -27,27 +27,27 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
             <table>
                 <thead>
                     <tr>
-                        <th>選択</th>
-                        <th>デバイスID</th>
-                        <th>デバイス名</th>
+                        <th class="select-column">選択</th>
+                        <th class="device-id-column">デバイスID</th>
+                        <th class="device-name-column">デバイス名</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($deviceListInfo as $device): ?>
                         <tr>
-                            <td>
+                            <td class="select-column">
                                 <input type="checkbox" 
                                 class="selectcheckboxes" 
                                 name="selectdevices[]" 
                                 value="<?php echo Util::escape($device[RequestKey::DEVICE_ID]) ?>"
                                 <?php echo in_array($device[RequestKey::DEVICE_ID], $selectDevices, true) ? 'checked' : ''?>
                             </td>
-                            <td>
+                            <td class="device-id-column">
                                 <a href="/deviceinfo?device_id=<?php echo urlencode(Util::escape($device[RequestKey::DEVICE_ID])) ?>">
                                     <?php echo Util::escape($device[RequestKey::DEVICE_ID]) ?>
                                 </a>
                             </td>
-                            <td>
+                            <td class="device-name-column">
                                 <a href="/deviceinfo?device_id=<?php echo urlencode(Util::escape($device[RequestKey::DEVICE_ID])) ?>">
                                     <?php echo Util::escape($device[RequestKey::DEVICE_NAME]) ?>
                                 </a>
@@ -57,7 +57,7 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
                 </tbody>
             </table>
         </div>
-        <button type="submit" name="wakeBtn" id="wakebutton" disabled>起動</button><br>
+        <button class="submit-button" type="submit" name="wakeBtn" id="wakebutton" disabled>起動</button><br>
         <input type="hidden" name=<?php echo RequestKey::TOKEN ?> value = "<?php echo $token; ?>"/>
     </form>
 <?php else: ?>

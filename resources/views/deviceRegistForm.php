@@ -29,7 +29,7 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
     <input type="text" value = "<?php echo Util::escape($device_name) ?>" name="device_name" placeholder="デバイス名"><br>
     <input type="text" value = "<?php echo Util::escape($macaddress) ?>" name="macaddress" placeholder="MACアドレス(XX-XX-XX-XX-XX-XX)"><br>
     <input type="hidden" name=<?php echo RequestKey::TOKEN ?> value = "<?php echo $token; ?>"/>
-    <button type="submit" name="registBtn">登録</button><br>
+    <button class="submit-button" type="submit" name="registBtn">登録</button><br>
 </form>
 <div class="action-area">
     <a href="/devicelist">デバイス一覧画面に戻る</a>

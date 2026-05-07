@@ -41,7 +41,7 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
     </table>
     <input type="hidden" name=<?php echo RequestKey::DEVICE_ID ?> value = "<?php echo $deviceID; ?>"/>
     <input type="hidden" name=<?php echo RequestKey::TOKEN ?> value = "<?php echo $token; ?>"/>
-    <button type="submit" name="updateBtn" id="updateBtn">デバイス情報更新</button>
+    <button class="submit-button" type="submit" name="updateBtn" id="updateBtn">デバイス情報更新</button>
 </form>
 <div class="action-area">
     <a href="/deviceinfo?device_id=<?php echo Util::escape($deviceID) ?>">デバイス情報画面に戻る</a><br>

@@ -52,7 +52,7 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
         <tr>
     </table>
     <input type="hidden" name=<?php echo RequestKey::TOKEN; ?> value = "<?php echo $token; ?>"/>
-    <button type="submit" name="updateBtn" id="updateBtn">ユーザー情報更新</button>
+    <button class="submit-button" type="submit" name="updateBtn" id="updateBtn">ユーザー情報更新</button>
 </form>
 <a href="/userinfo">ユーザー情報画面に戻る</a><br>
 <a class="delete-link" href="/deleteuser">ユーザー情報削除はこちら</a>
