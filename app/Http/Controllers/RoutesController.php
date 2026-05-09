@@ -58,7 +58,7 @@ Class RoutesController{
         $viewFileName = 'topPage.php';
 
         // トップページに遷移
-        $this->render($pageTitle, $viewFileName, $data);
+        $this->render($pageTitle, $viewFileName, []);
     }
 
     // ユーザ情報登録
@@ -273,7 +273,6 @@ Class RoutesController{
         $this->render($pageTitle, 
                 $viewFileName, [
                 RequestKey::DEVICE_LIST_INFO => $deviceListInfo, 
-                RequestKey::TOKEN => $_POST[RequestKey::TOKEN],
                 RequestKey::SELECTED_DEVICES => []
             ]
         );

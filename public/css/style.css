@@ -10,7 +10,8 @@ body {
 header {
     background: #2c3e50;
     color: #fff;
-    padding: 1rem 2rem;
+    padding: 0 2rem;
+    height: 60px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -19,6 +20,10 @@ header {
 
 header h1 {
     margin: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    height: 100%;
     font-size: 1.5rem;
 }
 
@@ -38,6 +43,24 @@ header a {
 
 header a:hover {
     text-decoration: underline;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 100%;
+}
+
+.header-right form {
+    margin: 0;
+}
+
+.logout-button {
+    width: 100px;
+    height: 30px;
+    font-size: 12px;
+    padding: 6px 12px;
 }
 
 main {
@@ -148,47 +171,27 @@ a:hover {
     margin-bottom: 1rem;
 }
 
+.menu-button-container{
+    text-align: center;
+}
+
 .menu-button-list {
-    justify-content: left;
-    gap: 20px;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(6, 135px);
+    gap: 16px;
     list-style: none;
-    padding: 0;;
-}
-
-.logoutBtn {
-    width: 100px;
-    height: 30px;
-    font-size: 12px;
-    padding: 6px 12px;
-}
-
-header {
-    background: #2c3e50;
-    color: #fff;
-    padding: 0 2rem;
-    height: 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-header h1 {
+    padding: 0;
     margin: 0;
-    display: flex;
-    align-items: center;
-    height: 100%;
+    justify-content: center;
 }
 
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    height: 100%;
+.menu-button-list li{
+    width: 135px;
 }
 
-.header-right form {
-    margin: 0;
+.menu-button-list button {
+    width: 100%;
+    white-space: nowrap;
 }
 
 .action-area {
@@ -213,12 +216,8 @@ header h1 {
     width: 40%;
 }
 
-.logout-button{
-    font-size: 12px;
-    padding: 6px 12px;
-}
+@media (max-width: 1024px) {
 
-@media (max-width: 600px) {
     header {
         flex-direction: column;
         align-items: flex-start;
@@ -235,15 +234,19 @@ header h1 {
         font-size: 0.9rem;
     }
 
+    .submit-button {
+        width: 100%;
+    }
+
     .menu-button-list {
-        justify-content: center;
-        gap: 30px;
-        flex-wrap: wrap;
+        grid-template-columns: repeat(4, 135px);
     }
 }
 
-@media (max-width: 768px) {
-    .submit-button {
-        width: 100%;
+@media (max-width: 500px) {
+
+    .menu-button-list {
+        flex-wrap: wrap;
+        grid-template-columns: repeat(2, 135px);
     }
 }

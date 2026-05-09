@@ -135,7 +135,7 @@ class SqlGenelator{
 
             $retStr.=$whereColumns[$i] . '=?';
 
-            if(0 < count($signs)){
+            if(isset($signs[$i])){
 
                 $retStr.= ' ' . $signs[$i] . ' ';
             }

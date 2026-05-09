@@ -12,7 +12,9 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
         <?php echo Util::escape($errorMsg) ?>
     </p>
 <?php endif; ?>
+<div class="menu-button-container">
 <ul class="menu-button-list">
     <li><a href="/devicelist"><button>デバイス一覧</button></a></li>
     <li><a href="/userinfo"><button>ユーザー情報</button></a></li>
 </ul>
+</div>
