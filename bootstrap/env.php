@@ -3,7 +3,7 @@
 class Env{
 
     // 環境変数キー定数
-    private const APP_URL_KEY = 'APP_URL';
+    private const APP_BASE_PATH_KEY = 'APP_BASE_PATH';
     private const DB_CONNECTION_KEY = 'DB_CONNECTION';
     private const DB_HOST_KEY = 'DB_HOST';
     private const DB_PORT_KEY = 'DB_PORT';
@@ -12,7 +12,7 @@ class Env{
     private const DB_PASSWORD_KEY = 'DB_PASSWORD';
 
     // 環境変数定数
-    public static string $APP_URL = '';
+    public static string $APP_BASE_PATH = '';
     public static string $DB_CONNECTION = '';
     public static string $DB_HOST = '';
     public static int $DB_PORT = 0;
@@ -46,10 +46,10 @@ class Env{
             // 値の前後のクオートや余分な空白を除去
             $value = trim($value, "\"' ");
 
-            // APP_URLをセット
-            if($key === self::APP_URL_KEY){
+            // ベースパスをセット
+            if($key === self::APP_BASE_PATH_KEY){
 
-                self::$APP_URL = $value;
+                self::$APP_BASE_PATH = $value;
             }
 
             // DB接続方法をセット

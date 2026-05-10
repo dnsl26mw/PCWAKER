@@ -7,40 +7,40 @@ class RouteList{
         return [
 
             // トップ
-            '/' => 'routesTop',
+            Env::$APP_BASE_PATH . '/' => 'routesTop',
 
             // ユーザ情報登録
-            '/registuser' => 'routesRegistUser',
+            Env::$APP_BASE_PATH . '/registuser' => 'routesRegistUser',
 
             // ユーザ情報確認
-            '/userinfo' => 'routesUserInfo',
+            Env::$APP_BASE_PATH . '/userinfo' => 'routesUserInfo',
 
             // ユーザ情報更新
-            '/userinfo/update' => 'routesUpdateUserInfo',
+            Env::$APP_BASE_PATH . '/userinfo/update' => 'routesUpdateUserInfo',
 
             // ユーザ情報削除
-            '/deleteuser' => 'routesDeleteUser',
+            Env::$APP_BASE_PATH . '/deleteuser' => 'routesDeleteUser',
 
             // デバイス一覧
-            '/devicelist' => 'routesDeviceList',
+            Env::$APP_BASE_PATH . '/devicelist' => 'routesDeviceList',
 
             // デバイス起動
-            '/device/wake' => 'routesWake',
+            Env::$APP_BASE_PATH . '/device/wake' => 'routesWake',
 
             // デバイス情報
-            '/deviceinfo' => 'routesDeviceInfo',
+            Env::$APP_BASE_PATH . '/deviceinfo' => 'routesDeviceInfo',
 
             // デバイス情報登録
-            '/registdevice' => 'routesRegistDevice',
+            Env::$APP_BASE_PATH . '/registdevice' => 'routesRegistDevice',
 
             // デバイス情報更新
-            '/deviceinfo/update' => 'routesUpdateDeviceInfo',
+            Env::$APP_BASE_PATH . '/deviceinfo/update' => 'routesUpdateDeviceInfo',
 
             // デバイス情報削除
-            '/deviceinfo/delete' => 'routesDeleteDeviceInfo',
+            Env::$APP_BASE_PATH . '/deviceinfo/delete' => 'routesDeleteDeviceInfo',
 
             // ログアウト
-            '/logout' => 'routesLogout'
+            Env::$APP_BASE_PATH . '/logout' => 'routesLogout'
         ];
     }
 }

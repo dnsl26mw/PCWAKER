@@ -115,9 +115,9 @@ class Util {
     }
 
     // URL生成
-    public static function createUrl($path = ''){
+    public static function createAppUrl($path = ''){
 
-        return Env::$APP_URL . $path;
+        return Env::$APP_BASE_PATH . $path;
     }
 }
 
