@@ -17,17 +17,17 @@ $token = $token ?? '';
     </head>
     <body>
         <header>
-            <h1><a href="/">PCWAKER</a></h1>
+            <h1><a href="<?php echo Util::createAppUrl('/') ?>">PCWAKER</a></h1>
             <?php if (!empty($_SESSION[RequestKey::USER_ID])): ?>
                 <div class="header-right">
                     <span class="user-info">
                         ユーザーID:
-                        <a href="/userinfo">
+                        <a href="<?php echo Util::createAppUrl('/userinfo') ?>">
                             <?= Util::escape($_SESSION[RequestKey::USER_ID]) ?>
                         </a>
                         でログイン中
                     </span>
-                    <form action="/logout" method="POST">
+                    <form action="<?php echo Util::createAppUrl('/logout') ?>" method="POST">
                         <button class="logout-button" type="submit" name="logoutBtn" class="logoutBtn">ログアウト</button>
                         <input type="hidden" name="<?php echo RequestKey::TOKEN; ?>" value = "<?php echo $token; ?>"/>
                     </form>

@@ -669,7 +669,7 @@ Class RoutesController{
             }
 
             // トップページURLに遷移
-            header("Location: /");
+            header("Location: " . Util::createAppUrl('/'));
             exit;
         }
     }
