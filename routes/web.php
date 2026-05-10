@@ -1,5 +1,6 @@
 <?php
 
+require_once __DIR__ . '/../app/Routing/RouteList.php';
 require_once __DIR__ . '/../app/Support/Util.php';
 require_once __DIR__ . '/../app/Http/Controllers/RoutesController.php';
 
@@ -8,58 +9,22 @@ function router($url){
 
     $routesController = new RoutesController;
 
-    $routes = [
-
-        // トップ
-        '/' => 'routesTop',
-
-        // ユーザ情報登録
-        '/registuser' => 'routesRegistUser',
-
-        // ユーザ情報確認
-        '/userinfo' => 'routesUserInfo',
-
-        // ユーザ情報更新
-        '/userinfo/update' => 'routesUpdateUserInfo',
-
-        // ユーザ情報削除
-        '/deleteuser' => 'routesDeleteUser',
-
-        // デバイス一覧
-        '/devicelist' => 'routesDeviceList',
-
-        // デバイス起動
-        '/device/wake' => 'routesWake',
-
-        // デバイス情報
-        '/deviceinfo' => 'routesDeviceInfo',
-
-        // デバイス情報登録
-        '/registdevice' => 'routesRegistDevice',
-
-        // デバイス情報更新
-        '/deviceinfo/update' => 'routesUpdateDeviceInfo',
-
-        // デバイス情報削除
-        '/deviceinfo/delete' => 'routesDeleteDeviceInfo',
-
-        // ログアウト
-        '/logout' => 'routesLogout'
-    ];
+    // 定義済みURLの取得
+    $routes = RouteList::getRoutes();
 
     // 定義済みURLの場合
     if(array_key_exists($url, $routes)){
 
         $method = $routes[$url];
         if(method_exists($routesController, $method)){
+
             $routesController->$method();
         }
     }
     // 未定義URLの場合
     else{
+
         http_response_code(404);
         $routesController->routesNotFoundPage();
     }
 }
-
-?>

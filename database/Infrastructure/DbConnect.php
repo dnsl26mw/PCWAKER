@@ -10,9 +10,6 @@ class DbConnect {
     // DBに接続
     public static function getDbConnect(){
 
-        // 環境変数を取得
-        Env::loadEnv();
-
         // DBに接続
         if(!self::$pdo){
 

@@ -3,6 +3,7 @@
 class Env{
 
     // 環境変数キー定数
+    private const APP_URL_KEY = 'APP_URL';
     private const DB_CONNECTION_KEY = 'DB_CONNECTION';
     private const DB_HOST_KEY = 'DB_HOST';
     private const DB_PORT_KEY = 'DB_PORT';
@@ -11,6 +12,7 @@ class Env{
     private const DB_PASSWORD_KEY = 'DB_PASSWORD';
 
     // 環境変数定数
+    public static string $APP_URL = '';
     public static string $DB_CONNECTION = '';
     public static string $DB_HOST = '';
     public static int $DB_PORT = 0;
@@ -22,7 +24,7 @@ class Env{
     private const ENV_PATH = __DIR__ . '/../.env';
 
     // .envファイルの読み込み
-    public static function loadEnv(): void
+    public static function loadEnv()
     {
         // .envファイルを取得
         $envLines = file(self::ENV_PATH, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -43,6 +45,12 @@ class Env{
 
             // 値の前後のクオートや余分な空白を除去
             $value = trim($value, "\"' ");
+
+            // APP_URLをセット
+            if($key === self::APP_URL_KEY){
+
+                self::$APP_URL = $value;
+            }
 
             // DB接続方法をセット
             if($key === self::DB_CONNECTION_KEY){

@@ -78,16 +78,19 @@ class Util {
 
     // ログイン済みかどうかを判定する
     public static function isLogin(){
+        
         return !empty($_SESSION['user_id']);
     }
 
     // 特殊文字列のエスケープ処理
     public static function escape($str){
+
         return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
     }
 
     // URLのパース
     public static function parseURL(){
+
         return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     }
 
@@ -109,6 +112,12 @@ class Util {
 
         // 20文字以内かを返す
         return mb_strlen($str) <= $maxCount;
+    }
+
+    // URL生成
+    public static function createUrl($path = ''){
+
+        return Env::$APP_URL . $path;
     }
 }
 
