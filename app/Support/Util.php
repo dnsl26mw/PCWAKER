@@ -126,10 +126,10 @@ class Util {
         // URLのパース
         $path = self::parseURL($url);
 
-        // 定義済みルート一覧を取得
+        // 定義済みURL配列の取得
         $routes = RouteList::getRoutes();
 
-        // 定義済みルートかどうかを返す
+        // 定義済みURLかどうかを返す
         return array_key_exists($path, $routes);
     }
 }
