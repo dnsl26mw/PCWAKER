@@ -22,7 +22,7 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
             <?php echo Util::escape($errorMsg) ?>
         </p>
     <?php endif; ?>
-    <form action="/device/wake" method="POST">
+    <form action="<?php echo Util::createAppUrl('/device/wake') ?>" method="POST">
         <div class="devicetablediv">
             <table>
                 <thead>

@@ -103,7 +103,7 @@ Class RoutesController{
             }
 
             // トップページに遷移
-            header("Location: /");
+            header("Location: " . Util::createAppUrl('/'));
             exit;
         }
 
@@ -176,7 +176,7 @@ Class RoutesController{
             }
 
             // 更新成功
-            header("Location: /userinfo");
+            header("Location: " . Util::createAppUrl('/userinfo'));
             exit;
         }
 
@@ -239,7 +239,7 @@ Class RoutesController{
             }
 
             // トップページURLに遷移
-            header("Location: /");
+            header("Location: " . Util::createAppUrl('/'));
             exit;
         }
 
@@ -322,7 +322,7 @@ Class RoutesController{
             }
 
             // トップページURLに遷移
-            header("Location: /");
+            header("Location: " . Util::createAppUrl('/'));
         }
     }
 
@@ -407,7 +407,7 @@ Class RoutesController{
             }
 
             // デバイス一覧画面に遷移
-            header("Location: /devicelist");
+            header("Location: " . Util::createAppUrl('/devicelist'));
             exit;
         }
 
@@ -460,7 +460,7 @@ Class RoutesController{
             }
 
             // 更新成功
-            header("Location: /deviceinfo?device_id=".urlencode($data['device_id']));
+            header("Location: " . Util::createAppUrl('/deviceinfo') . '?device_id=' . urlencode($data['device_id']));
             exit;
         }
 
@@ -527,7 +527,7 @@ Class RoutesController{
             }
 
             // デバイス一覧画面に遷移
-            header("Location: /devicelist");
+            header("Location: " . Util::createAppUrl('/devicelist'));
             exit;
         }
 
