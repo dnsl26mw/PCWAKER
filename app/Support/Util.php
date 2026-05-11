@@ -89,9 +89,9 @@ class Util {
     }
 
     // URLのパース
-    public static function parseURL(){
+    public static function parseURL($url){
 
-        return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        return parse_url($url, PHP_URL_PATH);
     }
 
     // IDバリデーション
@@ -118,6 +118,19 @@ class Util {
     public static function createAppUrl($path = ''){
 
         return Env::$APP_BASE_PATH . $path;
+    }
+
+    // 定義済みルートかどうかを判定
+    public static function isRoute($url){
+
+        // URLのパース
+        $path = self::parseURL($url);
+
+        // 定義済みルート一覧を取得
+        $routes = RouteList::getRoutes();
+
+        // 定義済みルートかどうかを返す
+        return array_key_exists($path, $routes);
     }
 }
 

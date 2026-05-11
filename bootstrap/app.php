@@ -11,6 +11,6 @@ Env::loadEnv();
 require_once __DIR__.'/../routes/web.php';
 
 // リクエストURLに応じたルーティング
-router(Util::parseURL());
+router(Util::parseURL($_SERVER['REQUEST_URI']));
 
 ?>

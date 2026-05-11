@@ -623,8 +623,16 @@ Class RoutesController{
                 $this->render($pageTitle, $viewFileName, $data);
             }
 
-            // リクエストされたURLに遷移
-            $url = Util::parseURL();
+            // リクエストされたURLを取得
+            $url = $_SERVER['REQUEST_URI'];
+
+            // 定義済みルートでない場合
+            if(!Util::isRoute($url)){
+
+                // トップページURLに置き換え
+                $url = Util::createAppUrl('/');
+            }
+
             header("Location: $url");
             exit;
 
@@ -662,6 +670,13 @@ Class RoutesController{
 
                 // 元のページのURLを取得
                 $url = $_SERVER['HTTP_REFERER'];
+
+                // 定義済みルートでない場合
+                if(!Util::isRoute($url)){
+
+                    // トップページURLに置き換え
+                    $url = Util::createAppUrl('/');
+                }
 
                 // 遷移
                 header("Location: $url");
