@@ -54,8 +54,8 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
     <input type="hidden" name=<?php echo RequestKey::TOKEN; ?> value = "<?php echo $token; ?>"/>
     <button class="submit-button" type="submit" name="updateBtn" id="updateBtn">ユーザー情報更新</button>
 </form>
-<a href="/userinfo">ユーザー情報画面に戻る</a><br>
-<a class="delete-link" href="/deleteuser">ユーザー情報削除はこちら</a>
+<a href="<?php echo Util::createAppUrl('/userinfo') ?>">ユーザー情報画面に戻る</a><br>
+<a class="delete-link" href="<?php echo Util::createAppUrl('/deleteuser') ?>">ユーザー情報削除はこちら</a>
 
 <script>
 document.addEventListener('DOMContentLoaded', function(){

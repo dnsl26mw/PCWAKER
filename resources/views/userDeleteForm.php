@@ -19,12 +19,12 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
     </p>
 <?php endif; ?>
 <p>
-    ユーザーIDが<a href="/userinfo"><?php echo Util::escape($userID ?? '') ?></a>のユーザー情報を削除します。よろしいですか？
+    ユーザーIDが<a href="<?php echo Util::createAppUrl('/userinfo') ?>"><?php echo Util::escape($userID ?? '') ?></a>のユーザー情報を削除します。よろしいですか？
 </p>
 <form action="" method="POST">
     <input type="hidden" name=<?php echo RequestKey::TOKEN?> value = "<?php echo $token; ?>"/>
     <button class="submit-button" type="submit" name="deleteBtn" id="deleteBtn">削除</button><br>
 </form>
 <div class="action-area">
-    <a href="/userinfo">ユーザー情報画面に戻る</a>
+    <a href="<?php echo Util::createAppUrl('/userinfo') ?>">ユーザー情報画面に戻る</a><br>
 </div>

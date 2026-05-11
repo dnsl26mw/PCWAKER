@@ -43,12 +43,12 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
                                 <?php echo in_array($device[RequestKey::DEVICE_ID], $selectDevices, true) ? 'checked' : ''?>
                             </td>
                             <td class="device-id-column">
-                                <a href="/deviceinfo?device_id=<?php echo urlencode(Util::escape($device[RequestKey::DEVICE_ID])) ?>">
+                                <a href="<?php echo Util::createAppUrl('/deviceinfo') ?>?device_id=<?php echo urlencode(Util::escape($device[RequestKey::DEVICE_ID])) ?>">
                                     <?php echo Util::escape($device[RequestKey::DEVICE_ID]) ?>
                                 </a>
                             </td>
                             <td class="device-name-column">
-                                <a href="/deviceinfo?device_id=<?php echo urlencode(Util::escape($device[RequestKey::DEVICE_ID])) ?>">
+                                <a href="<?php echo Util::createAppUrl('/deviceinfo') ?>?device_id=<?php echo urlencode(Util::escape($device[RequestKey::DEVICE_ID])) ?>">
                                     <?php echo Util::escape($device[RequestKey::DEVICE_NAME]) ?>
                                 </a>
                             </td>
@@ -65,8 +65,8 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
 <?php endif; ?>
 
 <div class="action-area">
-    <a href="/registdevice">デバイス情報の登録はこちら</a><br>
-    <a href="/">トップに戻る</a>
+    <a href="<?php echo Util::createAppUrl('/registdevice') ?>">デバイス情報の登録はこちら</a><br>
+    <a href="<?php echo Util::createAppUrl('/') ?>">トップに戻る</a>
 </div>
 
 <script>

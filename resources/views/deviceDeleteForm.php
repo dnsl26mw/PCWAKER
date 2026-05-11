@@ -20,7 +20,7 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
 <?php endif; ?>
 <p>
     デバイスIDが
-    <a href="/deviceinfo?device_id=<?php echo urlencode(Util::escape($deviceID)) ?>">
+    <a href="<?php echo Util::createAppUrl('/deviceinfo') ?>?device_id=<?php echo urlencode(Util::escape($deviceID ?? '')) ?>">
     <?php echo Util::escape($deviceID ?? '') ?></a>のデバイス情報を削除します。よろしいですか？
 </p>
 <form action="" method="POST">
@@ -29,5 +29,5 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
     <button class="submit-button" type="submit" name="deleteBtn" id="deleteBtn">削除</button><br>
 </form>
 <div class="action-area">
-    <a href="/deviceinfo?device_id=<?php echo Util::escape($deviceID) ?>">デバイス情報画面に戻る</a>
+    <a href="<?php echo Util::createAppUrl('/deviceinfo') ?>?device_id=<?php echo urlencode(Util::escape($deviceID)) ?>">デバイス情報画面に戻る</a><br>
 </div>

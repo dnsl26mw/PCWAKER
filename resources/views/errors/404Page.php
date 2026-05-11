@@ -1,4 +1,4 @@
 <body>
     <p>お探しのページは見つかりませんでした。URLをもう一度お確かめください。</p>
-    <a href="/">トップに戻る</a>
+    <a href="<?php echo Util::createAppUrl('/') ?>">トップに戻る</a>
 </body>

@@ -25,5 +25,5 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
     <button class="submit-button" type="submit" name="loginBtn">ログイン</button><br> 
 </form>
 <div class="action-area">
-    <a href="/registuser">ユーザー登録はこちら</a>        
+    <a href="<?php echo Util::createAppUrl('/registuser') ?>">ユーザー登録はこちら</a>        
 </div>

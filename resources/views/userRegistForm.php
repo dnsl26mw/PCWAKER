@@ -29,5 +29,5 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
     <button class="submit-button" type="submit" name="userRegistBtn" id="userRegistBtn">登録</button><br>
 </form>
 <div class="action-area">
-    <a href="/">ログイン画面に戻る</a>    
+    <a href="<?php echo Util::createAppUrl('/') ?>">ログイン画面に戻る</a>    
 </div>

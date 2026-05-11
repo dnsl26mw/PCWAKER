@@ -44,7 +44,7 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
     <button class="submit-button" type="submit" name="updateBtn" id="updateBtn">デバイス情報更新</button>
 </form>
 <div class="action-area">
-    <a href="/deviceinfo?device_id=<?php echo Util::escape($deviceID) ?>">デバイス情報画面に戻る</a><br>
-    <a class="delete-link" href="/deviceinfo/delete?device_id=<?php echo urlencode(Util::escape($deviceID)) ?>">デバイス情報削除はこちら</a>
+    <a href="<?php echo Util::createAppUrl('/deviceinfo') ?>?device_id=<?php echo urlencode(Util::escape($deviceID)) ?>">デバイス情報画面に戻る</a><br>
+    <a class="delete-link" href="<?php echo Util::createAppUrl('/deviceinfo/delete') ?>?device_id=<?php echo urlencode(Util::escape($deviceID)) ?>">デバイス情報削除はこちら</a>
 </div>
 

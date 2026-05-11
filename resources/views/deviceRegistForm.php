@@ -32,5 +32,5 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
     <button class="submit-button" type="submit" name="registBtn">登録</button><br>
 </form>
 <div class="action-area">
-    <a href="/devicelist">デバイス一覧画面に戻る</a>
+    <a href="<?php echo Util::createAppUrl('/devicelist') ?>">デバイス一覧画面に戻る</a>
 </div>

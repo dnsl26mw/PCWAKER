@@ -29,6 +29,6 @@ $errorMsg = $data[RequestKey::MESSAGE] ?? '';
     </tr>
 </table>
 <div class="action-area">
-    <a href="/userinfo/update">ユーザー情報の更新および削除はこちら</a><br>
-    <a href="/">トップに戻る</a>
+    <a href="<?php echo Util::createAppUrl('/userinfo/update') ?>">ユーザー情報の更新および削除はこちら</a><br>
+    <a href="<?php echo Util::createAppUrl('/') ?>">トップに戻る</a>
 </div>
