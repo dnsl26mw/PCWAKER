@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../app/Routing/RouteList.php';
+require_once __DIR__ . '/../app/Routing/RouteUtil.php';
 require_once __DIR__ . '/../app/Support/Util.php';
 require_once __DIR__ . '/../app/Http/Controllers/RoutesController.php';
 
@@ -9,14 +10,11 @@ function router($url){
 
     $routesController = new RoutesController;
 
+    // URLに対応するメソッド名を取得
+    $method = RouteUtil::getRouteMethod($url);
+
     // 定義済みURLの場合
-    if(Util::isRoute($url)){
-
-        // 定義済みURL配列の取得
-        $routes = RouteList::getRoutes();
-
-        // URLに対応するメソッド名を取得
-        $method = $routes[$url];
+    if($method !== null){
 
         // コントローラに対象メソッドが存在する場合
         if(method_exists($routesController, $method)){

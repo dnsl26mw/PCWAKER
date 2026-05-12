@@ -88,12 +88,6 @@ class Util {
         return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
     }
 
-    // URLのパース
-    public static function parseURL($url){
-
-        return parse_url($url, PHP_URL_PATH);
-    }
-
     // IDバリデーション
     public static function validateID($str){
 
@@ -118,19 +112,6 @@ class Util {
     public static function createAppUrl($path = ''){
 
         return Env::$APP_BASE_PATH . $path;
-    }
-
-    // 定義済みルートかどうかを判定
-    public static function isRoute($url){
-
-        // URLのパース
-        $path = self::parseURL($url);
-
-        // 定義済みURL配列の取得
-        $routes = RouteList::getRoutes();
-
-        // 定義済みURLかどうかを返す
-        return array_key_exists($path, $routes);
     }
 }
 

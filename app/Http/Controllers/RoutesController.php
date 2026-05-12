@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../../Support/Util.php';
+require_once __DIR__ . '/../../Routing/RouteUtil.php';
 require_once __DIR__ . '/../../Support/RequestKey.php';
 require_once __DIR__ . '/../../Http/Controllers/AuthController.php';
 require_once __DIR__ . '/../../Http/Controllers/UserController.php';
@@ -627,7 +628,7 @@ Class RoutesController{
             $url = $_SERVER['REQUEST_URI'];
 
             // 定義済みルートでない場合
-            if(!Util::isRoute($url)){
+            if(!RouteUtil::isRoute($url)){
 
                 // トップページURLに置き換え
                 $url = Util::createAppUrl('/');
@@ -672,7 +673,7 @@ Class RoutesController{
                 $url = $_SERVER['HTTP_REFERER'];
 
                 // 定義済みルートでない場合
-                if(!Util::isRoute($url)){
+                if(!RouteUtil::isRoute($url)){
 
                     // トップページURLに置き換え
                     $url = Util::createAppUrl('/');
