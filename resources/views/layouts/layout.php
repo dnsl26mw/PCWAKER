@@ -38,7 +38,9 @@ $token = $token ?? '';
             <?php include $contentView; ?>
         </main>
         <footer>
-            Copyright©
+            <small>
+                Copyright© 2026 MasayukiHoshikawa All rights reserved.
+            </small>
         </footer>
     </body>
 </html>
