@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('devices', function (Blueprint $table) {
             $table->id();
             $table->string('device_id')->nullable();
-            $table->string('device_name')->nullable();
+            $table->string('name')->nullable();
             $table->string('macaddress')->nullable();
             $table->foreignId('user_id')->nullable();
         });
