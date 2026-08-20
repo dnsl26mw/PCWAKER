@@ -1,7 +1,78 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\WordController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/userinfo/regist', [UserController::class, 'showRegistUserInfo'])
+->name('userinfo.regist');
+
+Route::post('/userinfo/regist', [UserController::class, 'registUserInfo'])
+->name('userinfo.regist');
+
+Route::get('/userinfo', [UserController::class, 'showUserInfo'])
+->middleware('auth')
+->name('userinfo');
+
+Route::get('/userinfo/update', [UserController::class, 'showUpdateUserInfo'])
+->middleware('auth')
+->name('userinfo.update');
+
+Route::post('/userinfo/update', [UserController::class, 'updateUserInfo'])
+->middleware('auth')
+->name('userinfo.update');
+
+Route::get('/userinfo/delete', [UserController::class, 'showDeleteUserInfo'])
+->middleware('auth')
+->name('userinfo.delete');
+
+Route::post('/userinfo/delete', [UserController::class, 'deleteUserInfo'])
+->middleware('auth')
+->name('userinfo.delete');
+
+Route::get('/deviceinfo/regist', [WordController::class, 'showRegistDeviceInfo'])
+->middleware('auth')
+->name('deviceinfo.regist');
+
+Route::post('/deviceinfo/regist', [WordController::class, 'registDeviceInfo'])
+->middleware('auth')
+->name('deviceinfo.regist');
+
+Route::get('/deviceinfo', [WordController::class, 'showDeviceInfo'])
+->middleware('auth')
+->name('deviceinfo');
+
+Route::get('/devicelist', [WordController::class, 'showDeviceList'])
+->middleware('auth')
+->name('devicelist');
+
+Route::get('/deviceinfo/update', [WordController::class, 'showUpdateDeviceInfo'])
+->middleware('auth')
+->name('deviceinfo.update');
+
+Route::post('/deviceinfo/update', [WordController::class, 'updateDeviceInfo'])
+->middleware('auth')
+->name('deviceinfo.update');
+
+Route::get('/deviceinfo/delete', [WordController::class, 'showDeleteDeviceInfo'])
+->middleware('auth')
+->name('deviceinfo.delete');
+
+Route::post('/deviceinfo/delete', [WordController::class, 'deleteDeviceInfo'])
+->middleware('auth')
+->name('deviceinfo.delete');
+
+Route::get('/login', [AuthController::class, 'showLogin'])
+->name('login');
+
+Route::post('/login', [AuthController::class, 'login'])
+->name('login');
+
+Route::post('/logout', [AuthController::class, 'logout'])
+->name('logout');
+
+Route::get('/top', [WordController::class, 'showTop'])
+->middleware('auth')
+->name('top');
+
