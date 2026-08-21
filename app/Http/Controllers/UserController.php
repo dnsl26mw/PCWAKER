@@ -27,7 +27,7 @@ class UserController extends Controller
             'message' => ''
         ];
 
-        return view('userRegistForm', ['data' => $data, 'pagetitle' => 'ユーザー情報登録']);
+        return view('userregistform', ['data' => $data, 'pagetitle' => 'ユーザー情報登録']);
     }
 
     // ユーザ情報登録
@@ -56,7 +56,7 @@ class UserController extends Controller
                 'message' => 'メールアドレス、パスワード、ユーザー名を入力してください。'
             ];
 
-            return view('userRegistForm', ['data' => $data, 'pagetitle' => 'ユーザー情報登録']);
+            return view('userregistform', ['data' => $data, 'pagetitle' => 'ユーザー情報登録']);
         }
 
         // メールアドレスのバリデーション
@@ -68,7 +68,7 @@ class UserController extends Controller
                 'message' => 'メールアドレスの形式が正しくありません。'
             ];
 
-            return view('userRegistForm', ['data' => $data, 'pagetitle' => 'ユーザー情報登録']);
+            return view('userregistform', ['data' => $data, 'pagetitle' => 'ユーザー情報登録']);
         }
 
         // メールアドレスが重複
@@ -80,7 +80,7 @@ class UserController extends Controller
                 'message' => 'このメールアドレスは既に登録されています。'
             ];
 
-            return view('userRegistForm', ['data' => $data, 'pagetitle' => 'ユーザー情報登録']);
+            return view('userregistform', ['data' => $data, 'pagetitle' => 'ユーザー情報登録']);
         }
 
         // パスワードのバリデーション
@@ -92,7 +92,7 @@ class UserController extends Controller
                 'message' => 'パスワードは8文字以上で入力してください。'
             ];
 
-            return view('userRegistForm', ['data' => $data, 'pagetitle' => 'ユーザー情報登録']);
+            return view('userregistform', ['data' => $data, 'pagetitle' => 'ユーザー情報登録']);
         }
 
         // ユーザ情報登録処理の呼び出し
@@ -117,7 +117,7 @@ class UserController extends Controller
             ];
 
             // 登録失敗時はユーザ登録画面へ遷移
-            return view('userRegistForm', ['data' => $data, 'pagetitle' => 'ユーザー情報登録']);
+            return view('userregistform', ['data' => $data, 'pagetitle' => 'ユーザー情報登録']);
         }
     }
 
