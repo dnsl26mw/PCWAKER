@@ -12,7 +12,7 @@ class AuthController extends Controller
         $data = array();
 
         $data = [
-            'login_id' => '',
+            'email' => '',
             'message' => ''
         ];
 
@@ -25,26 +25,26 @@ class AuthController extends Controller
         $data = array();
 
         $data = [
-            'login_id' => '',
+            'email' => '',
             'message' => ''
         ];
 
-        $loginId = $request->input('login_id');
+        $email = $request->input('email');
         $password = $request->input('password');
 
-        // ログインIDまたはパスワードが未入力
-        if(empty($loginId) || empty($password)) {
+        // メールアドレスまたはパスワードが未入力
+        if(empty($email) || empty($password)) {
 
             $data = [
-                'login_id' => $loginId,
-                'message' => 'ユーザーIDおよびパスワードを入力してください。'
+                'email' => $email,
+                'message' => 'メールアドレスおよびパスワードを入力してください。'
             ];
 
             return view('login', ['data' => $data, 'pagetitle' => 'ログイン']);
         }
 
         $loginData = [
-            'login_id' => $loginId,
+            'email' => $email,
             'password' => $password
         ];
 
@@ -55,8 +55,8 @@ class AuthController extends Controller
         }
             
         $data = [
-            'message' => 'ユーザーIDまたはパスワードが違います。',
-            'login_id' => $loginId ?? ''
+            'message' => 'メールアドレスまたはパスワードが違います。',
+            'email' => $email ?? ''
         ];
 
         return view('login', ['data' => $data, 'pagetitle' => 'ログイン']);
