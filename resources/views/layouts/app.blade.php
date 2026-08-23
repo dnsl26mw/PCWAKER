@@ -9,8 +9,9 @@
         <header>
             <h1><a href="{{ route('top') }}">PCWAKER</a></h1>
             @auth
-            こんにちは、<a href={{ route('userinfo') }}>{{ Auth::user()->user_name }}</a>さん
+            こんにちは、<a href={{ route('userinfo') }}>{{ Auth::user()->name }}</a>さん
             <form action="{{ route('logout') }}" method="post">
+                @csrf
                 <button type="submit">ログアウト</button>
             </form>
             @endauth

@@ -21,4 +21,11 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
+
+    public static function passwordValidate($password) {
+
+        $minCount = 8;
+
+        return strlen($password) >= $minCount;
+    }
 }

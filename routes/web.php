@@ -31,35 +31,35 @@ Route::post('/userinfo/delete', [UserController::class, 'deleteUserInfo'])
 ->middleware('auth')
 ->name('userinfo.delete');
 
-Route::get('/deviceinfo/regist', [WordController::class, 'showRegistDeviceInfo'])
+Route::get('/deviceinfo/regist', [DeviceController::class, 'showRegistDeviceInfo'])
 ->middleware('auth')
 ->name('deviceinfo.regist');
 
-Route::post('/deviceinfo/regist', [WordController::class, 'registDeviceInfo'])
+Route::post('/deviceinfo/regist', [DeviceController::class, 'registDeviceInfo'])
 ->middleware('auth')
 ->name('deviceinfo.regist');
 
-Route::get('/deviceinfo', [WordController::class, 'showDeviceInfo'])
+Route::get('/deviceinfo', [DeviceController::class, 'showDeviceInfo'])
 ->middleware('auth')
 ->name('deviceinfo');
 
-Route::get('/devicelist', [WordController::class, 'showDeviceList'])
+Route::get('/devicelist', [DeviceController::class, 'showDeviceList'])
 ->middleware('auth')
 ->name('devicelist');
 
-Route::get('/deviceinfo/update', [WordController::class, 'showUpdateDeviceInfo'])
+Route::get('/deviceinfo/update', [DeviceController::class, 'showUpdateDeviceInfo'])
 ->middleware('auth')
 ->name('deviceinfo.update');
 
-Route::post('/deviceinfo/update', [WordController::class, 'updateDeviceInfo'])
+Route::post('/deviceinfo/update', [DeviceController::class, 'updateDeviceInfo'])
 ->middleware('auth')
 ->name('deviceinfo.update');
 
-Route::get('/deviceinfo/delete', [WordController::class, 'showDeleteDeviceInfo'])
+Route::get('/deviceinfo/delete', [DeviceController::class, 'showDeleteDeviceInfo'])
 ->middleware('auth')
 ->name('deviceinfo.delete');
 
-Route::post('/deviceinfo/delete', [WordController::class, 'deleteDeviceInfo'])
+Route::post('/deviceinfo/delete', [DeviceController::class, 'deleteDeviceInfo'])
 ->middleware('auth')
 ->name('deviceinfo.delete');
 
@@ -72,7 +72,7 @@ Route::post('/login', [AuthController::class, 'login'])
 Route::post('/logout', [AuthController::class, 'logout'])
 ->name('logout');
 
-Route::get('/top', [WordController::class, 'showTop'])
+Route::get('/top', [UserController::class, 'showTop'])
 ->middleware('auth')
 ->name('top');
 

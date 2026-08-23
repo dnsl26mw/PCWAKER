@@ -10,6 +10,12 @@ use App\Providers\AppServiceProvider;
 
 class UserController extends Controller
 {
+    // トップページを表示
+    public function showTop() {
+        
+        return view('top', ['pagetitle' => 'トップ']);
+    }
+
     // ユーザ情報登録画面を表示
     public function showRegistUserInfo(Request $request) {
 
@@ -39,11 +45,21 @@ class UserController extends Controller
             return back();
         }
 
+        // メールアドレス
+        $email = $request->input('email');
+
+        // パスワード
+        $password = $request->input('password');
+
+        // ユーザ名
+        $userName = $request->input('user_name');
+
+        // バリデーション用の配列
         $data = array();
 
         $data = [
-            'email' => '',
-            'user_name' => '',
+            'email' => $email,
+            'user_name' => $userName,
             'message' => ''
         ];
 
@@ -51,8 +67,8 @@ class UserController extends Controller
         if(empty($request->input('email')) || empty($request->input('password')) || empty($request->input('user_name'))) {
 
             $data = [
-                'email' => $request->input('email'),
-                'user_name' => $request->input('user_name'),
+                'email' => $email,
+                'user_name' => $userName,
                 'message' => 'メールアドレス、パスワード、ユーザー名を入力してください。'
             ];
 
@@ -63,8 +79,8 @@ class UserController extends Controller
         if(!filter_var($request->input('email'), FILTER_VALIDATE_EMAIL)) {
             
             $data = [
-                'email' => $request->input('email'),
-                'user_name' => $request->input('user_name'),
+                'email' => $email,
+                'user_name' => $userName,
                 'message' => 'メールアドレスの形式が正しくありません。'
             ];
 
@@ -75,8 +91,8 @@ class UserController extends Controller
         if(User::where('email', $request->input('email'))->exists()) {
 
             $data = [
-                'email' => $request->input('email'),
-                'user_name' => $request->input('user_name'),
+                'email' => $email,
+                'user_name' => $userName,
                 'message' => 'このメールアドレスは既に登録されています。'
             ];
 
@@ -87,8 +103,8 @@ class UserController extends Controller
         if(!AppServiceProvider::passwordValidate($request->input('password'))) {
             
             $data = [
-                'email' => $request->input('email'),
-                'user_name' => $request->input('user_name'),
+                'email' => $email,
+                'user_name' => $userName,
                 'message' => 'パスワードは8文字以上で入力してください。'
             ];
 
@@ -101,22 +117,21 @@ class UserController extends Controller
             User::create([
                 'email' => $email,
                 'password' => Hash::make($password),
-                'user_name' => $userName,
+                'name' => $userName,
             ]);
 
             // 登録成功時はログイン画面へ遷移
-            return redirect()->route('login', ['back' => $backUrl]);
+            return redirect()->route('login');
         }
         catch(\Exception $e) {
 
             $data = [
                 'email' => $email,
                 'user_name' => $userName,
-                'back_url' => $backUrl,
                 'message' => 'ユーザー情報登録に失敗しました。'
             ];
 
-            // 登録失敗時はユーザ登録画面へ遷移
+            // 登録失敗時はユーザ情報登録画面へ遷移
             return view('userregistform', ['data' => $data, 'pagetitle' => 'ユーザー情報登録']);
         }
     }
@@ -135,7 +150,7 @@ class UserController extends Controller
             'message' => ''
         ];
 
-        return view('userInfo', ['data' => $data, 'pagetitle' => 'ユーザー情報']);
+        return view('userinfo', ['data' => $data, 'pagetitle' => 'ユーザー情報']);
     }
 
     // // ユーザ情報更新画面を表示
