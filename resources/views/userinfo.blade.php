@@ -19,7 +19,7 @@
 
     <div class="action-area">
         <a href="{{ route('userinfo.update')}}">ユーザー情報の更新および削除はこちら</a><br>
-        <a href="{{ route('top')}}">トップに戻る
+        <a href="{{ route('top')}}">トップに戻る</a>
     </div>
 
 @endsection

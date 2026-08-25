@@ -153,183 +153,161 @@ class UserController extends Controller
         return view('userinfo', ['data' => $data, 'pagetitle' => 'ユーザー情報']);
     }
 
-    // // ユーザ情報更新画面を表示
-    // public function showUpdateUserInfo() {
+    // ユーザ情報更新画面を表示
+    public function showUpdateUserInfo() {
 
-    //     // ログイン中のユーザ情報
-    //     $userInfo = User::find(Auth::id());
+        // ログイン中のユーザ情報
+        $userInfo = User::find(Auth::id());
 
-    //     // トップへ戻る押下時の戻り先
-    //     $backUrl = request()->query('back');
+        $data = array();
 
-    //     $data = array();
+        $data = [
+            'email' => $userInfo->email,
+            'name' => $userInfo->name,
+            'updatepassword' => 'notupdatepassword',
+            'message' => ''
+        ];
 
-    //     $data = [
-    //         'email' => $userInfo->email,
-    //         'user_name' => $userInfo->user_name,
-    //         'updatepassword' => 'notupdatepassword',
-    //         'allow_redirect' => false,
-    //         'back_url' => $backUrl,
-    //         'message' => ''
-    //     ];
+        return view('updateuserinfoform', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
+    }
 
-    //     return view('updateuserinfo', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
-    // }
+    // ユーザ情報更新
+    public function updateUserInfo(Request $request) {
 
-    // // ユーザ情報更新
-    // public function updateUserInfo(Request $request) {
+        // ログイン中のユーザ情報
+        $userInfo = User::find(Auth::id());
 
-    //     // ログイン中のユーザ情報
-    //     $userInfo = User::find(Auth::id());
+        $data = array();
 
-    //     // トップへ戻る押下時の戻り先
-    //     $backUrl = request()->input('back');
+        $data = [
+            'email' => '',
+            'user_name' => '',
+            'updatepassword' => 'notupdatepassword',
+            'message' => ''
+        ];
 
-    //     $data = array();
+        $email = $request->input('email');
+        $userName = $request->input('user_name');
+        $updatePassword = $request->input('updatepassword');
+        $oldPassword = $request->input('oldpassword');
+        $newPassword = $request->input('newpassword');
 
-    //     $data = [
-    //         'email' => '',
-    //         'user_name' => '',
-    //         'updatepassword' => 'notupdatepassword',
-    //         'allow_redirect' => false,
-    //         'back_url' => $backUrl,
-    //         'message' => ''
-    //     ];
+        try{
 
-    //     $email = $request->input('email');
-    //     $userName = $request->input('user_name');
-    //     $updatePassword = $request->input('updatepassword');
-    //     $oldPassword = $request->input('oldpassword');
-    //     $newPassword = $request->input('newpassword');
+            // メールアドレスを更新する場合
+            if($userInfo->email != $email) {
 
-    //     try{
+                // メールアドレスのバリデーション
+                if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
-    //         // メールアドレスを更新する場合
-    //         if($userInfo->email != $email) {
+                    $data = [
+                        'email' => $email,
+                        'name' => $userName,
+                        'updatepassword' => $updatePassword,
+                        'message' => 'メールアドレスの形式が正しくありません。'
+                    ];
 
-    //             // メールアドレスのバリデーション
-    //             if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    // メールアドレスのフォーマット違反時はユーザ情報更新画面に遷移
+                    return view('updateuserinfoform', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
+                }
 
-    //                 $data = [
-    //                     'email' => $email,
-    //                     'user_name' => $userName,
-    //                     'allow_redirect' => false,
-    //                     'back_url' => $backUrl,
-    //                     'message' => 'メールアドレスの形式が正しくありません。'
-    //                 ];
+                // メールアドレス重複チェック
+                if(User::where('email', $email)->where('id', '!=', Auth::id())->exists()) {
 
-    //                 // メールアドレスのフォーマット違反時はユーザ情報更新画面に遷移
-    //                 return view('updateuserinfo', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
-    //             }
+                    $data = [
+                        'email' => $email,
+                        'name' => $userName,
+                        'updatepassword' => $updatePassword,
+                        'message' => 'このメールアドレスは既に使用されています。'
+                    ];
 
-    //             // メールアドレス重複チェック
-    //             if(User::where('email', $email)->where('id', '!=', Auth::id())->exists()) {
+                    return view('updateuserinfoform', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
+                }
 
-    //                 $data = [
-    //                     'email' => $email,
-    //                     'user_name' => $userName,
-    //                     'updatepassword' => $updatePassword,
-    //                     'allow_redirect' => false,
-    //                     'back_url' => $backUrl,
-    //                     'message' => 'このメールアドレスは既に使用されています。'
-    //                 ];
+                $userInfo->email = $email;
+            }
 
-    //                 return view('updateuserinfo', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
-    //             }
+            // パスワードを更新する場合
+            if($updatePassword == 'updatepassword') {
 
-    //             $userInfo->email = $email;
-    //         }
+                // メールアドレス、ユーザ名、現在のパスワード、新しいパスワードが未入力
+                if(empty($email) || empty($userName) || empty($oldPassword) || empty($newPassword)) {
 
-    //         // パスワードを更新する場合
-    //         if($updatePassword == 'updatepassword') {
+                    $data = [
+                        'email' => $email,
+                        'name' => $userName,
+                        'updatepassword' => $updatePassword,
+                        'message' => 'メールアドレス、ユーザー名、現在のパスワード、新しいパスワードを入力してください。'
+                    ];
 
-    //             // メールアドレス、ユーザ名、現在のパスワード、新しいパスワードが未入力
-    //             if(empty($email) || empty($userName) || empty($oldPassword) || empty($newPassword)) {
+                    return view('updateuserinfo', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
+                }
 
-    //                 $data = [
-    //                     'email' => $email,
-    //                     'user_name' => $userName,
-    //                     'updatepassword' => $updatePassword,
-    //                     'allow_redirect' => false,
-    //                     'back_url' => $backUrl,
-    //                     'message' => 'メールアドレス、ユーザー名、現在のパスワード、新しいパスワードを入力してください。'
-    //                 ];
+                // 現在のパスワードを照合
+                if(!Hash::check($oldPassword, $userInfo->password)) {
 
-    //                 return view('updateuserinfo', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
-    //             }
+                    $data = [
+                        'email' => $email,
+                        'name' => $userName,
+                        'updatepassword' => $updatePassword,
+                        'message' => '現在のパスワードが違います。'
+                    ];
 
-    //             // 現在のパスワードを照合
-    //             if(!Hash::check($oldPassword, $userInfo->password)) {
+                    return view('updateuserinfo', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
+                }
 
-    //                 $data = [
-    //                     'email' => $email,
-    //                     'user_name' => $userName,
-    //                     'updatepassword' => $updatePassword,
-    //                     'allow_redirect' => false,
-    //                     'back_url' => $backUrl,
-    //                     'message' => '現在のパスワードが違います。'
-    //                 ];
+                // 新しいパスワードのバリデーション
+                if(!AppServiceProvider::passwordValidate($newPassword)) {
 
-    //                 return view('updateuserinfo', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
-    //             }
+                    $data = [
+                        'email' => $email,
+                        'name' => $userName,
+                        'updatepassword' => $updatePassword,
+                        'message' => '新しいパスワードは8文字以上で入力してください。'
+                    ];
 
-    //             // 新しいパスワードのバリデーション
-    //             if(!AppServiceProvider::passwordValidate($newPassword)) {
+                    // パスワードバリデーション失敗時はユーザ情報更新画面に遷移
+                    return view('updateuserinfo', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
+                }
 
-    //                 $data = [
-    //                     'email' => $email,
-    //                     'user_name' => $userName,
-    //                     'updatepassword' => $updatePassword,
-    //                     'allow_redirect' => false,
-    //                     'back_url' => $backUrl,
-    //                     'message' => '新しいパスワードは8文字以上で入力してください。'
-    //                 ];
+                $userInfo->password = Hash::make($newPassword);
+            }
+            else {
 
-    //                 // パスワードバリデーション失敗時はユーザ情報更新画面に遷移
-    //                 return view('updateuserinfo', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
-    //             }
+                // メールアドレス、ユーザ名が未入力
+                if(empty($email) || empty($userName)) {
 
-    //             $userInfo->password = Hash::make($newPassword);
-    //         }
-    //         else {
+                    $data = [
+                        'email' => $email,
+                        'name' => $userName,
+                        'updatepassword' => $updatePassword,
+                        'message' => 'メールアドレス、ユーザー名を入力してください。'
+                    ];
 
-    //             // メールアドレス、ユーザ名が未入力
-    //             if(empty($email) || empty($userName)) {
+                    return view('updateuserinfoform', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
+                }
+            }
 
-    //                 $data = [
-    //                     'email' => $email,
-    //                     'user_name' => $userName,
-    //                     'updatepassword' => $updatePassword,
-    //                     'allow_redirect' => false,
-    //                     'back_url' => $backUrl,
-    //                     'message' => 'メールアドレス、ユーザー名を入力してください。'
-    //                 ];
+            $userInfo->name = $userName;
 
-    //                 return view('updateuserinfo', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
-    //             }
-    //         }
+            $userInfo->save();
 
-    //         $userInfo->user_name = $userName;
+            // 更新成功時はトップページへ遷移
+            return redirect('/top');
+        }
+        catch(\Exception $e) {
 
-    //         $userInfo->save();
+            $data = [
+                'email' => $email,
+                'name' => $userName,
+                'updatepassword' => $updatePassword,
+                'message' => 'ユーザー情報更新に失敗しました。'
+            ];
 
-    //         // 更新成功時はトップページへ遷移
-    //         return redirect($backUrl);
-    //     }
-    //     catch(\Exception $e) {
-
-    //         $data = [
-    //             'email' => $email,
-    //             'user_name' => $userName,
-    //             'updatepassword' => $updatePassword,
-    //             'allow_redirect' => false,
-    //             'message' => 'ユーザー情報更新に失敗しました。'
-    //         ];
-
-    //         // 更新失敗時はユーザ登録画面へ遷移
-    //         return view('updateuserinfo', ['data' => $data, 'pagetitle' => 'ユーザ情報更新']);
-    //     }
-    // }
+            // 更新失敗時はユーザ登録画面へ遷移
+            return view('updateuserinfoform', ['data' => $data, 'pagetitle' => 'ユーザ情報更新']);
+        }
+    }
 
     // // ユーザ情報削除画面を表示
     // public function showDeleteUserInfo() {
