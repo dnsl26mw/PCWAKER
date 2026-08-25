@@ -309,79 +309,67 @@ class UserController extends Controller
         }
     }
 
-    // // ユーザ情報削除画面を表示
-    // public function showDeleteUserInfo() {
+    // ユーザ情報削除画面を表示
+    public function showDeleteUserInfo() {
 
-    //     // ログイン中のユーザ情報
-    //     $userInfo = User::find(Auth::id());
+        // ログイン中のユーザ情報
+        $userInfo = User::find(Auth::id());
 
-    //     // ログイン中のユーザ名
-    //     $userName = $userInfo->user_name;
+        // ログイン中のユーザ名
+        $userName = $userInfo->name;
 
-    //     // トップへ戻る押下時の戻り先
-    //     $backUrl = request()->query('back');
+        $data = array();
 
-    //     $data = array();
+        $data = [
+            'name' => $userName,
+            'message' => ''
+        ];
 
-    //     $data = [
-    //         'user_name' => $userName,
-    //         'allow_redirect' => false,
-    //         'back_url' => $backUrl,
-    //         'message' => ''
-    //     ];
+        return view('userdeleteform', ['data' => $data, 'pagetitle' => 'ユーザ情報削除']);
+    }
 
-    //     return view('deleteuserinfo', ['data' => $data, 'pagetitle' => 'ユーザ情報削除']);
-    // }
+    // ユーザ情報削除
+    public function deleteUserInfo(Request $request) {
 
-    // // ユーザ情報削除
-    // public function deleteUserInfo(Request $request) {
+        // ログイン中のユーザ情報
+        $userInfo = User::find(Auth::id());
 
-    //     // ログイン中のユーザ情報
-    //     $userInfo = User::find(Auth::id());
+        // ログイン中のユーザ名
+        $userName = $userInfo->name;
 
-    //     // ログイン中のユーザ名
-    //     $userName = $userInfo->user_name;
+        $data = array();
 
-    //     // トップへ戻る押下時の戻り先
-    //     $backUrl = request()->input('back');
+        $data = [
+            'name' => $userName,
+            'message' => ''
+        ];
 
-    //     $data = array();
+        try {
 
-    //     $data = [
-    //         'user_name' => $userName,
-    //         'allow_redirect' => false,
-    //         'back_url' => $backUrl,
-    //         'message' => ''
-    //     ];
+            // ログアウト処理
+            Auth::logout();
 
-    //     try {
+            // セッションを無効化
+            $request->session()->invalidate();
 
-    //         // ログアウト処理
-    //         Auth::logout();
+            // CSRFトークンを再生性
+            $request->session()->regenerateToken();
 
-    //         // セッションを無効化
-    //         $request->session()->invalidate();
+            // ユーザ情報削除処理
+            $userInfo->delete();
 
-    //         // CSRFトークンを再生性
-    //         $request->session()->regenerateToken();
+            // ログイン画面に遷移
+            return redirect()->route('login');
+        }
+        catch(\Exception $e) {
 
-    //         // ユーザ情報削除処理
-    //         $userInfo->delete();
+            $data = [
+                'name' => $userName,
+                'message' => 'ユーザ情報削除に失敗しました。'
+            ];
 
-    //         // 元ページへ、元ページが存在しなければトップページへ遷移
-    //         return redirect($backUrl ?: route('top'));
-    //     }
-    //     catch(\Exception $e) {
-
-    //         $data = [
-    //             'user_name' => $userName,
-    //             'allow_redirect' => false,
-    //             'back_url' => $backUrl,
-    //             'message' => 'ユーザ情報削除に失敗しました。'
-    //         ];
-
-    //         // 削除失敗時はユーザ削除確認画面へ遷移
-    //         return view('deleteuserconfirm', ['data' => $data, 'pagetitle' => 'ユーザ情報削除']);
-    //     }
-    // }
+            // 削除失敗時はユーザ削除確認画面へ遷移
+            return view('deleteuserconfirm', ['data' => $data, 'pagetitle' => 'ユーザ情報削除']);
+        }
+    }
 }
