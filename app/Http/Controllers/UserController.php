@@ -137,16 +137,16 @@ class UserController extends Controller
     }
 
     // ユーザ情報画面を表示
-    public function showUserInfo(Request $request, $email) {
+    public function showUserInfo() {
 
         // ログイン中のユーザ情報
-        $userInfo = User::where('email', $email)->firstOrFail();
+        $userInfo = User::find(Auth::id());
 
         $data = array();
 
         $data = [
             'email' => $userInfo->email,
-            'user_name' => $userInfo->user_name,
+            'name' => $userInfo->name,
             'message' => ''
         ];
 
