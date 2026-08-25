@@ -73,6 +73,18 @@ class AuthController extends Controller
         return view('login', ['data' => $data, 'pagetitle' => 'ログイン']);
     }
 
+    // ログアウトをGET要求で受け取った場合の処理
+    public function getLogout() {
+    
+        // ログイン済みでない場合はログイン画面へ遷移
+        if(!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        // 現在のページに留まる
+        return back();
+    }
+
     // ログアウト
     public function logout(Request $request) {
 

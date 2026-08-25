@@ -69,7 +69,12 @@ Route::get('/login', [AuthController::class, 'showLogin'])
 Route::post('/login', [AuthController::class, 'login'])
 ->name('login');
 
+Route::get('/logout', [AuthController::class, 'getLogout'])
+->middleware('auth')
+->name('logout');
+
 Route::post('/logout', [AuthController::class, 'logout'])
+->middleware('auth')
 ->name('logout');
 
 Route::get('/top', [UserController::class, 'showTop'])
