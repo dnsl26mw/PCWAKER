@@ -10,6 +10,11 @@ class AuthController extends Controller
     // ログイン画面を表示
     public function showLogin() {
 
+        // ログイン済みの場合は現在のページに留まる
+        if(Auth::check()) {
+            return back();
+        }
+
         $data = array();
 
         $data = [
@@ -22,6 +27,11 @@ class AuthController extends Controller
 
     // ログイン
     public function login(Request $request) {
+
+        // ログイン済みの場合は現在のページに留まる
+        if(Auth::check()) {
+            return back();
+        }
 
         $data = array();
 
@@ -51,8 +61,8 @@ class AuthController extends Controller
 
         if(Auth::attempt($loginData)) {
 
-            // ログイン成功時はトップページへ遷移
-            return redirect()->route('top');
+            // ログイン成功時は要求されたページへ遷移
+            return redirect()->intended(route('top'));
         }
             
         $data = [

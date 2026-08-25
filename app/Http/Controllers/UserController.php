@@ -21,7 +21,6 @@ class UserController extends Controller
 
         // ログイン済みの場合は現在のページに留まる
         if(Auth::check()) {
-
             return back();
         }
 
