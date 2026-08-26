@@ -47,11 +47,11 @@ Route::get('/devicelist', [DeviceController::class, 'showDeviceList'])
 ->middleware('auth')
 ->name('devicelist');
 
-Route::get('/deviceinfo/update', [DeviceController::class, 'showUpdateDeviceInfo'])
+Route::get('/deviceinfo/update/{device_id}', [DeviceController::class, 'showUpdateDeviceInfo'])
 ->middleware('auth')
 ->name('deviceinfo.update');
 
-Route::post('/deviceinfo/update', [DeviceController::class, 'updateDeviceInfo'])
+Route::post('/deviceinfo/update/{device_id}', [DeviceController::class, 'updateDeviceInfo'])
 ->middleware('auth')
 ->name('deviceinfo.update');
 

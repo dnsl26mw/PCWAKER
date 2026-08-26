@@ -142,4 +142,57 @@ class DeviceController extends Controller
 
         return view('deviceinfo', ['data' => $data, 'pagetitle' => 'デバイス情報']);
     }
+
+    // デバイス情報更新画面を表示
+    public function showUpdateDeviceInfo($device_id)
+    {
+        $device = Device::where('user_id', Auth::id())->where('device_id', $device_id)->firstOrFail();
+
+        $data = array();
+
+        $data = [
+            'device_id' => $device->device_id,
+            'name' => $device->name,
+            'macaddress' => $device->macaddress
+        ];
+
+        return view('deviceinfoupdateform', ['data' => $data, 'pagetitle' => 'デバイス情報更新']);
+    }
+
+    // デバイス情報更新
+    public function updateDeviceInfo(Request $request, $device_id)
+    {
+        $device = Device::where('user_id', Auth::id())->where('device_id', $device_id)->firstOrFail();
+
+        // デバイス名
+        $device_name = $request->input('device_name');
+
+        // MACアドレス
+        $macaddress = $request->input('macaddress');
+
+        // デバイス情報更新処理の呼び出し
+        try{
+            
+            Device::where('user_id', Auth::id())->where('device_id', $device_id)->update([
+                'name' => $device_name,
+                'macaddress' => $macaddress
+            ]);
+
+            // 更新成功時はデバイス情報画面へ遷移
+            return redirect()->route('deviceinfo', ['device_id' => $device_id]);
+        }
+        catch(\Exception $e) {
+
+            $data = [
+                'device_id' => $device->device_id,
+                'name' => $device->name,
+                'macaddress' => $device->macaddress,
+                'message' => 'デバイス情報更新に失敗しました。'
+            ];
+
+            // 更新失敗時はデバイス情報更新画面へ遷移
+            return view('deviceinfoupdateform', ['data' => $data, 'pagetitle' => 'デバイス情報更新']);
+        }
+    }
 }
+

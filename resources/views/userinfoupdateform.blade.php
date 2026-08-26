@@ -36,7 +36,7 @@
                 </td>
             </tr>
         </table>
-        <button type="submit">更新</button>
+        <button type="submit">ユーザー情報更新</button>
     </form>
 
     <div class="action-area">

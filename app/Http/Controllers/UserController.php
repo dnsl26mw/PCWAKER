@@ -167,7 +167,7 @@ class UserController extends Controller
             'message' => ''
         ];
 
-        return view('updateuserinfoform', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
+        return view('userinfoupdateform', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
     }
 
     // ユーザ情報更新
@@ -207,7 +207,7 @@ class UserController extends Controller
                     ];
 
                     // メールアドレスのフォーマット違反時はユーザ情報更新画面に遷移
-                    return view('updateuserinfoform', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
+                    return view('userinfoupdateform', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
                 }
 
                 // メールアドレス重複チェック
@@ -220,7 +220,7 @@ class UserController extends Controller
                         'message' => 'このメールアドレスは既に使用されています。'
                     ];
 
-                    return view('updateuserinfoform', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
+                    return view('userinfoupdateform', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
                 }
 
                 $userInfo->email = $email;
@@ -283,7 +283,7 @@ class UserController extends Controller
                         'message' => 'メールアドレス、ユーザー名を入力してください。'
                     ];
 
-                    return view('updateuserinfoform', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
+                    return view('userinfoupdateform', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
                 }
             }
 
@@ -304,7 +304,7 @@ class UserController extends Controller
             ];
 
             // 更新失敗時はユーザ登録画面へ遷移
-            return view('updateuserinfoform', ['data' => $data, 'pagetitle' => 'ユーザ情報更新']);
+            return view('userinfoupdateform', ['data' => $data, 'pagetitle' => 'ユーザ情報更新']);
         }
     }
 

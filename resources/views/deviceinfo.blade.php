@@ -22,8 +22,8 @@
     </table>
 
     <div class="action-area">
-        <a href="{{ route('deviceinfo.update')}}">デバイス情報の更新および削除はこちら</a><br>
-        <a href="{{ route('devicelist')}}">デバイス一覧画面へ戻る</a>
+        <a href="{{ route('deviceinfo.update', ['device_id' => $data['device_id']]) }}">デバイス情報の更新および削除はこちら</a><br>
+        <a href="{{ route('devicelist') }}">デバイス一覧画面へ戻る</a>
     </div>
 
 @endsection
