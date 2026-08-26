@@ -10,6 +10,7 @@ class DeviceController extends Controller
     // デバイス一覧画面を表示
     public function showDeviceList()
     {
+        // ログインユーザーのデバイス一覧を取得
         $devices = Device::where('user_id', Auth::id())->orderBy('id', 'asc')->get();
 
         $data = array();
@@ -130,6 +131,7 @@ class DeviceController extends Controller
     // デバイス情報画面を表示
     public function showDeviceInfo($device_id)
     {
+        // 指定されたデバイス情報を取得
         $device = Device::where('user_id', Auth::id())->where('device_id', $device_id)->firstOrFail();
 
         $data = array();
@@ -146,6 +148,7 @@ class DeviceController extends Controller
     // デバイス情報更新画面を表示
     public function showUpdateDeviceInfo($device_id)
     {
+        // 指定されたデバイス情報を取得
         $device = Device::where('user_id', Auth::id())->where('device_id', $device_id)->firstOrFail();
 
         $data = array();
@@ -162,6 +165,7 @@ class DeviceController extends Controller
     // デバイス情報更新
     public function updateDeviceInfo(Request $request, $device_id)
     {
+        // 指定されたデバイス情報を取得
         $device = Device::where('user_id', Auth::id())->where('device_id', $device_id)->firstOrFail();
 
         // デバイス名
@@ -194,5 +198,46 @@ class DeviceController extends Controller
             return view('deviceinfoupdateform', ['data' => $data, 'pagetitle' => 'デバイス情報更新']);
         }
     }
-}
 
+    // デバイス情報削除画面を表示
+    public function showDeleteDeviceInfo($device_id)
+    {
+        // 指定されたデバイス情報を取得
+        $device = Device::where('user_id', Auth::id())->where('device_id', $device_id)->firstOrFail();
+
+        $data = [
+            'device_id' => $device->device_id,
+            'name' => $device->name,
+            'macaddress' => $device->macaddress
+        ];
+
+        return view('devicedeleteform', ['data' => $data, 'pagetitle' => 'デバイス情報削除']);
+    }
+
+    // デバイス情報削除
+    public function deleteDeviceInfo(Request $request, $device_id)
+    {
+        // 指定されたデバイス情報を取得
+        $device = Device::where('user_id', Auth::id())->where('device_id', $device_id)->firstOrFail();
+
+        // デバイス情報削除処理の呼び出し
+        try {
+
+            Device::where('user_id', Auth::id())->where('device_id', $device_id)->delete();
+
+            // 削除成功時はデバイス一覧画面へ遷移
+            return redirect()->route('devicelist');
+            
+        } catch (\Exception $e) {
+
+            $data = [
+                'device_id' => $device->device_id,
+                'name' => $device->name,
+                'macaddress' => $device->macaddress,
+                'message' => 'デバイス情報削除に失敗しました。'
+            ];
+
+            return view('devicedeleteform', ['data' => $data, 'pagetitle' => 'デバイス情報削除']);
+        }
+    }
+}

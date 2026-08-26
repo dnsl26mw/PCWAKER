@@ -55,11 +55,11 @@ Route::post('/deviceinfo/update/{device_id}', [DeviceController::class, 'updateD
 ->middleware('auth')
 ->name('deviceinfo.update');
 
-Route::get('/deviceinfo/delete', [DeviceController::class, 'showDeleteDeviceInfo'])
+Route::get('/deviceinfo/delete/{device_id}', [DeviceController::class, 'showDeleteDeviceInfo'])
 ->middleware('auth')
 ->name('deviceinfo.delete');
 
-Route::post('/deviceinfo/delete', [DeviceController::class, 'deleteDeviceInfo'])
+Route::post('/deviceinfo/delete/{device_id}', [DeviceController::class, 'deleteDeviceInfo'])
 ->middleware('auth')
 ->name('deviceinfo.delete');
 
