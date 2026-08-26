@@ -12,7 +12,7 @@
 
     <form action="" method="POST">
         @csrf
-        <input type="text" value = "{{$data['email']}}" name="email" placeholder="メールアドレス"><br>
+        <input type="text" value = "{{$data['email']}}" name="email" placeholder="ログインID(メールアドレス)"><br>
         <input type="password" name="password" placeholder="パスワード"><br>
         <input type="hidden" name="back" value="{{ $data['back_url'] ?? route('top') }}">
         <button class="submit-button" type="submit" name="loginBtn">ログイン</button><br> 
