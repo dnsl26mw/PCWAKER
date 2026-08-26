@@ -41,7 +41,7 @@
 
     <div class="action-area">
         <a href="{{ route('userinfo.delete') }}">ユーザー情報の削除はこちら</a><br>
-        <a href="{{ route('top')}}">トップに戻る</a>
+        <a href="{{ route('top')}}">トップへ戻る</a>
     </div>
 
     <script>

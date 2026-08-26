@@ -21,7 +21,7 @@
     </form>
 
     <div class="action-area">
-        <a href="{{ route('top')}}">トップに戻る
+        <a href="{{ route('top')}}">トップへ戻る
     </div>
 
 @endsection

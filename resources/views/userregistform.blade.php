@@ -19,7 +19,7 @@
     </form>
     
     <div class="action-area">
-        <a href="{{ route('login') }}">ログイン画面に戻る</a><br>   
+        <a href="{{ route('login') }}">ログイン画面へ戻る</a><br>   
     </div>
 
 @endsection

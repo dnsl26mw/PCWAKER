@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\WordController;
+use App\Http\Controllers\DeviceController;
 
 Route::get('/userinfo/regist', [UserController::class, 'showRegistUserInfo'])
 ->name('userinfo.regist');
@@ -39,7 +39,7 @@ Route::post('/deviceinfo/regist', [DeviceController::class, 'registDeviceInfo'])
 ->middleware('auth')
 ->name('deviceinfo.regist');
 
-Route::get('/deviceinfo', [DeviceController::class, 'showDeviceInfo'])
+Route::get('/deviceinfo/{device_id}', [DeviceController::class, 'showDeviceInfo'])
 ->middleware('auth')
 ->name('deviceinfo');
 

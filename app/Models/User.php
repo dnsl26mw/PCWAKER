@@ -14,6 +14,9 @@ use Illuminate\Notifications\Notifiable;
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
+    // タイムスタンプを無効化
+    public $timestamps = false;
+
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
@@ -30,6 +33,7 @@ class User extends Authenticatable
         ];
     }
 
+    // Fillable属性を設定
     protected $fillable = [
         'email',
         'password',

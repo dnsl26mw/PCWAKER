@@ -13,6 +13,7 @@
 <div class="menu-button-container">
     <ul class="menu-button-list">
         <li><a href="{{ route('userinfo') }}"><button>ユーザー情報</button></a></li>
+        <li><a href="{{ route('devicelist') }}"><button>デバイス一覧</button></a></li>
     </ul>
 </div>
 

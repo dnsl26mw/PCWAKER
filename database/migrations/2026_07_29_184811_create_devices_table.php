@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('device_id')->nullable();
             $table->string('name')->nullable();
             $table->string('macaddress')->nullable();
-            $table->foreignId('user_id')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
         });
     }
 
