@@ -21,18 +21,11 @@ class UserController extends Controller
 
         // ログイン済みの場合は現在のページに留まる
         if(Auth::check()) {
+
             return back();
         }
 
-        $data = array();
-
-        $data = [
-            'email' => '',
-            'user_name' => '',
-            'message' => ''
-        ];
-
-        return view('userregistform', ['data' => $data, 'pagetitle' => 'ユーザー情報登録']);
+        return view('userinforegistform', ['pagetitle' => 'ユーザー情報登録']);
     }
 
     // ユーザ情報登録
@@ -56,58 +49,28 @@ class UserController extends Controller
         // バリデーション用の配列
         $data = array();
 
-        $data = [
-            'email' => $email,
-            'user_name' => $userName,
-            'message' => ''
-        ];
-
         // いずれかが未入力
-        if(empty($request->input('email')) || empty($request->input('password')) || empty($request->input('user_name'))) {
+        if(empty($email) || empty($password) || empty($userName)) {
 
-            $data = [
-                'email' => $email,
-                'user_name' => $userName,
-                'message' => 'メールアドレス、パスワード、ユーザー名を入力してください。'
-            ];
-
-            return view('userregistform', ['data' => $data, 'pagetitle' => 'ユーザー情報登録']);
+            return back()->withInput()->withErrors(['message' => 'メールアドレス、パスワード、ユーザー名を入力してください。']);
         }
 
         // メールアドレスのバリデーション
         if(!filter_var($request->input('email'), FILTER_VALIDATE_EMAIL)) {
-            
-            $data = [
-                'email' => $email,
-                'user_name' => $userName,
-                'message' => 'メールアドレスの形式が正しくありません。'
-            ];
 
-            return view('userregistform', ['data' => $data, 'pagetitle' => 'ユーザー情報登録']);
+            return back()->withInput()->withErrors(['message' => 'メールアドレスの形式が正しくありません。']);
         }
 
         // メールアドレスが重複
         if(User::where('email', $request->input('email'))->exists()) {
 
-            $data = [
-                'email' => $email,
-                'user_name' => $userName,
-                'message' => 'このメールアドレスは既に登録されています。'
-            ];
-
-            return view('userregistform', ['data' => $data, 'pagetitle' => 'ユーザー情報登録']);
+            return back()->withInput()->withErrors(['message' => 'このメールアドレスは既に登録されています。']);
         }
 
         // パスワードのバリデーション
         if(!AppServiceProvider::passwordValidate($request->input('password'))) {
-            
-            $data = [
-                'email' => $email,
-                'user_name' => $userName,
-                'message' => 'パスワードは8文字以上で入力してください。'
-            ];
 
-            return view('userregistform', ['data' => $data, 'pagetitle' => 'ユーザー情報登録']);
+            return back()->withInput()->withErrors(['message' => 'パスワードは8文字以上で入力してください。']);
         }
 
         // ユーザ情報登録処理の呼び出し
@@ -116,7 +79,7 @@ class UserController extends Controller
             User::create([
                 'email' => $email,
                 'password' => Hash::make($password),
-                'name' => $userName,
+                'user_name' => $userName,
             ]);
 
             // 登録成功時はログイン画面へ遷移
@@ -124,14 +87,8 @@ class UserController extends Controller
         }
         catch(\Exception $e) {
 
-            $data = [
-                'email' => $email,
-                'user_name' => $userName,
-                'message' => 'ユーザー情報登録に失敗しました。'
-            ];
-
-            // 登録失敗時はユーザ情報登録画面へ遷移
-            return view('userregistform', ['data' => $data, 'pagetitle' => 'ユーザー情報登録']);
+            // 登録失敗時はユーザ情報登録画面に留まる
+            return back()->withInput()->with('message', 'ユーザー情報登録に失敗しました。');
         }
     }
 
@@ -145,8 +102,7 @@ class UserController extends Controller
 
         $data = [
             'email' => $userInfo->email,
-            'name' => $userInfo->name,
-            'message' => ''
+            'user_name' => $userInfo->name
         ];
 
         return view('userinfo', ['data' => $data, 'pagetitle' => 'ユーザー情報']);
@@ -162,9 +118,8 @@ class UserController extends Controller
 
         $data = [
             'email' => $userInfo->email,
-            'name' => $userInfo->name,
+            'user_name' => $userInfo->name,
             'updatepassword' => 'notupdatepassword',
-            'message' => ''
         ];
 
         return view('userinfoupdateform', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
@@ -176,19 +131,19 @@ class UserController extends Controller
         // ログイン中のユーザ情報
         $userInfo = User::find(Auth::id());
 
-        $data = array();
-
-        $data = [
-            'email' => '',
-            'user_name' => '',
-            'updatepassword' => 'notupdatepassword',
-            'message' => ''
-        ];
-
+        // メールアドレス
         $email = $request->input('email');
+
+        // ユーザ名
         $userName = $request->input('user_name');
+
+        // パスワード更新要否
         $updatePassword = $request->input('updatepassword');
+
+        // 現在のパスワード
         $oldPassword = $request->input('oldpassword');
+
+        // 新しいパスワード
         $newPassword = $request->input('newpassword');
 
         try{
@@ -197,30 +152,15 @@ class UserController extends Controller
             if($userInfo->email != $email) {
 
                 // メールアドレスのバリデーション
-                if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                if(!filter_var($request->input('email'), FILTER_VALIDATE_EMAIL)) {
 
-                    $data = [
-                        'email' => $email,
-                        'name' => $userName,
-                        'updatepassword' => $updatePassword,
-                        'message' => 'メールアドレスの形式が正しくありません。'
-                    ];
-
-                    // メールアドレスのフォーマット違反時はユーザ情報更新画面に遷移
-                    return view('userinfoupdateform', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
+                    return back()->withInput()->withErrors(['message' => 'メールアドレスの形式が正しくありません。']);
                 }
 
-                // メールアドレス重複チェック
-                if(User::where('email', $email)->where('id', '!=', Auth::id())->exists()) {
+                // メールアドレスが重複
+                if(User::where('email', $request->input('email'))->exists()) {
 
-                    $data = [
-                        'email' => $email,
-                        'name' => $userName,
-                        'updatepassword' => $updatePassword,
-                        'message' => 'このメールアドレスは既に使用されています。'
-                    ];
-
-                    return view('userinfoupdateform', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
+                    return back()->withInput()->withErrors(['message' => 'このメールアドレスは既に登録されています。']);
                 }
 
                 $userInfo->email = $email;
@@ -232,41 +172,19 @@ class UserController extends Controller
                 // メールアドレス、ユーザ名、現在のパスワード、新しいパスワードが未入力
                 if(empty($email) || empty($userName) || empty($oldPassword) || empty($newPassword)) {
 
-                    $data = [
-                        'email' => $email,
-                        'name' => $userName,
-                        'updatepassword' => $updatePassword,
-                        'message' => 'メールアドレス、ユーザー名、現在のパスワード、新しいパスワードを入力してください。'
-                    ];
-
-                    return view('updateuserinfo', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
+                    return back()->withInput()->withErrors(['message' => 'メールアドレス、ユーザー名、現在のパスワード、新しいパスワードを入力してください。']);
                 }
 
                 // 現在のパスワードを照合
                 if(!Hash::check($oldPassword, $userInfo->password)) {
 
-                    $data = [
-                        'email' => $email,
-                        'name' => $userName,
-                        'updatepassword' => $updatePassword,
-                        'message' => '現在のパスワードが違います。'
-                    ];
-
-                    return view('updateuserinfo', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
+                    return back()->withInput()->withErrors(['message' => '現在のパスワードが違います。']);
                 }
 
                 // 新しいパスワードのバリデーション
                 if(!AppServiceProvider::passwordValidate($newPassword)) {
 
-                    $data = [
-                        'email' => $email,
-                        'name' => $userName,
-                        'updatepassword' => $updatePassword,
-                        'message' => '新しいパスワードは8文字以上で入力してください。'
-                    ];
-
-                    // パスワードバリデーション失敗時はユーザ情報更新画面に遷移
-                    return view('updateuserinfo', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
+                    return back()->withInput()->withErrors(['message' => '新しいパスワードは8文字以上で入力してください。']);
                 }
 
                 $userInfo->password = Hash::make($newPassword);
@@ -276,14 +194,7 @@ class UserController extends Controller
                 // メールアドレス、ユーザ名が未入力
                 if(empty($email) || empty($userName)) {
 
-                    $data = [
-                        'email' => $email,
-                        'name' => $userName,
-                        'updatepassword' => $updatePassword,
-                        'message' => 'メールアドレス、ユーザー名を入力してください。'
-                    ];
-
-                    return view('userinfoupdateform', ['data' => $data, 'pagetitle' => 'ユーザー情報更新']);
+                    return back()->withInput()->withErrors(['message' => 'メールアドレス、ユーザー名を入力してください。']);
                 }
             }
 
@@ -296,15 +207,8 @@ class UserController extends Controller
         }
         catch(\Exception $e) {
 
-            $data = [
-                'email' => $email,
-                'name' => $userName,
-                'updatepassword' => $updatePassword,
-                'message' => 'ユーザー情報更新に失敗しました。'
-            ];
-
-            // 更新失敗時はユーザ登録画面へ遷移
-            return view('userinfoupdateform', ['data' => $data, 'pagetitle' => 'ユーザ情報更新']);
+            // 更新失敗時はユーザ情報登録画面に留まる
+            return back()->withInput()->with('message', 'ユーザー情報更新に失敗しました。');
         }
     }
 
@@ -320,11 +224,11 @@ class UserController extends Controller
         $data = array();
 
         $data = [
-            'name' => $userName,
-            'message' => ''
+            'email' => $userInfo->email,
+            'user_name' => $userName,
         ];
 
-        return view('userdeleteform', ['data' => $data, 'pagetitle' => 'ユーザ情報削除']);
+        return view('userinfodeleteform', ['data' => $data, 'pagetitle' => 'ユーザ情報削除']);
     }
 
     // ユーザ情報削除
@@ -335,13 +239,6 @@ class UserController extends Controller
 
         // ログイン中のユーザ名
         $userName = $userInfo->name;
-
-        $data = array();
-
-        $data = [
-            'name' => $userName,
-            'message' => ''
-        ];
 
         try {
 
@@ -363,12 +260,12 @@ class UserController extends Controller
         catch(\Exception $e) {
 
             $data = [
-                'name' => $userName,
+                'user_name' => $userName,
                 'message' => 'ユーザ情報削除に失敗しました。'
             ];
 
-            // 削除失敗時はユーザ削除確認画面へ遷移
-            return view('deleteuserconfirm', ['data' => $data, 'pagetitle' => 'ユーザ情報削除']);
+            // 削除失敗時はユーザ削除確認画面に留まる
+            return back()->withInput()->with('message', 'ユーザー情報更新に失敗しました。');
         }
     }
 }

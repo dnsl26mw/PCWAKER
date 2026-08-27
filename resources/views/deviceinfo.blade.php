@@ -6,6 +6,12 @@
 
     <h2 class="page-title">{{ $pagetitle }}</h2>
 
+    @if(session('message'))
+        <div class="error-msg">
+            {{ session('message') }}
+        </div>
+    @endif
+
     <table>
         <tr>
             <th>デバイスID</th>
@@ -13,7 +19,7 @@
         </tr>
         <tr>
             <th>デバイス名</th>
-            <td>{{ $data['name'] }}</td>
+            <td>{{ $data['device_name'] }}</td>
         </tr>
         <tr>
             <th>MACアドレス</th>

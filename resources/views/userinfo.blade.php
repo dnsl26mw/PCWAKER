@@ -6,6 +6,12 @@
 
     <h2 class="page-title">{{ $pagetitle }}</h2>
 
+    @if(session('message'))
+        <div class="error-msg">
+            {{ session('message') }}
+        </div>
+    @endif
+
     <table>
         <tr>
             <th>メールアドレス</th>
@@ -13,7 +19,7 @@
         </tr>
         <tr>
             <th>ユーザー名</th>
-            <td>{{ $data['name'] }}</td>
+            <td>{{ $data['user_name'] }}</td>
         </tr>
     </table>
 

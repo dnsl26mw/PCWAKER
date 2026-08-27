@@ -25,15 +25,7 @@ class DeviceController extends Controller
     // デバイス情報登録画面を表示
     public function showRegistDeviceInfo()
     {
-        $data = array();
-
-        $data = [
-            'device_id' => '',
-            'device_name' => '',
-            'macaddress' => '',
-        ];
-
-        return view('deviceregistform', ['data' => $data, 'pagetitle' => 'デバイス情報登録']);
+        return view('deviceinforegistform', ['pagetitle' => 'デバイス情報登録']);
     }
 
     // デバイス情報登録
@@ -99,7 +91,7 @@ class DeviceController extends Controller
 
         $data = [
             'device_id' => $device->device_id,
-            'name' => $device->name,
+            'device_name' => $device->name,
             'macaddress' => $device->macaddress
         ];
 
@@ -116,7 +108,7 @@ class DeviceController extends Controller
 
         $data = [
             'device_id' => $device->device_id,
-            'name' => $device->name,
+            'device_name' => $device->name,
             'macaddress' => $device->macaddress
         ];
 
@@ -135,7 +127,11 @@ class DeviceController extends Controller
         // MACアドレス
         $macaddress = $request->input('macaddress');
 
-        $data = array();
+        // いずれかが未入力
+        if(empty($device_name) || empty($macaddress)) {
+
+            return back()->withInput()->withErrors(['message' => 'デバイス名、MACアドレスを入力してください。']);
+        }
 
         // MACアドレスのバリデーション
         if(!preg_match('/^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/', $macaddress)) {
@@ -171,11 +167,10 @@ class DeviceController extends Controller
 
         $data = [
             'device_id' => $device->device_id,
-            'name' => $device->name,
-            'macaddress' => $device->macaddress
+            'device_name' => $device->name,
         ];
 
-        return view('devicedeleteform', ['data' => $data, 'pagetitle' => 'デバイス情報削除']);
+        return view('deviceinfodeleteform', ['data' => $data, 'pagetitle' => 'デバイス情報削除']);
     }
 
     // デバイス情報削除
@@ -183,8 +178,6 @@ class DeviceController extends Controller
     {
         // 指定されたデバイス情報を取得
         $device = Device::where('user_id', Auth::id())->where('device_id', $device_id)->firstOrFail();
-
-        $data = array();
 
         // デバイス情報削除処理の呼び出し
         try {

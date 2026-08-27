@@ -7,13 +7,13 @@
     <h2 class="page-title">{{ $pagetitle }}</h2>
 
     @error('message')
-        <div class="error-message">
+        <div class="error-msg">
             {{ $message }}
         </div>
     @enderror
 
     @if(session('message'))
-        <div class="error-message">
+        <div class="error-msg">
             {{ session('message') }}
         </div>
     @endif

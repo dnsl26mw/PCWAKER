@@ -6,8 +6,16 @@
 
     <h2 class="page-title">{{ $pagetitle }}</h2>
 
-    @if(isset($data['message']))
-        {{ $data['message'] }}
+    @error('message')
+        <div class="error-msg">
+            {{ $message }}
+        </div>
+    @enderror
+
+    @if(session('message'))
+        <div class="error-msg">
+            {{ session('message') }}
+        </div>
     @endif
 
     <form action="" method="post">
@@ -15,17 +23,17 @@
         <table>
             <tr>
                 <th>メールアドレス</th>
-                <td><input type="text" name="email" value="{{ $data['email'] }}"></td>
+                <td><input type="text" name="email" value="{{ old('email', '__DEFAULT__') !== '__DEFAULT__' ? old('email') : $data['email'] }}"></td>
             </tr>
             <tr>
                 <th>ユーザー名</th>
-                <td><input type="text" name="user_name" value="{{ $data['name'] }}"></td>
+                <td><input type="text" name="user_name" value="{{ old('user_name', '__DEFAULT__') !== '__DEFAULT__' ? old('user_name') : $data['user_name'] }}">
             </tr>
             <tr>
                 <th>パスワード</th>
                 <td>
-                    <input type="radio" name="updatepassword" value="notupdatepassword" id="notupdatepassword" {{ $data['updatepassword'] === 'notupdatepassword' ? 'checked' : '' }}>更新しない
-                    <input type="radio" name="updatepassword" value="updatepassword" id="updatepassword" {{ $data['updatepassword'] === 'updatepassword' ? 'checked' : '' }}>更新する
+                    <input type="radio" name="updatepassword" value="notupdatepassword" id="notupdatepassword" {{ old('updatepassword', $data['updatepassword']) === 'notupdatepassword' ? 'checked' : '' }}>更新しない
+                    <input type="radio" name="updatepassword" value="updatepassword" id="updatepassword" {{ old('updatepassword', $data['updatepassword']) === 'updatepassword' ? 'checked' : '' }}>更新する
                 </td>
             </tr>
             <tr>

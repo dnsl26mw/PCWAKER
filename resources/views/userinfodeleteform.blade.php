@@ -6,12 +6,14 @@
 
     <h2 class="page-title">{{ $pagetitle }}</h2>
 
-    @if(isset($data['message']))
-        {{ $data['message'] }}
+    @if(session('message'))
+        <div class="error-msg">
+            {{ session('message') }}
+        </div>
     @endif
 
     <p>
-        <a href={{ route('userinfo') }}>{{ $data['name'] }}</a>さん、ユーザ情報を削除します。<br>
+        <a href={{ route('userinfo') }}>{{ $data['user_name'] }}</a>さん、ユーザ情報を削除します。<br>
         よろしいですか？
     </p>
     

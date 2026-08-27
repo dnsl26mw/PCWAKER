@@ -7,7 +7,9 @@
     <h2 class="page-title">{{ $pagetitle }}</h2>
 
     @if(session('message'))
-        {{ session('message') }}
+        <div class="error-msg">
+            {{ session('message') }}
+        </div>
     @endif
 
     @if($data['devices']->isNotEmpty())

@@ -15,14 +15,7 @@ class AuthController extends Controller
             return back();
         }
 
-        $data = array();
-
-        $data = [
-            'email' => '',
-            'message' => ''
-        ];
-
-        return view('login', ['data' => $data, 'pagetitle' => 'ログイン']);
+        return view('login', ['pagetitle' => 'ログイン']);
     }
 
     // ログイン
@@ -33,25 +26,16 @@ class AuthController extends Controller
             return back();
         }
 
-        $data = array();
-
-        $data = [
-            'email' => '',
-            'message' => ''
-        ];
-
+        // メールアドレス
         $email = $request->input('email');
+
+        // パスワード
         $password = $request->input('password');
 
         // メールアドレスまたはパスワードが未入力
         if(empty($email) || empty($password)) {
 
-            $data = [
-                'email' => $email,
-                'message' => 'メールアドレスおよびパスワードを入力してください。'
-            ];
-
-            return view('login', ['data' => $data, 'pagetitle' => 'ログイン']);
+            return back()->withInput()->withErrors(['message' => 'メールアドレスおよびパスワードを入力してください。']);
         }
 
         $loginData = [
@@ -64,13 +48,8 @@ class AuthController extends Controller
             // ログイン成功時は要求されたページへ遷移
             return redirect()->intended(route('top'));
         }
-            
-        $data = [
-            'message' => 'メールアドレスまたはパスワードが違います。',
-            'email' => $email ?? ''
-        ];
 
-        return view('login', ['data' => $data, 'pagetitle' => 'ログイン']);
+        return back()->withInput()->withErrors(['message' => 'メールアドレスまたはパスワードが違います。']);
     }
 
     // ログアウトをGET要求で受け取った場合の処理
@@ -94,10 +73,10 @@ class AuthController extends Controller
         // セッションを無効化
         $request->session()->invalidate();
 
-        // CSRFトークンを再生性
+        // CSRFトークンを再生成
         $request->session()->regenerateToken();
 
-        // ログイン成功時はログイン画面へ遷移
+        // ログイン画面へ遷移
         return redirect()->route('login');
     }
 }

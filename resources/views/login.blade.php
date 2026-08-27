@@ -6,15 +6,22 @@
 
     <h2 class="page-title">{{ $pagetitle }}</h2>
 
+    @error('message')
+        <div class="error-msg">
+            {{ $message }}
+        </div>
+    @enderror
+
     @if(session('message'))
-        {{ session('message') }}
+        <div class="error-msg">
+            {{ session('message') }}
+        </div>
     @endif
 
     <form action="" method="POST">
         @csrf
-        <input type="text" value = "{{$data['email']}}" name="email" placeholder="ログインID(メールアドレス)"><br>
+        <input type="text" value = "{{ old('email') }}" name="email" placeholder="メールアドレス"><br>
         <input type="password" name="password" placeholder="パスワード"><br>
-        <input type="hidden" name="back" value="{{ $data['back_url'] ?? route('top') }}">
         <button class="submit-button" type="submit" name="loginBtn">ログイン</button><br> 
     </form>
     
