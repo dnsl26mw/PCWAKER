@@ -79,7 +79,7 @@ class UserController extends Controller
             User::create([
                 'email' => $email,
                 'password' => Hash::make($password),
-                'user_name' => $userName,
+                'name' => $userName,
             ]);
 
             // 登録成功時はログイン画面へ遷移
