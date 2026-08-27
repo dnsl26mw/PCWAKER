@@ -6,6 +6,12 @@
 
     <h2 class="page-title">{{ $pagetitle }}</h2>
 
+    @error('message')
+        <div class="error-message">
+            {{ $message }}
+        </div>
+    @enderror
+
     @if(session('message'))
         {{ session('message') }}
     @endif

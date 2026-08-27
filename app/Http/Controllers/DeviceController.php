@@ -84,6 +84,7 @@ class DeviceController extends Controller
         }
         catch(\Exception $e) {
 
+            // 登録失敗時はデバイス情報登録画面に留まる
             return back()->withInput()->with('message', 'デバイス情報登録に失敗しました。');
         }
     }
@@ -139,19 +140,12 @@ class DeviceController extends Controller
         // MACアドレスのバリデーション
         if(!preg_match('/^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/', $macaddress)) {
 
-            $data = [
-                'device_id' => $device_id,
-                'device_name' => $device_name,
-                'macaddress' => $macaddress,
-                'message' => 'MACアドレスの形式が正しくありません。正しい形式は「XX:XX:XX:XX:XX:XX」または「XX-XX-XX-XX-XX-XX」です。Xには、0～9、A～F、a～fのいずれかが入ります。'
-            ];
-
-            return view('deviceregistform', ['data' => $data, 'pagetitle' => 'デバイス情報登録']);
+            return back()->withInput()->withErrors(['message' => 'MACアドレスの形式が正しくありません。正しい形式は「XX:XX:XX:XX:XX:XX」または「XX-XX-XX-XX-XX-XX」です。Xには、0～9、A～F、a～fのいずれかが入ります。']);
         }
 
         // デバイス情報更新処理の呼び出し
         try{
-            
+
             Device::where('user_id', Auth::id())->where('device_id', $device_id)->update([
                 'name' => $device_name,
                 'macaddress' => $macaddress
@@ -162,15 +156,8 @@ class DeviceController extends Controller
         }
         catch(\Exception $e) {
 
-            $data = [
-                'device_id' => $device->device_id,
-                'name' => $device->name,
-                'macaddress' => $device->macaddress,
-                'message' => 'デバイス情報更新に失敗しました。'
-            ];
-
-            // 更新失敗時はデバイス情報更新画面へ遷移
-            return view('deviceinfoupdateform', ['data' => $data, 'pagetitle' => 'デバイス情報更新']);
+            // 更新失敗時はデバイス情報更新画面に留まる
+            return back()->withInput()->with('message', 'デバイス情報更新に失敗しました。');
         }
     }
 
@@ -209,14 +196,8 @@ class DeviceController extends Controller
 
         } catch (\Exception $e) {
 
-            $data = [
-                'device_id' => $device->device_id,
-                'name' => $device->name,
-                'macaddress' => $device->macaddress,
-                'message' => 'デバイス情報削除に失敗しました。'
-            ];
-
-            return view('devicedeleteform', ['data' => $data, 'pagetitle' => 'デバイス情報削除']);
+            // 削除失敗時はデバイス情報削除画面に留まる
+            return back()->withInput()->with('message', 'デバイス情報削除に失敗しました。');
         }
     }
 
@@ -238,7 +219,7 @@ class DeviceController extends Controller
         // デバイスIDが指定されていない場合
         if(empty($deviceIds)){
 
-            return redirect()->back()->withInput()->withErrors(['message' => 'デバイスを選択してください。']);
+            return back()->withInput()->with('message', 'デバイスを選択してください。');
         }
 
         // デバイス情報を取得
@@ -247,7 +228,8 @@ class DeviceController extends Controller
         // デバイス情報が取得できなかった場合
         if($devices->isEmpty()){
 
-            return redirect()->back()->withInput()->withErrors(['message' => '指定されたデバイス情報を取得できませんでした。']);
+            // デバイス一覧画面に留まる
+            return back()->withInput()->with('message', '指定されたデバイス情報を取得できませんでした。');
         }
 
         // マジックパケット送信処理
@@ -279,7 +261,7 @@ class DeviceController extends Controller
             catch(\Exception $e){
 
                 // 送信失敗時はデバイス一覧画面へ遷移
-                return redirect()->back()->withInput()->withErrors(['message' => 'マジックパケットの送信に失敗しました。']);
+                return back()->withInput()->with('message', 'マジックパケットの送信に失敗しました。');
             }
         }
 
