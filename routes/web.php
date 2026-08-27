@@ -81,3 +81,10 @@ Route::get('/top', [UserController::class, 'showTop'])
 ->middleware('auth')
 ->name('top');
 
+Route::get('/devicelist/wake/', [DeviceController::class, 'getWakeDevices'])
+->middleware('auth')
+->name('devicelist.wake');
+
+Route::post('/devicelist/wake/', [DeviceController::class, 'wakeDevices'])
+->middleware('auth')
+->name('devicelist.wake');

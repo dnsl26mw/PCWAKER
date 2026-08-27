@@ -61,6 +61,8 @@ class DeviceController extends Controller
         // MACアドレス
         $macaddress = $request->input('macaddress');
 
+        $data = array();
+
         // いずれかが未入力
         if(empty($device_id) || empty($device_name) || empty($macaddress)) {
 
@@ -95,7 +97,7 @@ class DeviceController extends Controller
                 'device_id' => $device_id,
                 'device_name' => $device_name,
                 'macaddress' => $macaddress,
-                'message' => 'MACアドレスの形式が正しくありません。'
+                'message' => 'MACアドレスの形式が正しくありません。正しい形式は「XX:XX:XX:XX:XX:XX」または「XX-XX-XX-XX-XX-XX」です。Xには、0～9、A～F、a～fのいずれかが入ります。'
             ];
 
             return view('deviceregistform', ['data' => $data, 'pagetitle' => 'デバイス情報登録']);
@@ -174,6 +176,21 @@ class DeviceController extends Controller
         // MACアドレス
         $macaddress = $request->input('macaddress');
 
+        $data = array();
+
+        // MACアドレスのバリデーション
+        if(!preg_match('/^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/', $macaddress)) {
+
+            $data = [
+                'device_id' => $device_id,
+                'device_name' => $device_name,
+                'macaddress' => $macaddress,
+                'message' => 'MACアドレスの形式が正しくありません。正しい形式は「XX:XX:XX:XX:XX:XX」または「XX-XX-XX-XX-XX-XX」です。Xには、0～9、A～F、a～fのいずれかが入ります。'
+            ];
+
+            return view('deviceregistform', ['data' => $data, 'pagetitle' => 'デバイス情報登録']);
+        }
+
         // デバイス情報更新処理の呼び出し
         try{
             
@@ -205,6 +222,8 @@ class DeviceController extends Controller
         // 指定されたデバイス情報を取得
         $device = Device::where('user_id', Auth::id())->where('device_id', $device_id)->firstOrFail();
 
+        $data = array();
+
         $data = [
             'device_id' => $device->device_id,
             'name' => $device->name,
@@ -220,6 +239,8 @@ class DeviceController extends Controller
         // 指定されたデバイス情報を取得
         $device = Device::where('user_id', Auth::id())->where('device_id', $device_id)->firstOrFail();
 
+        $data = array();
+
         // デバイス情報削除処理の呼び出し
         try {
 
@@ -227,7 +248,7 @@ class DeviceController extends Controller
 
             // 削除成功時はデバイス一覧画面へ遷移
             return redirect()->route('devicelist');
-            
+
         } catch (\Exception $e) {
 
             $data = [
@@ -239,5 +260,72 @@ class DeviceController extends Controller
 
             return view('devicedeleteform', ['data' => $data, 'pagetitle' => 'デバイス情報削除']);
         }
+    }
+
+    // マジックパケット送信をGETで要求された場合
+    public function getWakeDevices(){
+
+        // 現在のページに留まる
+        return redirect()->back();
+    }
+
+    // マジックパケット送信
+    public function wakeDevices(Request $request){
+
+        // 選択されたデバイスIDを取得
+        $deviceIds = $request->input('selectdevices', []);
+
+        $data = array();
+
+        // デバイスIDが指定されていない場合
+        if(empty($deviceIds)){
+
+            return redirect()->back()->withInput()->with("message", "デバイスを選択してください。");
+        }
+
+        // デバイス情報を取得
+        $devices = Device::where('user_id', Auth::id())->whereIn('device_id', $deviceIds)->get();
+
+        // デバイス情報が取得できなかった場合
+        if($devices->isEmpty()){
+
+            return redirect()->back()->withInput()->with("message", "指定されたデバイス情報を取得できませんでした。");
+        }
+
+        // マジックパケット送信処理
+        foreach($devices as $device){
+
+            try{
+
+                // MACアドレスを取得
+                $macaddress = $device->macaddress;
+
+                // ソケット
+                $socket = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
+
+                // マジックパケットの作成
+                $macaddress = str_replace('-', '', $macaddress);
+                $macaddress = str_replace(':', '', $macaddress);
+                $macBinary = pack('H12', $macaddress);
+                $magicPacket = str_repeat(chr(0xFF), 6) . str_repeat($macBinary, 16);
+
+                // ブロードキャストを有効化
+                socket_set_option($socket, SOL_SOCKET, SO_BROADCAST, 1);
+
+                // マジックパケットの送信
+                for($i = 0; $i < 3; $i++){
+
+                    socket_sendto($socket, $magicPacket, strlen($magicPacket), 0, '255.255.255.255', 9);
+                }
+            }
+            catch(\Exception $e){
+
+                // 送信失敗時はデバイス一覧画面へ遷移
+                return redirect()->back()->withInput()->with("message", "マジックパケットの送信に失敗しました。");
+            }
+        }
+
+        // 送信成功時はトップページへ遷移
+        return redirect()->route('top');
     }
 }
