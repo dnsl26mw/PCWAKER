@@ -29,6 +29,8 @@
             </table>
             <button class="submit-button" type="submit" name="wakeBtn" id="wakebutton" disabled>起動</button><br>
         </form>
+    @else
+        <p>デバイス情報が登録されていません。</p>
     @endif
 
     <div class="action-area">

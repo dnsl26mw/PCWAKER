@@ -6,8 +6,8 @@
 
     <h2 class="page-title">{{ $pagetitle }}</h2>
 
-    @if(isset($data['message']))
-        {{ $data['message'] }}
+    @if(session('message'))
+        {{ session('message') }}
     @endif
 
     <p>

@@ -6,15 +6,23 @@
 
     <h2 class="page-title">{{ $pagetitle }}</h2>
 
-    @if(isset($data['message']))
-        {{ $data['message'] }}
+    @error('message')
+        <div class="error-message">
+            {{ $message }}
+        </div>
+    @enderror
+
+    @if(session('message'))
+        <div class="error-message">
+            {{ session('message') }}
+        </div>
     @endif
 
     <form action="" method="POST">
         @csrf
-        <input type="text" value="{{$data['device_id']}}" name="device_id" placeholder="デバイスID"><br>
-        <input type="text" value="{{$data['device_name']}}" name="device_name" placeholder="デバイス名"><br>
-        <input type="text" value = "{{$data['macaddress']}}" name="macaddress" placeholder="MACアドレス(XX-XX-XX-XX-XX-XX)"><br>
+        <input type="text" value="{{ old('device_id') }}" name="device_id" placeholder="デバイスID"><br>
+        <input type="text" value="{{ old('device_name') }}" name="device_name" placeholder="デバイス名"><br>
+        <input type="text" value="{{ old('macaddress') }}" name="macaddress" placeholder="MACアドレス"><br>
         <button class="submit-button" type="submit" name="userRegistBtn" id="userRegistBtn">登録</button><br>
     </form>
     

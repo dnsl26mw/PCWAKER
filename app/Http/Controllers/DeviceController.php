@@ -15,20 +15,8 @@ class DeviceController extends Controller
 
         $data = array();
 
-        // デバイスが登録されていない場合
-        if($devices->isEmpty()) {
-
-            $data = [
-                'devices' => $devices,
-                'message' => 'デバイスが登録されていません。'
-            ];
-
-            return view('devicelist', ['data' => $data, 'pagetitle' => 'デバイス一覧']);
-        }
-
         $data = [
             'devices' => $devices,
-            'message' => ''
         ];
 
         return view('devicelist', ['data' => $data, 'pagetitle' => 'デバイス一覧']);
@@ -43,7 +31,6 @@ class DeviceController extends Controller
             'device_id' => '',
             'device_name' => '',
             'macaddress' => '',
-            'message' => ''
         ];
 
         return view('deviceregistform', ['data' => $data, 'pagetitle' => 'デバイス情報登録']);
@@ -66,41 +53,20 @@ class DeviceController extends Controller
         // いずれかが未入力
         if(empty($device_id) || empty($device_name) || empty($macaddress)) {
 
-            $data = [
-                'device_id' => $device_id,
-                'device_name' => $device_name,
-                'macaddress' => $macaddress,
-                'message' => 'デバイスID、デバイス名、MACアドレスを入力してください。'
-            ];
-
-            return view('deviceregistform', ['data' => $data, 'pagetitle' => 'デバイス情報登録']);
+            return back()->withInput()->withErrors(['message' => 'デバイスID、デバイス名、MACアドレスを入力してください。']);
         }
 
         // デバイスIDが既に登録されているか確認
         $existingDevice = Device::where('device_id', $device_id)->first();
         if($existingDevice) {
 
-            $data = [
-                'device_id' => $device_id,
-                'device_name' => $device_name,
-                'macaddress' => $macaddress,
-                'message' => 'このデバイスIDは既に登録されています。'
-            ];
-
-            return view('deviceregistform', ['data' => $data, 'pagetitle' => 'デバイス情報登録']);
+            return back()->withInput()->withErrors(['message' => 'このデバイスIDは既に登録されています。']);
         }
 
         // MACアドレスのバリデーション
         if(!preg_match('/^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/', $macaddress)) {
 
-            $data = [
-                'device_id' => $device_id,
-                'device_name' => $device_name,
-                'macaddress' => $macaddress,
-                'message' => 'MACアドレスの形式が正しくありません。正しい形式は「XX:XX:XX:XX:XX:XX」または「XX-XX-XX-XX-XX-XX」です。Xには、0～9、A～F、a～fのいずれかが入ります。'
-            ];
-
-            return view('deviceregistform', ['data' => $data, 'pagetitle' => 'デバイス情報登録']);
+            return back()->withInput()->withErrors(['message' => 'MACアドレスの形式が正しくありません。正しい形式は「XX:XX:XX:XX:XX:XX」または「XX-XX-XX-XX-XX-XX」です。Xには、0～9、A～F、a～fのいずれかが入ります。']);
         }
 
         // デバイス情報登録処理の呼び出し
@@ -118,15 +84,7 @@ class DeviceController extends Controller
         }
         catch(\Exception $e) {
 
-            $data = [
-                'device_id' => $device_id,
-                'device_name' => $device_name,
-                'macaddress' => $macaddress,
-                'message' => 'デバイス情報登録に失敗しました。'
-            ];
-
-            // 登録失敗時はデバイス情報登録画面へ遷移
-            return view('deviceregistform', ['data' => $data, 'pagetitle' => 'デバイス情報登録']);
+            return back()->withInput()->with('message', 'デバイス情報登録に失敗しました。');
         }
     }
 
