@@ -280,7 +280,7 @@ class DeviceController extends Controller
         // デバイスIDが指定されていない場合
         if(empty($deviceIds)){
 
-            return redirect()->back()->withInput()->with("message", "デバイスを選択してください。");
+            return redirect()->back()->withInput()->withErrors(['message' => 'デバイスを選択してください。']);
         }
 
         // デバイス情報を取得
@@ -289,7 +289,7 @@ class DeviceController extends Controller
         // デバイス情報が取得できなかった場合
         if($devices->isEmpty()){
 
-            return redirect()->back()->withInput()->with("message", "指定されたデバイス情報を取得できませんでした。");
+            return redirect()->back()->withInput()->withErrors(['message' => '指定されたデバイス情報を取得できませんでした。']);
         }
 
         // マジックパケット送信処理
@@ -321,7 +321,7 @@ class DeviceController extends Controller
             catch(\Exception $e){
 
                 // 送信失敗時はデバイス一覧画面へ遷移
-                return redirect()->back()->withInput()->with("message", "マジックパケットの送信に失敗しました。");
+                return redirect()->back()->withInput()->withErrors(['message' => 'マジックパケットの送信に失敗しました。']);
             }
         }
 
