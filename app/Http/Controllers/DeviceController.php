@@ -48,8 +48,8 @@ class DeviceController extends Controller
             return back()->withInput()->withErrors(['message' => 'デバイスID、デバイス名、MACアドレスを入力してください。']);
         }
 
-        // デバイスIDが既に登録されているか確認
-        $existingDevice = Device::where('device_id', $device_id)->first();
+        // 指定されたデバイスIDが既に登録されているか確認
+        $existingDevice = Device::where('user_id', Auth::id())->where('device_id', $device_id)->first();
         if($existingDevice) {
 
             return back()->withInput()->withErrors(['message' => 'このデバイスIDは既に登録されています。']);

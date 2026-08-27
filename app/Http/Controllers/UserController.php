@@ -146,60 +146,68 @@ class UserController extends Controller
         // 新しいパスワード
         $newPassword = $request->input('newpassword');
 
-        try{
-
-            // メールアドレスを更新する場合
-            if($userInfo->email != $email) {
-
-                // メールアドレスのバリデーション
-                if(!filter_var($request->input('email'), FILTER_VALIDATE_EMAIL)) {
-
-                    return back()->withInput()->withErrors(['message' => 'メールアドレスの形式が正しくありません。']);
-                }
-
-                // メールアドレスが重複
-                if(User::where('email', $request->input('email'))->exists()) {
-
-                    return back()->withInput()->withErrors(['message' => 'このメールアドレスは既に登録されています。']);
-                }
-
-                $userInfo->email = $email;
-            }
+        // 未入力チェック
+        if($updatePassword == 'updatepassword') {
 
             // パスワードを更新する場合
-            if($updatePassword == 'updatepassword') {
+            if(empty($email) || empty($userName) || empty($oldPassword) || empty($newPassword)) {
 
-                // メールアドレス、ユーザ名、現在のパスワード、新しいパスワードが未入力
-                if(empty($email) || empty($userName) || empty($oldPassword) || empty($newPassword)) {
-
-                    return back()->withInput()->withErrors(['message' => 'メールアドレス、ユーザー名、現在のパスワード、新しいパスワードを入力してください。']);
-                }
-
-                // 現在のパスワードを照合
-                if(!Hash::check($oldPassword, $userInfo->password)) {
-
-                    return back()->withInput()->withErrors(['message' => '現在のパスワードが違います。']);
-                }
-
-                // 新しいパスワードのバリデーション
-                if(!AppServiceProvider::passwordValidate($newPassword)) {
-
-                    return back()->withInput()->withErrors(['message' => '新しいパスワードは8文字以上で入力してください。']);
-                }
-
-                $userInfo->password = Hash::make($newPassword);
+                return back()->withInput()->withErrors(['message' => 'メールアドレス、ユーザー名、現在のパスワード、新しいパスワードを入力してください。']);
             }
-            else {
+        }
+        else {
 
-                // メールアドレス、ユーザ名が未入力
-                if(empty($email) || empty($userName)) {
+            // パスワードを更新しない場合
+            if(empty($email) || empty($userName)) {
 
-                    return back()->withInput()->withErrors(['message' => 'メールアドレス、ユーザー名を入力してください。']);
-                }
+                return back()->withInput()->withErrors(['message' => 'メールアドレス、ユーザー名を入力してください。']);
+            }
+        }
+
+        // メールアドレスを更新する場合
+        if($userInfo->email != $email) {
+
+            // メールアドレスのバリデーション
+            if(!filter_var($request->input('email'), FILTER_VALIDATE_EMAIL)) {
+
+                return back()->withInput()->withErrors(['message' => 'メールアドレスの形式が正しくありません。']);
             }
 
-            $userInfo->name = $userName;
+            // メールアドレスが重複
+            if(User::where('email', $request->input('email'))->exists()) {
 
+                return back()->withInput()->withErrors(['message' => 'このメールアドレスは既に登録されています。']);
+            }
+
+            // 更新用のメールアドレスの保持
+            $userInfo->email = $email;
+        }
+
+        // パスワードを更新する場合
+        if($updatePassword == 'updatepassword') {
+
+            // 現在のパスワードを照合
+            if(!Hash::check($oldPassword, $userInfo->password)) {
+
+                return back()->withInput()->withErrors(['message' => '現在のパスワードが違います。']);
+            }
+
+            // 新しいパスワードのバリデーション
+            if(!AppServiceProvider::passwordValidate($newPassword)) {
+
+                return back()->withInput()->withErrors(['message' => '新しいパスワードは8文字以上で入力してください。']);
+            }
+
+            // 更新用のパスワードの保持
+            $userInfo->password = Hash::make($newPassword);
+        }
+
+        // 更新用のユーザ名の保持
+        $userInfo->name = $userName;
+
+        try{
+
+            // ユーザ情報全体の更新
             $userInfo->save();
 
             // 更新成功時はトップページへ遷移
@@ -224,7 +232,6 @@ class UserController extends Controller
         $data = array();
 
         $data = [
-            'email' => $userInfo->email,
             'user_name' => $userName,
         ];
 
@@ -237,35 +244,27 @@ class UserController extends Controller
         // ログイン中のユーザ情報
         $userInfo = User::find(Auth::id());
 
-        // ログイン中のユーザ名
-        $userName = $userInfo->name;
-
         try {
-
-            // ログアウト処理
-            Auth::logout();
-
-            // セッションを無効化
-            $request->session()->invalidate();
-
-            // CSRFトークンを再生性
-            $request->session()->regenerateToken();
 
             // ユーザ情報削除処理
             $userInfo->delete();
-
-            // ログイン画面に遷移
-            return redirect()->route('login');
         }
         catch(\Exception $e) {
 
-            $data = [
-                'user_name' => $userName,
-                'message' => 'ユーザ情報削除に失敗しました。'
-            ];
-
             // 削除失敗時はユーザ削除確認画面に留まる
-            return back()->withInput()->with('message', 'ユーザー情報更新に失敗しました。');
+            return back()->withInput()->with('message', 'ユーザー情報削除に失敗しました。');
         }
+
+        // ログアウト処理
+        Auth::logout();
+
+        // セッションを無効化
+        $request->session()->invalidate();
+
+        // CSRFトークンを再生性
+        $request->session()->regenerateToken();
+
+        // ログイン画面に遷移
+        return redirect()->route('login');
     }
 }
