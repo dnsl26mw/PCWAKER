@@ -3,17 +3,22 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/css/style.css">
         <title>@yield('title')</title>
     </head>
     <body>
         <header>
             <h1><a href="{{ route('top') }}">PCWAKER</a></h1>
             @auth
-            こんにちは、<a href={{ route('userinfo') }}>{{ Auth::user()->name }}</a>さん
-            <form action="{{ route('logout') }}" method="post">
-                @csrf
-                <button type="submit">ログアウト</button>
-            </form>
+            <div class="header-right">
+                <span class="user-info">
+                    こんにちは、<a href={{ route('userinfo') }}>{{ Auth::user()->name }}</a>さん
+                </span>
+                <form action="{{ route('logout') }}" method="post">
+                    @csrf
+                    <button class="logout-button" type="submit" name="logoutBtn" class="logoutBtn">ログアウト</button>
+                </form>
+            </div>
             @endauth
         </header>
         <main>

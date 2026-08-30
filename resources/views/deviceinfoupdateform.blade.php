@@ -40,8 +40,8 @@
     </form>
 
     <div class="action-area">
-        <a href="{{ route('deviceinfo', ['device_id' => $data['device_id']]) }}">デバイス情報画面へ戻る</a><br>
-        <a href="{{ route('deviceinfo.delete', ['device_id' => $data['device_id']]) }}">デバイス情報の削除はこちら</a><br>
+        <a class="delete-link"  href="{{ route('deviceinfo.delete', ['device_id' => $data['device_id']]) }}">デバイス情報の削除はこちら</a><br>
+        <a href="{{ route('deviceinfo', ['device_id' => $data['device_id']]) }}">デバイス情報画面へ戻る</a>
     </div>
 
 @endsection
