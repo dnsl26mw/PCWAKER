@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/css/style.css">
-        <title>@yield('title')</title>
+        <title>PCWAKER - @yield('title')</title>
     </head>
     <body>
         <header>
@@ -25,6 +25,9 @@
             @yield('content')
         </main>
         <footer>
+            <small>
+                Copyright© 2026 MasayukiHoshikawa All rights reserved.
+            </small>
         </footer>
     </body>
 </html>
